@@ -1,0 +1,32 @@
+{
+	"name": "vite-react-template",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc -b && vite build",
+		"preview": "vite preview",
+		"typecheck": "cmk && tsc --noEmit",
+		"biome": "biome check --write src",
+		"lint:markup": "markuplint \"**/*.[jt]sx\""
+	},
+	"dependencies": {
+		"clsx": "^2.1.1",
+		"kiso.css": "^1.2.3",
+		"react": "^19.2.3",
+		"react-dom": "^19.2.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.11",
+		"@css-modules-kit/codegen": "^0.6.0",
+		"@markuplint/jsx-parser": "^4.7.22",
+		"@markuplint/react-spec": "^4.5.22",
+		"@types/react": "^19.2.7",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^5.1.2",
+		"markuplint": "^4.14.0",
+		"typescript": "~5.8.3",
+		"vite": "^7.3.1"
+	}
+}
