@@ -9,10 +9,13 @@
 		"preview": "vite preview",
 		"typecheck": "cmk && tsc --noEmit",
 		"biome": "biome check --write src",
-		"lint:markup": "markuplint \"**/*.[jt]sx\""
+		"lint:markup": "markuplint \"**/*.[jt]sx\"",
+		"server": "node server/index.ts"
 	},
 	"dependencies": {
+		"@hono/node-server": "^1.19.9",
 		"clsx": "^2.1.1",
+		"hono": "^4.11.4",
 		"kiso.css": "^1.2.3",
 		"react": "^19.2.3",
 		"react-dom": "^19.2.3"
@@ -22,6 +25,7 @@
 		"@css-modules-kit/codegen": "^0.6.0",
 		"@markuplint/jsx-parser": "^4.7.22",
 		"@markuplint/react-spec": "^4.5.22",
+		"@types/node": "^25.0.9",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^5.1.2",
