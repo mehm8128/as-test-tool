@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { atom, useAtomValue } from 'jotai'
-import { toCsv } from './functions/toCSV'
+import { toCsv } from '../csv/functions/toCSV'
+import { settingAtom, testResultsAtom } from '../csv/state'
 
 const testsAtom = atom(async () => {
 	const response = await fetch('http://localhost:3001/api/tests')
@@ -10,11 +11,13 @@ const testsAtom = atom(async () => {
 
 export function TestList() {
 	const tests = useAtomValue(testsAtom)
+	const testResults = useAtomValue(testResultsAtom)
+	const setting = useAtomValue(settingAtom)
 
 	return (
 		<div>
 			<h1>WAIC Test 一覧</h1>
-			<button onClick={() => toCsv(tests)} type="button">
+			<button onClick={() => toCsv(testResults, setting)} type="button">
 				to csv
 			</button>
 			<ul>
