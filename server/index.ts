@@ -4,6 +4,13 @@ import { join } from 'node:path'
 import { promisify } from 'node:util'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import {
+	extractTestExpectedResult,
+	extractTestNotes,
+	extractTestProcedure,
+	extractTestTitle,
+	generateTestLink
+} from './extractor'
 
 const execAsync = promisify(exec)
 const app = new Hono()
@@ -26,12 +33,6 @@ const cloneAsTest = async () => {
 	}
 }
 
-// markdownファイルから「# テストのタイトル」の次の行を抽出
-const extractTestTitle = (content: string): string => {
-	const titleMatch = content.match(/^#\s*テストのタイトル\s*\n\n(.*)$/m)
-	return titleMatch ? titleMatch[1].trim() : 'Untitled'
-}
-
 // APIルート: WAIC-TEST-から始まるmdファイルの一覧を返す
 app.get('/api/tests', async c => {
 	try {
@@ -51,20 +52,23 @@ app.get('/api/tests/:filename', async c => {
 	try {
 		const filename = c.req.param('filename')
 
-		// WAIC-TEST-プレフィックスと.md拡張子の確認・追加
-		let mdFileName = filename
-		if (!mdFileName.startsWith('WAIC-TEST-')) {
-			mdFileName = `WAIC-TEST-${mdFileName}`
-		}
-		if (!mdFileName.endsWith('.md')) {
-			mdFileName = `${mdFileName}.md`
-		}
-
+		const mdFileName = `${filename}.md`
 		const filePath = join(WAIC_TEST_DIR, mdFileName)
 		const content = await readFile(filePath, 'utf-8')
 		const title = extractTestTitle(content)
+		const procedure = extractTestProcedure(content)
+		const expectedResult = extractTestExpectedResult(content)
+		const notes = extractTestNotes(content)
+		const link = generateTestLink(filename)
 
-		return c.json({ filename: mdFileName, title })
+		return c.json({
+			filename: mdFileName,
+			title,
+			procedure,
+			expectedResult,
+			notes,
+			link
+		})
 	} catch (error) {
 		console.error('Error reading WAIC-TEST file:', error)
 		return c.json({ error: 'File not found or failed to read' }, 404)
