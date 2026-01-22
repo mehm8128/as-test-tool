@@ -69,6 +69,9 @@ importers:
       markuplint:
         specifier: ^4.14.0
         version: 4.14.0(typescript@5.8.3)
+      tsx:
+        specifier: ^4.19.2
+        version: 4.21.0
       typescript:
         specifier: ~5.8.3
         version: 5.8.3

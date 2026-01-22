@@ -10,17 +10,31 @@ export interface TestDetail {
 	expectedResult: string
 	notes: string
 	link: string
+	env?: string
 }
 
-const testTitleAtomFamily = atomFamily((filename: string) =>
+const testTitleAtomFamily = atomFamily((key: string) =>
 	atom(async () => {
-		const response = await fetch(`/api/tests/${filename}`)
+		// keyから filename と env を分離
+		const [filename, env] = key.split('|')
+		let url = `http://localhost:3001/api/tests/${filename}`
+		if (env) {
+			url += `?env=${env}`
+		}
+		const response = await fetch(url)
 		return (await response.json()) as TestDetail
 	})
 )
 
-export function TestDetail({ filename }: { filename: string }) {
-	const testData = useAtomValue(testTitleAtomFamily(filename))
+export function TestDetail({
+	filename,
+	env
+}: {
+	filename: string
+	env?: string
+}) {
+	const atomKey = env ? `${filename}|${env}` : filename
+	const testData = useAtomValue(testTitleAtomFamily(atomKey))
 
 	const [operation, setOperation] = useState('')
 	const [result, setResult] = useState('')

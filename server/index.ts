@@ -4,7 +4,9 @@ import { join } from 'node:path'
 import { promisify } from 'node:util'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import {
+	type EnvType,
 	extractTestExpectedResult,
 	extractTestNotes,
 	extractTestProcedure,
@@ -17,6 +19,15 @@ const app = new Hono()
 
 const AS_TEST_DIR = './as-test-repo'
 const WAIC_TEST_DIR = join(AS_TEST_DIR, 'WAIC-TEST/HTML')
+
+app.use(
+	'*',
+	cors({
+		origin: 'http://localhost:5173',
+		allowMethods: ['GET'],
+		allowHeaders: ['Content-Type', 'Authorization']
+	})
+)
 
 // as_testリポジトリをクローンする関数
 const cloneAsTest = async () => {
@@ -51,14 +62,15 @@ app.get('/api/tests', async c => {
 app.get('/api/tests/:filename', async c => {
 	try {
 		const filename = c.req.param('filename')
+		const env = (c.req.query('env') as EnvType) || 'sight' // デフォルト値を'sight'に設定
 
 		const mdFileName = `${filename}.md`
 		const filePath = join(WAIC_TEST_DIR, mdFileName)
 		const content = await readFile(filePath, 'utf-8')
 		const title = extractTestTitle(content)
-		const procedure = extractTestProcedure(content)
-		const expectedResult = extractTestExpectedResult(content)
-		const notes = extractTestNotes(content)
+		const procedure = extractTestProcedure(content, env)
+		const expectedResult = extractTestExpectedResult(content, env)
+		const notes = extractTestNotes(content, env)
 		const link = generateTestLink(filename)
 
 		return c.json({
@@ -67,7 +79,8 @@ app.get('/api/tests/:filename', async c => {
 			procedure,
 			expectedResult,
 			notes,
-			link
+			link,
+			env // envパラメータをレスポンスに追加
 		})
 	} catch (error) {
 		console.error('Error reading WAIC-TEST file:', error)

@@ -1,8 +1,9 @@
 import { Link } from '@tanstack/react-router'
 import { atom, useAtomValue } from 'jotai'
+import { toCsv } from './functions/toCSV'
 
 const testsAtom = atom(async () => {
-	const response = await fetch('/api/tests')
+	const response = await fetch('http://localhost:3001/api/tests')
 	const data = await response.json()
 	return data.tests as string[]
 })
@@ -13,14 +14,35 @@ export function TestList() {
 	return (
 		<div>
 			<h1>WAIC Test 一覧</h1>
+			<button onClick={() => toCsv(tests)} type="button">
+				to csv
+			</button>
 			<ul>
 				{tests.map((test: string) => {
 					const filename = test.replace(/\.md$/, '')
 					return (
 						<li key={test}>
-							<Link to="/$filename" params={{ filename }}>
-								{test}
-							</Link>
+							<span>{test}</span>
+							<ul>
+								<li>
+									<Link
+										to="/$filename"
+										params={{ filename }}
+										search={{ env: 'sight' }}
+									>
+										視覚
+									</Link>
+								</li>
+								<li>
+									<Link
+										to="/$filename"
+										params={{ filename }}
+										search={{ env: 'sound' }}
+									>
+										音声
+									</Link>
+								</li>
+							</ul>
 						</li>
 					)
 				})}
