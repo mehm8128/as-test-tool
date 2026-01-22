@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc -b && vite build",
+		"build": "vite build",
 		"preview": "vite preview",
 		"typecheck": "cmk && tsc --noEmit",
 		"biome": "biome check --write src",
@@ -14,8 +14,13 @@
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.19.9",
+		"@tanstack/react-router": "^1.154.1",
+		"@tanstack/router-devtools": "^1.154.1",
+		"@tanstack/router-plugin": "^1.154.1",
 		"clsx": "^2.1.1",
 		"hono": "^4.11.4",
+		"jotai": "^2.16.2",
+		"jotai-family": "^1.0.1",
 		"kiso.css": "^1.2.3",
 		"react": "^19.2.3",
 		"react-dom": "^19.2.3"

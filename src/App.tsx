@@ -1,7 +1,20 @@
-import styles from './App.module.css'
+import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { routeTree } from './routeTree.gen'
+
+const router = createRouter({ routeTree })
+
+declare module '@tanstack/react-router' {
+	interface Register {
+		router: typeof router
+	}
+}
 
 function App() {
-	return <main className={styles.module}>App.tsx</main>
+	return (
+		<main>
+			<RouterProvider router={router} />
+		</main>
+	)
 }
 
 export default App
