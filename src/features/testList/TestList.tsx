@@ -3,7 +3,7 @@ import { atom, useAtomValue } from 'jotai'
 import { toCsv } from '../csv/functions/toCSV'
 import { settingAtom, testResultsAtom } from '../csv/state'
 
-const testsAtom = atom(async () => {
+export const testsAtom = atom(async () => {
 	const response = await fetch('http://localhost:3001/api/tests')
 	const data = await response.json()
 	return data.tests as string[]

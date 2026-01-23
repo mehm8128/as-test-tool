@@ -35,22 +35,14 @@ const getHeader = (): string => {
 }
 
 const resultToCsvRow = (test: TestResult, setting: Setting): string => {
-	const date = new Date().toLocaleString('ja-JP', {
-		timeZone: 'Asia/Tokyo',
-		year: 'numeric',
-		month: 'numeric',
-		day: 'numeric'
-	})
-	console.log(date)
-
 	return [
-		date,
+		test.date,
 		setting.name,
 		setting.email,
 		setting.os,
 		setting.browser,
 		setting.at,
-		setting.asSetting,
+		setting.atSetting,
 		test.testNum,
 		test.env === 'sight' ? '視覚閲覧環境' : '音声閲覧環境',
 		`"${test.operation.replace(/"/g, '""')}"`,

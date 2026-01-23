@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
-import { atom, useAtomValue } from 'jotai'
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { atomFamily } from 'jotai-family'
-import { useState } from 'react'
+import { editedTestsAtom, testResultsAtomFamily } from '../csv/state'
 
 export interface TestDetail {
 	filename: string
@@ -15,7 +15,6 @@ export interface TestDetail {
 
 const testTitleAtomFamily = atomFamily((key: string) =>
 	atom(async () => {
-		// keyから filename と env を分離
 		const [filename, env] = key.split('|')
 		let url = `http://localhost:3001/api/tests/${filename}`
 		if (env) {
@@ -28,16 +27,38 @@ const testTitleAtomFamily = atomFamily((key: string) =>
 
 export function TestDetail({
 	filename,
-	env
+	env = 'sight'
 }: {
 	filename: string
 	env?: string
 }) {
-	const atomKey = env ? `${filename}|${env}` : filename
+	const atomKey = `${filename}|${env}`
 	const testData = useAtomValue(testTitleAtomFamily(atomKey))
 
-	const [operation, setOperation] = useState('')
-	const [result, setResult] = useState('')
+	const [testResult, setTestResult] = useAtom(testResultsAtomFamily(atomKey))
+	const setEditedTests = useSetAtom(editedTestsAtom)
+
+	const handleEditTestResult = (updatedResult: Partial<typeof testResult>) => {
+		const dateString = new Date().toLocaleString('ja-JP', {
+			timeZone: 'Asia/Tokyo',
+			year: 'numeric',
+			month: 'numeric',
+			day: 'numeric'
+		})
+		setTestResult(prev => ({
+			...prev,
+			...updatedResult,
+			date: dateString // TODO: testResultsAtomFamilyのset時にできるとベスト
+		}))
+		setEditedTests(prev => {
+			// TODO: testResultsAtomFamilyのset時にできるとベスト
+			const key = `${filename}|${env}`
+			if (!prev.includes(key)) {
+				return [...prev, key]
+			}
+			return prev
+		})
+	}
 
 	return (
 		<div>
@@ -54,15 +75,41 @@ export function TestDetail({
 				<label>
 					<span>行った操作</span>
 					<textarea
-						value={operation}
-						onChange={e => setOperation(e.target.value)}
+						value={testResult.operation}
+						onChange={e =>
+							handleEditTestResult({
+								...testResult,
+								operation: e.target.value
+							})
+						}
 					/>
 				</label>
 				<h2>期待される結果</h2>
 				<p>{testData.expectedResult}</p>
 				<label>
 					<span>操作の結果</span>
-					<textarea value={result} onChange={e => setResult(e.target.value)} />
+					<textarea
+						value={testResult.result}
+						onChange={e =>
+							handleEditTestResult({
+								...testResult,
+								result: e.target.value
+							})
+						}
+					/>
+				</label>
+				<label>
+					<input
+						type="checkbox"
+						checked={testResult.isSatisfied}
+						onChange={e =>
+							handleEditTestResult({
+								...testResult,
+								isSatisfied: e.target.checked
+							})
+						}
+					/>
+					<span>期待される結果を満たしている</span>
 				</label>
 				<h2>リンク</h2>
 				<p>

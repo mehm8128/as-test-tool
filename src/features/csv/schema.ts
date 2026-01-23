@@ -1,4 +1,5 @@
 export interface TestResult {
+	date: string
 	testNum: string
 	env: 'sight' | 'sound'
 	operation: string // ここから下3つは将来的に複数になりそう
@@ -12,5 +13,5 @@ export interface Setting {
 	os: string
 	browser: string
 	at: string
-	asSetting: string
+	atSetting: string
 }
