@@ -5,7 +5,7 @@ import './main.css'
 
 // biome-ignore lint/style/noNonNullAssertion: しかたない
 createRoot(document.getElementById('root')!).render(
-	<StrictMode>
-		<App />
-	</StrictMode>
+  <StrictMode>
+    <App />
+  </StrictMode>
 )

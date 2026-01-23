@@ -4,5 +4,5 @@ import { Setting } from '../features/setting/Setting'
 export const Route = createFileRoute('/setting')({ component: SettingRoute })
 
 function SettingRoute() {
-	return <Setting />
+  return <Setting />
 }
