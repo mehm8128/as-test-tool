@@ -1,47 +1,48 @@
 export type EnvType = 'sight' | 'sound'
 
+const envNameMap: Record<EnvType, string> = {
+  sight: '視覚閲覧環境',
+  sound: '音声閲覧環境'
+}
+
+const extractSection = (content: string, sectionTitle: string, env: EnvType) => {
+  const envName = envNameMap[env]
+  // 次のセクションが#で始まることを確認するパターン
+  const pattern = new RegExp(
+    `^# ${sectionTitle} \\(${envName}\\)\\s*\\n\\n([\\s\\S]*?)\\n\\n#`,
+    'm'
+  )
+  const match = content.match(pattern)
+  if (match) {
+    return match[1].trim()
+  }
+
+  // 最後のセクションの場合、文字列の終端まで取得
+  const endPattern = new RegExp(`^# ${sectionTitle} \\(${envName}\\)\\s*\\n\\n([\\s\\S]*)$`, 'm')
+  const endMatch = content.match(endPattern)
+  return endMatch ? endMatch[1].trim() : undefined
+}
+
 export const extractTestTitle = (content: string): string => {
-	const titleMatch = content.match(/^#\s*テストのタイトル\s*\n\n(.*)$/m)
-	return titleMatch ? titleMatch[1].trim() : 'Untitled'
+  const titleMatch = content.match(/^# テストのタイトル\s*\n\n(.*)$/m)
+  return titleMatch ? titleMatch[1].trim() : 'Untitled'
 }
 
 export const extractTestProcedure = (content: string, env: EnvType): string => {
-	const procedureMatch =
-		env === 'sight'
-			? content.match(/^# テスト手順 \(視覚閲覧環境\)\s*\n\n([\s\S]*?)\n#\s*/m)
-			: content.match(/^# テスト手順 \(音声閲覧環境\)\s*\n\n([\s\S]*?)\n#\s*/m)
-	return procedureMatch ? procedureMatch[1].trim() : 'No procedure found'
+  const result = extractSection(content, 'テスト手順', env)
+  return result ?? 'No procedure found'
 }
 
-export const extractTestExpectedResult = (
-	content: string,
-	env: EnvType
-): string => {
-	const expectedResultMatch =
-		env === 'sight'
-			? content.match(
-					/^# 期待される結果 \(視覚閲覧環境\)\s*\n\n([\s\S]*?)\n#\s*/m
-				)
-			: content.match(
-					/^# 期待される結果 \(音声閲覧環境\)\s*\n\n([\s\S]*?)\n#\s*/m
-				)
-	return expectedResultMatch
-		? expectedResultMatch[1].trim()
-		: 'No expected result found'
+export const extractTestExpectedResult = (content: string, env: EnvType): string => {
+  const result = extractSection(content, '期待される結果', env)
+  return result ?? 'No expected result found'
 }
 
 export const extractTestNotes = (content: string, env: EnvType): string => {
-	const notesMatch =
-		env === 'sight'
-			? content.match(
-					/^# テスト実施時の注意点 \(視覚閲覧環境\)\s*\n\n([\s\S]*?)\n#\s*/m
-				)
-			: content.match(
-					/^# テスト実施時の注意点 \(音声閲覧環境\)\s*\n\n([\s\S]*?)\n#\s*/m
-				)
-	return notesMatch ? notesMatch[1].trim() : 'No notes found'
+  const result = extractSection(content, 'テスト実施時の注意点', env)
+  return result ?? 'No notes found'
 }
 
 export const generateTestLink = (filename: string): string => {
-	return `https://waic.github.io/as_test/WAIC-TEST/HTML/${filename}.html`
+  return `https://waic.github.io/as_test/WAIC-TEST/HTML/${filename}.html`
 }
