@@ -24,3 +24,6 @@ dist-ssr
 generated
 
 src/routeTree.gen.ts
+
+# Environment variables
+.env
