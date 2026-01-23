@@ -33,12 +33,17 @@ export function TestDetail({ filename, env = 'sight' }: { filename: string; env?
   const setEditedTests = useSetAtom(editedTestsAtom)
 
   const handleEditTestResult = (updatedResult: Partial<typeof testResult>) => {
-    const dateString = new Date().toLocaleString('ja-JP', {
+    const dateParts = new Intl.DateTimeFormat('ja-JP', {
       timeZone: 'Asia/Tokyo',
       year: 'numeric',
       month: 'numeric',
       day: 'numeric'
-    })
+    }).formatToParts(new Date())
+    const dateString = dateParts
+      .filter(({ type }) => type !== 'literal')
+      .map(({ value }) => value)
+      .join('-')
+
     setTestResult((prev) => ({
       ...prev,
       ...updatedResult,

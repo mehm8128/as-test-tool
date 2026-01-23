@@ -1,8 +1,9 @@
 import { atom } from 'jotai'
+import { atomWithStorage } from 'jotai/utils'
 import { atomFamily } from 'jotai-family'
 import type { Setting, TestResult } from './schema'
 
-export const settingAtom = atom<Setting>({
+export const settingAtom = atomWithStorage<Setting>('waic-test-setting', {
   name: '',
   email: '',
   os: '',
@@ -13,7 +14,7 @@ export const settingAtom = atom<Setting>({
 
 export const testResultsAtomFamily = atomFamily((key: string) => {
   const [filename, env] = key.split('|')
-  return atom<TestResult>({
+  return atomWithStorage<TestResult>(`waic-test-result-${key}`, {
     date: '',
     testNum: filename,
     env: env as 'sight' | 'sound',
@@ -23,9 +24,9 @@ export const testResultsAtomFamily = atomFamily((key: string) => {
   })
 })
 
-export const editedTestsAtom = atom<string[]>([])
+export const editedTestsAtom = atomWithStorage<string[]>('waic-test-edited-tests', [])
 
-export const testResultsAtom = atom(async (get) => {
+export const testResultsAtom = atom((get) => {
   const editedTests = get(editedTestsAtom)
 
   const results = editedTests.map((key) => get(testResultsAtomFamily(key)))
