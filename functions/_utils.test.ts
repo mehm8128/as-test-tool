@@ -4,7 +4,7 @@ import {
   extractTestProcedure,
   extractTestExpectedResult,
   extractTestNotes
-} from './extractor'
+} from './_utils'
 
 describe('extractor', () => {
   it('各セクションの情報を取得できる', () => {

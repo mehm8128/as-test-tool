@@ -1,5 +1,3 @@
-import 'dotenv/config'
-import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import {
@@ -9,33 +7,32 @@ import {
   extractTestProcedure,
   extractTestTitle,
   generateTestLink
-} from './extractor'
+} from '../_utils'
+import { handle } from 'hono/cloudflare-pages'
 
-const app = new Hono()
+interface Env {
+  APP_GITHUB_TOKEN: string
+}
+
+const app = new Hono<{ Bindings: Env }>().basePath('/api')
 
 const GITHUB_API_URL = 'https://api.github.com/repos/waic/as_test/contents/WAIC-TEST/HTML' as const
-
-const APP_GITHUB_TOKEN = process.env.APP_GITHUB_TOKEN
-if (!APP_GITHUB_TOKEN) {
-  console.warn(
-    'GITHUB_TOKEN environment variable is not set. GitHub API requests will be rate limited.'
-  )
-}
 
 app.use(
   '*',
   cors({
-    origin: 'http://localhost:5173',
+    origin: '*',
     allowMethods: ['GET'],
     allowHeaders: ['Content-Type', 'Authorization']
   })
 )
 
 // GitHub APIリクエスト用のヘルパー関数
-const makeGitHubRequest = async (url: string) => {
+const makeGitHubRequest = async <T>(url: string, githubToken: string) => {
   const response = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${APP_GITHUB_TOKEN}`
+      Authorization: `Bearer ${githubToken}`,
+      'User-Agent': 'WAIC-AS-Test-Tool/1.0'
     }
   })
 
@@ -43,24 +40,7 @@ const makeGitHubRequest = async (url: string) => {
     throw new Error(`GitHub API request failed: ${response.status} ${response.statusText}`)
   }
 
-  return response.json()
-}
-
-// ディレクトリ内のファイル一覧を取得
-const getDirectoryContents = async () => {
-  return makeGitHubRequest(GITHUB_API_URL)
-}
-
-// ファイルの内容を取得
-const getFileContent = async (filename: string) => {
-  const response = await makeGitHubRequest(`${GITHUB_API_URL}/${filename}`)
-
-  if (response.content) {
-    const content = Buffer.from(response.content, 'base64').toString('utf-8')
-    return content
-  }
-
-  throw new Error('File content not found')
+  return response.json() as T
 }
 
 interface ContentItem {
@@ -68,9 +48,39 @@ interface ContentItem {
   name: string
 }
 
-app.get('/api/tests', async (c) => {
+// ディレクトリ内のファイル一覧を取得
+const getDirectoryContents = async (githubToken: string) => {
+  return makeGitHubRequest<ContentItem[]>(GITHUB_API_URL, githubToken)
+}
+
+interface FileContentResponse {
+  content: string
+}
+
+// ファイルの内容を取得
+const getFileContent = async (filename: string, githubToken: string) => {
+  const response = await makeGitHubRequest<FileContentResponse>(
+    `${GITHUB_API_URL}/${filename}`,
+    githubToken
+  )
+
+  if (response.content) {
+    // base64デコード
+    const content = atob(response.content)
+    return content
+  }
+
+  throw new Error('File content not found')
+}
+
+app.get('/', async (c) => {
   try {
-    const contents: ContentItem[] = await getDirectoryContents()
+    const githubToken = c.env.APP_GITHUB_TOKEN
+    if (!githubToken) {
+      return c.json({ error: 'GitHub token not configured' }, 500)
+    }
+
+    const contents = await getDirectoryContents(githubToken)
 
     const files = contents
       .filter((item) => item.type === 'file' && item.name.match(/^WAIC-TEST-[0-9-]+.md/))
@@ -83,13 +93,18 @@ app.get('/api/tests', async (c) => {
   }
 })
 
-app.get('/api/tests/:filename', async (c) => {
+app.get('/:filename', async (c) => {
   try {
     const filename = c.req.param('filename')
     const env = (c.req.query('env') as EnvType) || 'sight' // デフォルト値を'sight'に設定
 
+    const githubToken = c.env.APP_GITHUB_TOKEN
+    if (!githubToken) {
+      return c.json({ error: 'GitHub token not configured' }, 500)
+    }
+
     const mdFileName = `${filename}.md`
-    const content = await getFileContent(mdFileName)
+    const content = await getFileContent(mdFileName, githubToken)
 
     const title = extractTestTitle(content)
     const procedure = extractTestProcedure(content, env)
@@ -112,15 +127,4 @@ app.get('/api/tests/:filename', async (c) => {
   }
 })
 
-// ヘルスチェック
-app.get('/', (c) => {
-  return c.json({ message: 'Server is running!' })
-})
-
-const port = 3001
-console.log(`Server is running on port ${port}`)
-
-serve({
-  fetch: app.fetch,
-  port
-})
+export const onRequest = handle(app)

@@ -12,7 +12,8 @@
     "lint": "oxlint src --fix",
     "format": "oxfmt src",
     "lint:markup": "markuplint \"**/*.[jt]sx\"",
-    "server": "tsx server/index.ts"
+    "pages:dev": "wrangler pages dev dist --compatibility-date=2026-01-01 --local",
+    "pages:deploy": "wrangler pages deploy dist"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.9",
@@ -29,6 +30,7 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260123.0",
     "@css-modules-kit/codegen": "^0.6.0",
     "@markuplint/jsx-parser": "^4.7.22",
     "@markuplint/react-spec": "^4.5.22",
@@ -42,6 +44,7 @@
     "tsx": "^4.19.2",
     "typescript": "~5.8.3",
     "vite": "^7.3.1",
-    "vitest": "^4.0.17"
+    "vitest": "^4.0.17",
+    "wrangler": "^4.60.0"
   }
 }

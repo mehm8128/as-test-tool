@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { atomFamily } from 'jotai-family'
+import { getApiBaseUrl } from '../../utils/api'
 import { editedTestsAtom, testResultsAtomFamily } from '../csv/state'
 
 export interface TestDetail {
@@ -16,7 +17,8 @@ export interface TestDetail {
 const testTitleAtomFamily = atomFamily((key: string) =>
   atom(async () => {
     const [filename, env] = key.split('|')
-    let url = `http://localhost:3001/api/tests/${filename}`
+    const baseUrl = getApiBaseUrl()
+    let url = `${baseUrl}/api/${filename}`
     if (env) {
       url += `?env=${env}`
     }

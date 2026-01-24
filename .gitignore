@@ -26,4 +26,6 @@ generated
 src/routeTree.gen.ts
 
 # Environment variables
-.env
+.dev.vars
+
+.wrangler

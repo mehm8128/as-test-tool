@@ -1,10 +1,12 @@
 import { Link } from '@tanstack/react-router'
 import { atom, useAtomValue } from 'jotai'
+import { getApiBaseUrl } from '../../utils/api'
 import { toCsv } from '../csv/functions/toCSV'
 import { isEditedAtom, settingAtom, testResultsAtom } from '../csv/state'
 
 export const testsAtom = atom(async () => {
-  const response = await fetch('http://localhost:3001/api/tests')
+  const baseUrl = getApiBaseUrl()
+  const response = await fetch(`${baseUrl}/api`)
   const data = await response.json()
   return data.tests as string[]
 })
