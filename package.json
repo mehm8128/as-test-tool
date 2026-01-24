@@ -26,6 +26,7 @@
     "jotai": "^2.16.2",
     "jotai-family": "^1.0.1",
     "kiso.css": "^1.2.3",
+    "lucide-react": "^0.563.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },

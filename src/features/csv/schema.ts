@@ -4,7 +4,7 @@ export interface TestResult {
   env: 'sight' | 'sound'
   operation: string // ここから下3つは将来的に複数になりそう
   result: string
-  isSatisfied: boolean
+  isSatisfied: boolean | undefined
 }
 
 export interface Setting {

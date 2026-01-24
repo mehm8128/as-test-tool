@@ -1,8 +1,9 @@
 import { Link } from '@tanstack/react-router'
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { atom, useAtom, useAtomValue } from 'jotai'
 import { atomFamily } from 'jotai-family'
 import { getApiBaseUrl } from '../../utils/api'
-import { editedTestsAtom, testResultsAtomFamily } from '../csv/state'
+import { testResultsAtomFamily } from '../csv/state'
+import { Circle, X } from 'lucide-react'
 
 export interface TestDetail {
   filename: string
@@ -32,7 +33,6 @@ export function TestDetail({ filename, env = 'sight' }: { filename: string; env?
   const testData = useAtomValue(testTitleAtomFamily(atomKey))
 
   const [testResult, setTestResult] = useAtom(testResultsAtomFamily(atomKey))
-  const setEditedTests = useSetAtom(editedTestsAtom)
 
   const handleEditTestResult = (updatedResult: Partial<typeof testResult>) => {
     const dateParts = new Intl.DateTimeFormat('ja-JP', {
@@ -51,14 +51,6 @@ export function TestDetail({ filename, env = 'sight' }: { filename: string; env?
       ...updatedResult,
       date: dateString // TODO: testResultsAtomFamilyのset時にできるとベスト
     }))
-    setEditedTests((prev) => {
-      // TODO: testResultsAtomFamilyのset時にできるとベスト
-      const key = `${filename}|${env}`
-      if (!prev.includes(key)) {
-        return [...prev, key]
-      }
-      return prev
-    })
   }
 
   return (
@@ -99,19 +91,32 @@ export function TestDetail({ filename, env = 'sight' }: { filename: string; env?
             }
           />
         </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={testResult.isSatisfied}
-            onChange={(e) =>
+        <div>
+          <button
+            type="button"
+            onClick={() =>
               handleEditTestResult({
                 ...testResult,
-                isSatisfied: e.target.checked
+                isSatisfied: true
               })
             }
-          />
-          <span>期待される結果を満たしている</span>
-        </label>
+          >
+            <Circle />
+            満たしている
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              handleEditTestResult({
+                ...testResult,
+                isSatisfied: false
+              })
+            }
+          >
+            <X />
+            満たしていない
+          </button>
+        </div>
         <h2>リンク</h2>
         <p>
           <a href={testData.link} target="_blank" rel="noopener noreferrer">

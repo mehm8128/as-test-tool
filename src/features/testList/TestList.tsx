@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { atom, useAtomValue } from 'jotai'
 import { getApiBaseUrl } from '../../utils/api'
 import { toCsv } from '../csv/functions/toCSV'
-import { isEditedAtom, settingAtom, testResultsAtom } from '../csv/state'
+import { isJudgedAtom, settingAtom, testResultsAtom } from '../csv/state'
 
 export const testsAtom = atom(async () => {
   const baseUrl = getApiBaseUrl()
@@ -15,7 +15,7 @@ export function TestList() {
   const tests = useAtomValue(testsAtom)
   const testResults = useAtomValue(testResultsAtom)
   const setting = useAtomValue(settingAtom)
-  const isEdited = useAtomValue(isEditedAtom)
+  const isJudged = useAtomValue(isJudgedAtom)
 
   return (
     <div>
@@ -32,12 +32,12 @@ export function TestList() {
               <ul>
                 <li>
                   <Link to="/$filename" params={{ filename }} search={{ env: 'sight' }}>
-                    視覚（{isEdited(`${filename}|sight`) ? '編集済み' : '未編集'}）
+                    視覚（{isJudged(`${filename}|sight`) ? '判定済み' : '未判定'}）
                   </Link>
                 </li>
                 <li>
                   <Link to="/$filename" params={{ filename }} search={{ env: 'sound' }}>
-                    音声（{isEdited(`${filename}|sound`) ? '編集済み' : '未編集'}）
+                    音声（{isJudged(`${filename}|sound`) ? '判定済み' : '未判定'}）
                   </Link>
                 </li>
               </ul>

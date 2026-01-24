@@ -2,6 +2,7 @@ import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { atomFamily } from 'jotai-family'
 import type { Setting, TestResult } from './schema'
+import { testsAtom } from '../testList/TestList'
 
 export const settingAtom = atomWithStorage<Setting>('waic-test-setting', {
   name: '',
@@ -20,20 +21,26 @@ export const testResultsAtomFamily = atomFamily((key: string) => {
     env: env as 'sight' | 'sound',
     operation: '',
     result: '',
-    isSatisfied: false
+    isSatisfied: undefined
   })
 })
 
-export const editedTestsAtom = atomWithStorage<string[]>('waic-test-edited-tests', [])
-
-export const isEditedAtom = atom((get) => {
-  const editedTests = get(editedTestsAtom)
-  return (key: string) => editedTests.includes(key)
+export const isJudgedAtom = atom((get) => {
+  return (key: string) => {
+    const testResult = get(testResultsAtomFamily(key))
+    return testResult.isSatisfied !== undefined
+  }
 })
 
-export const testResultsAtom = atom((get) => {
-  const editedTests = get(editedTestsAtom)
+export const testResultsAtom = atom(async (get) => {
+  const allTests = await get(testsAtom)
 
-  const results = editedTests.map((key) => get(testResultsAtomFamily(key)))
+  const results = allTests
+    .flatMap((filename) => {
+      const sightTest = get(testResultsAtomFamily(`${filename}|sight`))
+      const soundTest = get(testResultsAtomFamily(`${filename}|sound`))
+      return [sightTest, soundTest]
+    })
+    .filter((test) => test.isSatisfied !== undefined)
   return results
 })
