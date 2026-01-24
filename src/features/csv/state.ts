@@ -26,6 +26,11 @@ export const testResultsAtomFamily = atomFamily((key: string) => {
 
 export const editedTestsAtom = atomWithStorage<string[]>('waic-test-edited-tests', [])
 
+export const isEditedAtom = atom((get) => {
+  const editedTests = get(editedTestsAtom)
+  return (key: string) => editedTests.includes(key)
+})
+
 export const testResultsAtom = atom((get) => {
   const editedTests = get(editedTestsAtom)
 
