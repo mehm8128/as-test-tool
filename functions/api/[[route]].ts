@@ -65,8 +65,10 @@ const getFileContent = async (filename: string, githubToken: string) => {
   )
 
   if (response.content) {
-    // base64デコード
-    const content = atob(response.content)
+    // base64をデコード
+    const content = new TextDecoder().decode(
+      Uint8Array.from(atob(response.content), (c) => c.charCodeAt(0))
+    )
     return content
   }
 
