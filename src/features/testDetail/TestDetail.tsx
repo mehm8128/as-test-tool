@@ -78,13 +78,13 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
       <title>{`${testData.title} - AS Test Tool`}</title>
       <div className={styles.module}>
         <div className={styles.header}>
-          <div>
-            <AnchorLink to="/">一覧へ</AnchorLink>
-            <Heading level={1}>
-              {testId}
-              {testData.title}
-            </Heading>
-          </div>
+          <AnchorLink to="/">一覧へ</AnchorLink>
+          <Heading level={1}>
+            <span>
+              <span className={styles.testId}>{testId}</span>
+              <span>{testData.title}</span>
+            </span>
+          </Heading>
           <div className={styles.buttons}>
             <ul className={styles.ul}>
               <li>
