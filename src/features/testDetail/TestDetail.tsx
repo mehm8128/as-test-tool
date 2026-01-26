@@ -74,24 +74,28 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   }
 
   return (
-    <div>
-      <AnchorLink to="/">一覧へ</AnchorLink>
-      <Heading level={1}>
-        {testId}
-        {testData.title}
-      </Heading>
-      <div>
-        <ul className={styles.ul}>
-          <li>
-            <ExternalAnchorLink href={testData.link}>テストの詳細へ</ExternalAnchorLink>
-          </li>
-          <li>
-            <ExternalAnchorLink href={testData.testCodeLink}>テストコードへ</ExternalAnchorLink>
-          </li>
-        </ul>
-        <Button onClick={handleResetTestResult}>このテストの結果をリセット</Button>
+    <div className={styles.module}>
+      <div className={styles.header}>
+        <div>
+          <AnchorLink to="/">一覧へ</AnchorLink>
+          <Heading level={1}>
+            {testId}
+            {testData.title}
+          </Heading>
+        </div>
+        <div className={styles.buttons}>
+          <ul className={styles.ul}>
+            <li>
+              <ExternalAnchorLink href={testData.link}>テストの詳細へ</ExternalAnchorLink>
+            </li>
+            <li>
+              <ExternalAnchorLink href={testData.testCodeLink}>テストコードへ</ExternalAnchorLink>
+            </li>
+          </ul>
+          <Button onClick={handleResetTestResult}>このテストの結果をリセット</Button>
+        </div>
       </div>
-      <div>
+      <div className={styles.form}>
         <section className={styles.section}>
           <Heading level={2}>テスト方法</Heading>
           <section className={styles.innerSection}>

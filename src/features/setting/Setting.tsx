@@ -5,14 +5,17 @@ import { InputText } from '../../components/InputText/InputText'
 import { Textarea } from '../../components/Textarea/Textarea'
 import { Label } from '../../components/Label/Label'
 import { Heading } from '../../components/Heading/Heading'
+import styles from './Setting.module.css'
 
 export function Setting() {
   const [setting, setSetting] = useAtom(settingAtom)
 
   return (
-    <div>
-      <AnchorLink to="/">一覧へ</AnchorLink>
-      <Heading level={1}>各種設定</Heading>
+    <div className={styles.module}>
+      <div className={styles.header}>
+        <AnchorLink to="/">一覧へ</AnchorLink>
+        <Heading level={1}>各種設定</Heading>
+      </div>
       <Label labelText="氏名">
         <InputText
           value={setting.name}
