@@ -106,8 +106,9 @@ app.get('/:testId', async (c) => {
       return c.json({ error: 'GitHub token not configured' }, 500)
     }
 
-    const mdFileName = `WAIC-TEST-${testId}.md`
-    const content = await getFileContent(mdFileName, githubToken)
+    const mdFileName = `WAIC-TEST-${testId}`
+    const mdFileNameWithExt = `WAIC-TEST-${testId}.md`
+    const content = await getFileContent(mdFileNameWithExt, githubToken)
 
     const title = extractTestTitle(content)
     const procedure = extractTestProcedure(content, env)
