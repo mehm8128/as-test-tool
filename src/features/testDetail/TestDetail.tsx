@@ -2,7 +2,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { resetTestResultAtom, testResultsAtomFamily } from '../../states/results'
 import { Check } from 'lucide-react'
 import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
-import { testsAtom } from '../../states/testList'
+import { testIdsAtom } from '../../states/testList'
 import { getTestKeyFromId } from '../../functions/testKey'
 import { Button } from '../../components/Button/Button'
 import { AnchorLink, ExternalAnchorLink } from '../../components/AnchorLink/AnchorLink'
@@ -14,13 +14,13 @@ import styles from './TestDetail.module.css'
 export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   const testKey = getTestKeyFromId(testId, env)
   const testData = useAtomValue(testDetailAtomFamily(testKey))
-  const tests = useAtomValue(testsAtom)
+  const testIds = useAtomValue(testIdsAtom)
   const resetTestResult = useSetAtom(resetTestResultAtom)
 
   const [testResult, setTestResult] = useAtom(testResultsAtomFamily(testKey))
 
-  const isFirstTestId = tests.indexOf(testId) === 0
-  const isLastTestId = tests.indexOf(testId) === tests.length - 1
+  const isFirstTestId = testIds.indexOf(testId) === 0
+  const isLastTestId = testIds.indexOf(testId) === testIds.length - 1
 
   const prevTestId = () => {
     // 今の画面が音声閲覧環境だったら、前は同じテストIDの視覚閲覧環境
@@ -28,9 +28,9 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
       return testId
     }
 
-    const currentIndex = tests.indexOf(testId)
+    const currentIndex = testIds.indexOf(testId)
     if (currentIndex > 0) {
-      return tests[currentIndex - 1]
+      return testIds[currentIndex - 1]
     }
     return ''
   }
@@ -41,9 +41,9 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
       return testId
     }
 
-    const currentIndex = tests.indexOf(testId)
-    if (currentIndex >= 0 && currentIndex < tests.length - 1) {
-      return tests[currentIndex + 1]
+    const currentIndex = testIds.indexOf(testId)
+    if (currentIndex >= 0 && currentIndex < testIds.length - 1) {
+      return testIds[currentIndex + 1]
     }
     return ''
   }
@@ -182,9 +182,6 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
                 </AnchorLink>
               </li>
             )}
-            <li>
-              <AnchorLink to="/">一覧へ</AnchorLink>
-            </li>
             {!isLastTestId && (
               <li>
                 <AnchorLink
@@ -196,6 +193,9 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
                 </AnchorLink>
               </li>
             )}
+            <li>
+              <AnchorLink to="/">一覧へ</AnchorLink>
+            </li>
           </ul>
         </nav>
       </div>

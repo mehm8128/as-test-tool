@@ -33,7 +33,7 @@ const getHeader = (): string => {
   ].join(',')}\n`
 }
 
-const resultToCsvRow = (test: TestResult, setting: Setting): string => {
+export const resultToCsvRow = (test: TestResult, setting: Setting): string => {
   return [
     test.date,
     setting.name,
@@ -42,10 +42,12 @@ const resultToCsvRow = (test: TestResult, setting: Setting): string => {
     setting.browser,
     setting.at,
     setting.atSetting,
-    test.testId,
+    `'${test.testId}`,
     test.env === 'sight' ? '視覚閲覧環境' : '音声閲覧環境',
-    `"${test.operation.replace(/"/g, '""')}"`,
-    `"${test.result.replace(/"/g, '""')}"`,
+    test.operation,
+    test.result,
     test.isSatisfied ? '満たしている' : '満たしていない'
-  ].join(',')
+  ]
+    .map((value) => `"${String(value).replace(/"/g, '""')}"`)
+    .join(',')
 }

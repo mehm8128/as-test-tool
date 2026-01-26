@@ -10,6 +10,7 @@ import { LinkButton } from '../../components/LinkButton/LinkButton'
 import { testResultsAtom, resetTestResultsAtom } from '../../states/results'
 import { settingAtom } from '../../states/setting'
 import { exportToCsv } from './functions/exportToCSV'
+import type { TestListItem as TestListItemType } from '../../states/testList'
 
 export function TestList() {
   const tests = useAtomValue(testsAtom)
@@ -19,12 +20,15 @@ export function TestList() {
 
   const [searchValue, setSearchValue] = useState('')
 
-  const filteredTests = tests.filter((testId) => {
+  const filteredTests = tests.filter((test) => {
     if (!searchValue) {
       return true
     }
     const lowerSearchValue = searchValue.toLowerCase()
-    return testId.toLowerCase().includes(lowerSearchValue) // TODO: テストタイトルも検索対象に含める
+    return (
+      test.testId.toLowerCase().includes(lowerSearchValue) ||
+      test.title.toLowerCase().includes(lowerSearchValue)
+    )
   })
 
   const handleExportToCsv = () => {
@@ -66,8 +70,8 @@ export function TestList() {
         </label>
         {filteredTests.length > 0 ? (
           <ul className={styles.ul}>
-            {filteredTests.map((testId: string) => {
-              return <TestListItem key={testId} testId={testId} />
+            {filteredTests.map((test: TestListItemType) => {
+              return <TestListItem key={test.testId} testId={test.testId} testTitle={test.title} />
             })}
           </ul>
         ) : (

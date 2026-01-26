@@ -7,6 +7,7 @@ import {
   extractTestExpectedResult,
   extractTestNotes,
   extractTestProcedure,
+  extractTests,
   extractTestTitle,
   generateTestLink
 } from '../_utils'
@@ -49,18 +50,26 @@ const makeGitHubRequest = async <T>(url: string, githubToken: string) => {
   return response.json() as T
 }
 
-interface ContentItem {
-  type: string
-  name: string
+interface FileContentResponse {
+  content: string
 }
 
 // ディレクトリ内のファイル一覧を取得
 const getDirectoryContents = async (githubToken: string) => {
-  return makeGitHubRequest<ContentItem[]>(GITHUB_API_URL, githubToken)
-}
+  const response = await makeGitHubRequest<FileContentResponse>(
+    `${GITHUB_API_URL}/README.md`,
+    githubToken
+  )
 
-interface FileContentResponse {
-  content: string
+  if (response.content) {
+    // base64をデコード
+    const content = new TextDecoder().decode(
+      Uint8Array.from(atob(response.content), (c) => c.charCodeAt(0))
+    )
+    return content
+  }
+
+  throw new Error('File content not found')
 }
 
 // ファイルの内容を取得
@@ -90,11 +99,9 @@ app.get('/', async (c) => {
 
     const contents = await getDirectoryContents(githubToken)
 
-    const files = contents
-      .filter((item) => item.type === 'file' && item.name.match(/^WAIC-TEST-[0-9-]+.md/))
-      .map((item) => item.name.match(/^WAIC-TEST-([0-9-]+)/)?.[1])
+    const tests = extractTests(contents)
 
-    return c.json({ tests: files })
+    return c.json({ tests })
   } catch (error) {
     console.error('Error fetching WAIC-TEST directory from GitHub:', error)
     return c.json({ error: 'Failed to fetch WAIC-TEST files from GitHub' }, 500)
@@ -112,8 +119,7 @@ app.get('/:testId', async (c) => {
     }
 
     const mdFileName = `WAIC-TEST-${testId}`
-    const mdFileNameWithExt = `WAIC-TEST-${testId}.md`
-    const content = await getFileContent(mdFileNameWithExt, githubToken)
+    const content = await getFileContent(`${mdFileName}.md`, githubToken)
 
     const title = extractTestTitle(content)
     const procedure = extractTestProcedure(content, env)

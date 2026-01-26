@@ -56,3 +56,24 @@ export const extractTestNotes = (content: string, env: EnvType): string => {
 export const generateTestLink = (filename: string): string => {
   return `https://waic.github.io/as_test/WAIC-TEST/HTML/${filename}.html`
 }
+
+export const extractTests = (content: string): { testId: string; title: string }[] => {
+  const testLinks = content.matchAll(/\[(.*?)\]\(.*\)/g)
+
+  const testLinksArray = Array.from(testLinks)
+  const filteredTestLinks = testLinksArray
+    .map((match) => {
+      const linkText = match[1]
+      const testIdAndTitleMatch = linkText.match(/^([0-9]{4}-[0-9]{2}): (.*?)$/)
+      return {
+        testId: testIdAndTitleMatch ? testIdAndTitleMatch[1] : null,
+        title: testIdAndTitleMatch ? testIdAndTitleMatch[2] : null
+      }
+    })
+    .filter(
+      (testIdAndTitle): testIdAndTitle is { testId: string; title: string } =>
+        testIdAndTitle.testId !== null && testIdAndTitle.title !== null
+    )
+
+  return filteredTestLinks
+}

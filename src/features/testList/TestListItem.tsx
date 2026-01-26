@@ -5,7 +5,7 @@ import { getTestKeyFromId } from '../../functions/testKey'
 import { LinkButton } from '../../components/LinkButton/LinkButton'
 import styles from './TestListItem.module.css'
 
-export function TestListItem({ testId }: { testId: string }) {
+export function TestListItem({ testId, testTitle }: { testId: string; testTitle: string }) {
   const isCompleted = useAtomValue(isCompletedAtom)
 
   const sightCompleted = isCompleted(getTestKeyFromId(testId, 'sight'))
@@ -15,13 +15,8 @@ export function TestListItem({ testId }: { testId: string }) {
     <li className={styles.module}>
       <div className={styles.titleContainer}>
         <span className={styles.testId}>{testId}</span>
-        <span
-          className={styles.title}
-          title="同じリンクの中に入れた画像 (代替テキストなし) とテキスト (1. 画像 2.
-          テキスト)aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        >
-          同じリンクの中に入れた画像 (代替テキストなし) とテキスト (1. 画像 2.
-          テキスト)aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        <span className={styles.title} title={testTitle}>
+          {testTitle}
         </span>
       </div>
       <div className={styles.links}>

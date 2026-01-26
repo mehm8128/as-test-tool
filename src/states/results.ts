@@ -1,7 +1,7 @@
 import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { atomFamily } from 'jotai-family'
-import { testsAtom } from './testList'
+import { testIdsAtom } from './testList'
 import { getTestIdAndEnvFromKey, getTestKeyFromId } from '../functions/testKey'
 import type { TestEnv } from './testDetail'
 
@@ -34,7 +34,7 @@ export const resetTestResultAtom = atom(null, (_get, set, key: string) => {
 })
 
 export const testResultsAtom = atom(async (get) => {
-  const allTests = await get(testsAtom)
+  const allTests = await get(testIdsAtom)
 
   const results = allTests
     .flatMap((testId) => {
