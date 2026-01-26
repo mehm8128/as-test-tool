@@ -74,128 +74,131 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   }
 
   return (
-    <div className={styles.module}>
-      <div className={styles.header}>
-        <div>
-          <AnchorLink to="/">一覧へ</AnchorLink>
-          <Heading level={1}>
-            {testId}
-            {testData.title}
-          </Heading>
+    <>
+      <title>{`${testData.title} - AS Test Tool`}</title>
+      <div className={styles.module}>
+        <div className={styles.header}>
+          <div>
+            <AnchorLink to="/">一覧へ</AnchorLink>
+            <Heading level={1}>
+              {testId}
+              {testData.title}
+            </Heading>
+          </div>
+          <div className={styles.buttons}>
+            <ul className={styles.ul}>
+              <li>
+                <ExternalAnchorLink href={testData.link}>テストの詳細へ</ExternalAnchorLink>
+              </li>
+              <li>
+                <ExternalAnchorLink href={testData.testCodeLink}>テストコードへ</ExternalAnchorLink>
+              </li>
+            </ul>
+            <Button onClick={handleResetTestResult}>このテストの結果をリセット</Button>
+          </div>
         </div>
-        <div className={styles.buttons}>
-          <ul className={styles.ul}>
-            <li>
-              <ExternalAnchorLink href={testData.link}>テストの詳細へ</ExternalAnchorLink>
-            </li>
-            <li>
-              <ExternalAnchorLink href={testData.testCodeLink}>テストコードへ</ExternalAnchorLink>
-            </li>
-          </ul>
-          <Button onClick={handleResetTestResult}>このテストの結果をリセット</Button>
-        </div>
-      </div>
-      <div className={styles.form}>
-        <section className={styles.section}>
-          <Heading level={2}>テスト方法</Heading>
-          <section className={styles.innerSection}>
-            <Heading level={3}>手順</Heading>
-            <p>{testData.procedure}</p>
+        <div className={styles.form}>
+          <section className={styles.section}>
+            <Heading level={2}>テスト方法</Heading>
+            <section className={styles.innerSection}>
+              <Heading level={3}>手順</Heading>
+              <p>{testData.procedure}</p>
+            </section>
+            <section className={styles.innerSection}>
+              <Heading level={3}>注意事項</Heading>
+              <p>{testData.notes}</p>
+              <Label labelText="行った操作">
+                <Textarea
+                  value={testResult.operation}
+                  onChange={(value) =>
+                    handleEditTestResult({
+                      ...testResult,
+                      operation: value
+                    })
+                  }
+                />
+              </Label>
+            </section>
           </section>
-          <section className={styles.innerSection}>
-            <Heading level={3}>注意事項</Heading>
-            <p>{testData.notes}</p>
-            <Label labelText="行った操作">
+          <section className={styles.section}>
+            <Heading level={2}>期待される結果</Heading>
+            <p>{testData.expectedResult}</p>
+            <Label labelText="操作の結果">
               <Textarea
-                value={testResult.operation}
+                value={testResult.result}
                 onChange={(value) =>
                   handleEditTestResult({
                     ...testResult,
-                    operation: value
+                    result: value
                   })
                 }
               />
             </Label>
-          </section>
-        </section>
-        <section className={styles.section}>
-          <Heading level={2}>期待される結果</Heading>
-          <p>{testData.expectedResult}</p>
-          <Label labelText="操作の結果">
-            <Textarea
-              value={testResult.result}
-              onChange={(value) =>
-                handleEditTestResult({
-                  ...testResult,
-                  result: value
-                })
-              }
-            />
-          </Label>
-          <section className={styles.innerSection}>
-            <Heading level={3}>期待される結果を満たしているかどうか</Heading>
-            <div
-              role="group"
-              aria-label="期待される結果を満たしているかどうか"
-              className={styles.isSatisfiedGroup}
-            >
-              <Button
-                onClick={() =>
-                  handleEditTestResult({
-                    ...testResult,
-                    isSatisfied: true
-                  })
-                }
-                icon={testResult.isSatisfied && <Check />}
-                ariaPressed={testResult.isSatisfied === true}
+            <section className={styles.innerSection}>
+              <Heading level={3}>期待される結果を満たしているかどうか</Heading>
+              <div
+                role="group"
+                aria-label="期待される結果を満たしているかどうか"
+                className={styles.isSatisfiedGroup}
               >
-                満たしている
-              </Button>
-              <Button
-                onClick={() =>
-                  handleEditTestResult({
-                    ...testResult,
-                    isSatisfied: false
-                  })
-                }
-                icon={testResult.isSatisfied === false && <Check />}
-                ariaPressed={testResult.isSatisfied === false}
-              >
-                満たしていない
-              </Button>
-            </div>
+                <Button
+                  onClick={() =>
+                    handleEditTestResult({
+                      ...testResult,
+                      isSatisfied: true
+                    })
+                  }
+                  icon={testResult.isSatisfied && <Check />}
+                  ariaPressed={testResult.isSatisfied === true}
+                >
+                  満たしている
+                </Button>
+                <Button
+                  onClick={() =>
+                    handleEditTestResult({
+                      ...testResult,
+                      isSatisfied: false
+                    })
+                  }
+                  icon={testResult.isSatisfied === false && <Check />}
+                  ariaPressed={testResult.isSatisfied === false}
+                >
+                  満たしていない
+                </Button>
+              </div>
+            </section>
           </section>
-        </section>
+        </div>
+        <nav>
+          <ul className={styles.ul}>
+            {!isFirstTestId && (
+              <li>
+                <AnchorLink
+                  to="/$testId"
+                  params={{ testId: prevTestId() }}
+                  search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
+                >
+                  前のテストへ
+                </AnchorLink>
+              </li>
+            )}
+            <li>
+              <AnchorLink to="/">一覧へ</AnchorLink>
+            </li>
+            {!isLastTestId && (
+              <li>
+                <AnchorLink
+                  to="/$testId"
+                  params={{ testId: nextTestId() }}
+                  search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
+                >
+                  次のテストへ
+                </AnchorLink>
+              </li>
+            )}
+          </ul>
+        </nav>
       </div>
-      <nav>
-        <ul className={styles.ul}>
-          {!isFirstTestId && (
-            <li>
-              <AnchorLink
-                to="/$testId"
-                params={{ testId: prevTestId() }}
-                search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
-              >
-                前のテストへ
-              </AnchorLink>
-            </li>
-          )}
-          <li>
-            <AnchorLink to="/">一覧へ</AnchorLink>
-          </li>
-          {!isLastTestId && (
-            <li>
-              <AnchorLink
-                to="/$testId"
-                params={{ testId: nextTestId() }}
-                search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
-              >
-                次のテストへ
-              </AnchorLink>
-            </li>
-          )}
-        </ul>
-      </nav>
-    </div>
+    </>
   )
 }

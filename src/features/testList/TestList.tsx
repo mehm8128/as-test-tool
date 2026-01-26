@@ -42,9 +42,6 @@ export function TestList() {
       <div className={styles.header}>
         <div className={styles.title}>
           <h1>AS Test Tool</h1>
-          <p>
-            ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明
-          </p>
         </div>
         <div className={styles.buttons}>
           <div className={styles.innerButtons}>

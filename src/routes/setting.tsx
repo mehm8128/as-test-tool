@@ -4,5 +4,10 @@ import { Setting } from '../features/setting/Setting'
 export const Route = createFileRoute('/setting')({ component: SettingRoute })
 
 function SettingRoute() {
-  return <Setting />
+  return (
+    <>
+      <title>各種設定 - AS Test Tool</title>
+      <Setting />
+    </>
+  )
 }

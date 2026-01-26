@@ -3,10 +3,8 @@ import { Suspense } from 'react'
 
 export const Route = createRootRoute({
   component: () => (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Outlet />
-      </Suspense>
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Outlet />
+    </Suspense>
   )
 })
