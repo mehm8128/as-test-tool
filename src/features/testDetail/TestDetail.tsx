@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { resetTestResultAtom, testResultsAtomFamily } from '../../states/results'
-import { Circle, X } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
 import { testsAtom } from '../../states/testList'
 import { getTestKeyFromId } from '../../functions/testKey'
@@ -146,7 +146,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
                     isSatisfied: true
                   })
                 }
-                icon={<Circle />}
+                icon={testResult.isSatisfied && <Check />}
                 ariaPressed={testResult.isSatisfied === true}
               >
                 満たしている
@@ -158,7 +158,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
                     isSatisfied: false
                   })
                 }
-                icon={<X />}
+                icon={testResult.isSatisfied === false && <Check />}
                 ariaPressed={testResult.isSatisfied === false}
               >
                 満たしていない

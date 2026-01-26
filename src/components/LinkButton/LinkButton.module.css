@@ -5,8 +5,13 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 0.031rem;
 }
 
 .module:hover {
   background-color: rgb(200, 200, 200);
+  text-decoration-thickness: 0.05em;
 }

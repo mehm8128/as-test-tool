@@ -4,6 +4,11 @@
   justify-content: space-between;
   gap: 1.25rem;
   padding: 0.75rem 1rem;
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.module:last-child {
+  border-bottom: none;
 }
 
 .titleContainer {

@@ -1,10 +1,15 @@
 .module {
   color: #0033cc;
-  text-decoration: underline;
   display: inline-flex;
   align-items: center;
+  width: fit-content;
+
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 0.031rem;
 }
 
 .module:hover {
   color: #2062a3;
+  text-decoration-thickness: 0.05em;
 }
