@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai'
 import { settingAtom } from '../../states/setting'
-import { AnchorLink } from '../../components/Link/Link'
+import { AnchorLink } from '../../components/AnchorLink/AnchorLink'
 import { InputText } from '../../components/InputText/InputText'
 import { Textarea } from '../../components/Textarea/Textarea'
 import { Label } from '../../components/Label/Label'
@@ -13,8 +13,7 @@ export function Setting() {
     <div>
       <AnchorLink to="/">一覧へ</AnchorLink>
       <Heading level={1}>各種設定</Heading>
-      <Label>
-        <span>氏名</span>
+      <Label labelText="氏名">
         <InputText
           value={setting.name}
           onChange={(value) =>
@@ -25,8 +24,7 @@ export function Setting() {
           }
         />
       </Label>
-      <Label>
-        <span>メールアドレス</span>
+      <Label labelText="メールアドレス">
         <InputText
           type="email"
           value={setting.email}
@@ -38,8 +36,7 @@ export function Setting() {
           }
         />
       </Label>
-      <Label>
-        <span>OS</span>
+      <Label labelText="OS">
         <InputText
           value={setting.os}
           onChange={(value) =>
@@ -50,8 +47,7 @@ export function Setting() {
           }
         />
       </Label>
-      <Label>
-        <span>ブラウザ</span>
+      <Label labelText="ブラウザ">
         <InputText
           value={setting.browser}
           onChange={(value) =>
@@ -62,8 +58,7 @@ export function Setting() {
           }
         />
       </Label>
-      <Label>
-        <span>支援技術</span>
+      <Label labelText="支援技術">
         <InputText
           value={setting.at}
           onChange={(value) =>
@@ -74,8 +69,7 @@ export function Setting() {
           }
         />
       </Label>
-      <Label>
-        <span>支援技術に対する追加の設定</span>
+      <Label labelText="支援技術に対する追加の設定">
         <Textarea
           value={setting.atSetting}
           onChange={(value) =>

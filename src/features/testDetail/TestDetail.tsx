@@ -5,10 +5,11 @@ import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
 import { testsAtom } from '../../states/testList'
 import { getTestKeyFromId } from '../../functions/testKey'
 import { Button } from '../../components/Button/Button'
-import { AnchorLink, ExternalAnchorLink } from '../../components/Link/Link'
+import { AnchorLink, ExternalAnchorLink } from '../../components/AnchorLink/AnchorLink'
 import { Textarea } from '../../components/Textarea/Textarea'
 import { Label } from '../../components/Label/Label'
 import { Heading } from '../../components/Heading/Heading'
+import styles from './TestDetail.module.css'
 
 export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   const testKey = getTestKeyFromId(testId, env)
@@ -80,7 +81,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
         {testData.title}
       </Heading>
       <div>
-        <ul>
+        <ul className={styles.ul}>
           <li>
             <ExternalAnchorLink href={testData.link}>テストの詳細へ</ExternalAnchorLink>
           </li>
@@ -91,17 +92,16 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
         <Button onClick={handleResetTestResult}>このテストの結果をリセット</Button>
       </div>
       <div>
-        <section>
+        <section className={styles.section}>
           <Heading level={2}>テスト方法</Heading>
-          <section>
+          <section className={styles.innerSection}>
             <Heading level={3}>手順</Heading>
             <p>{testData.procedure}</p>
           </section>
-          <section>
+          <section className={styles.innerSection}>
             <Heading level={3}>注意事項</Heading>
             <p>{testData.notes}</p>
-            <Label>
-              <span>行った操作</span>
+            <Label labelText="行った操作">
               <Textarea
                 value={testResult.operation}
                 onChange={(value) =>
@@ -114,11 +114,10 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
             </Label>
           </section>
         </section>
-        <section>
+        <section className={styles.section}>
           <Heading level={2}>期待される結果</Heading>
           <p>{testData.expectedResult}</p>
-          <Label>
-            <span>操作の結果</span>
+          <Label labelText="操作の結果">
             <Textarea
               value={testResult.result}
               onChange={(value) =>
@@ -129,7 +128,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
               }
             />
           </Label>
-          <section>
+          <section className={styles.innerSection}>
             <Heading level={3}>期待される結果を満たしているかどうか</Heading>
             <div>
               <Button
@@ -159,25 +158,33 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
         </section>
       </div>
       <nav>
-        {!isFirstTestId && (
-          <AnchorLink
-            to="/$testId"
-            params={{ testId: prevTestId() }}
-            search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
-          >
-            前のテストへ
-          </AnchorLink>
-        )}
-        <AnchorLink to="/">一覧へ</AnchorLink>
-        {!isLastTestId && (
-          <AnchorLink
-            to="/$testId"
-            params={{ testId: nextTestId() }}
-            search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
-          >
-            次のテストへ
-          </AnchorLink>
-        )}
+        <ul className={styles.ul}>
+          {!isFirstTestId && (
+            <li>
+              <AnchorLink
+                to="/$testId"
+                params={{ testId: prevTestId() }}
+                search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
+              >
+                前のテストへ
+              </AnchorLink>
+            </li>
+          )}
+          <li>
+            <AnchorLink to="/">一覧へ</AnchorLink>
+          </li>
+          {!isLastTestId && (
+            <li>
+              <AnchorLink
+                to="/$testId"
+                params={{ testId: nextTestId() }}
+                search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
+              >
+                次のテストへ
+              </AnchorLink>
+            </li>
+          )}
+        </ul>
       </nav>
     </div>
   )

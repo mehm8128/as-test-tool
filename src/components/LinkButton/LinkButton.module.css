@@ -1,0 +1,12 @@
+.module {
+  border-radius: 0.5rem;
+  border: 1px solid #000;
+  padding: 0.5rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.module:hover {
+  background-color: rgb(200, 200, 200);
+}

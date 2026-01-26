@@ -1,3 +1,5 @@
+import styles from './InputText.module.css'
+
 export function InputText({
   type = 'text',
   value,
@@ -7,5 +9,12 @@ export function InputText({
   value: string
   onChange: (value: string) => void
 }) {
-  return <input type={type} value={value} onChange={(e) => onChange(e.target.value)} />
+  return (
+    <input
+      type={type}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className={styles.module}
+    />
+  )
 }

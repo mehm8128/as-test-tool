@@ -1,0 +1,11 @@
+.module {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.labelText {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #497601;
+}

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import styles from './Heading.module.css'
 
 export function Heading({
   level,
@@ -8,5 +9,5 @@ export function Heading({
   children: ReactNode
 }) {
   const Tag = `h${level}` as const
-  return <Tag>{children}</Tag>
+  return <Tag className={styles.module}>{children}</Tag>
 }

@@ -1,0 +1,17 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.innerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

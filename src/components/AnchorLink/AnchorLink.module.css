@@ -1,0 +1,10 @@
+.module {
+  color: #0033cc;
+  text-decoration: underline;
+  display: inline-flex;
+  align-items: center;
+}
+
+.module:hover {
+  color: #2062a3;
+}

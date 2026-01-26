@@ -1,0 +1,20 @@
+.module {
+  color: #497601;
+  font-weight: bold;
+}
+
+.module:is(h1) {
+  font-size: 1.75rem;
+}
+
+.module:is(h2) {
+  font-size: 1.5rem;
+}
+
+.module:is(h3) {
+  font-size: 1.25rem;
+}
+
+.module:is(h4) {
+  font-size: 1rem;
+}
