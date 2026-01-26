@@ -89,7 +89,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
           </li>
         </ul>
         <button onClick={handleResetTestResult} type="button">
-          このテストの結果をクリア
+          このテストの結果をリセット
         </button>
       </div>
       <div>
