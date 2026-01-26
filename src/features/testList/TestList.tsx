@@ -25,20 +25,24 @@ export function TestList() {
   }
 
   return (
-    <div>
-      <h1>AS Test Tool</h1>
-      <p>
-        ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明
-      </p>
-      <div className={styles.buttons}>
-        <div className={styles.innerButtons}>
-          <LinkButton to="/setting">各種設定</LinkButton>
-          <Button onClick={handleExportToCsv}>CSVにエクスポート</Button>
+    <div className={styles.module}>
+      <div className={styles.header}>
+        <div className={styles.title}>
+          <h1>AS Test Tool</h1>
+          <p>
+            ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明
+          </p>
         </div>
-        <Button onClick={handleResetResults}>結果をリセット</Button>
+        <div className={styles.buttons}>
+          <div className={styles.innerButtons}>
+            <LinkButton to="/setting">各種設定</LinkButton>
+            <Button onClick={handleExportToCsv}>CSVにエクスポート</Button>
+          </div>
+          <Button onClick={handleResetResults}>結果をリセット</Button>
+        </div>
       </div>
       <div>
-        <ul>
+        <ul className={styles.ul}>
           {tests.map((testId: string) => {
             return <TestListItem key={testId} testId={testId} />
           })}
