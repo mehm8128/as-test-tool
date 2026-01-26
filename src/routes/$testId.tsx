@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { TestDetail } from '../features/testDetail/TestDetail'
 
-export const Route = createFileRoute('/$filename')({
+export const Route = createFileRoute('/$testId')({
   component: TestDetailRoute,
   validateSearch: (search: Record<string, unknown>) => {
     return {
@@ -11,8 +11,8 @@ export const Route = createFileRoute('/$filename')({
 })
 
 function TestDetailRoute() {
-  const { filename } = Route.useParams()
+  const { testId } = Route.useParams()
   const { env } = Route.useSearch()
 
-  return <TestDetail filename={filename} env={env} />
+  return <TestDetail testId={testId} env={env} />
 }

@@ -28,6 +28,16 @@ export const extractTestTitle = (content: string): string => {
   return titleMatch ? titleMatch[1].trim() : 'Untitled'
 }
 
+export const extractTestCodeLink = (content: string): string | undefined => {
+  const codeLinkMatch = content.match(/^# テストコード \(テストファイルへのリンク\)\s*\n\n(.*)$/m)
+  const testCodeLinkMd = codeLinkMatch ? codeLinkMatch[1].trim() : undefined
+  if (!testCodeLinkMd) {
+    return undefined
+  }
+  const urlMatch = testCodeLinkMd.match(/\[(.*?)\]\((.*?)\)/)
+  return urlMatch ? urlMatch[2] : undefined
+}
+
 export const extractTestProcedure = (content: string, env: EnvType): string => {
   const result = extractSection(content, 'テスト手順', env)
   return result ?? 'No procedure found'

@@ -1,11 +1,14 @@
-import { useAtom } from "jotai";
-import { settingAtom } from "../csv/state";
+import { useAtom } from 'jotai'
+import { settingAtom } from '../csv/state'
+import { Link } from '@tanstack/react-router'
 
 export function Setting() {
-  const [setting, setSetting] = useAtom(settingAtom);
+  const [setting, setSetting] = useAtom(settingAtom)
 
   return (
     <div>
+      <Link to="/">一覧へ</Link>
+      <h1>各種設定</h1>
       <label>
         <span>氏名</span>
         <input
@@ -14,7 +17,7 @@ export function Setting() {
           onChange={(e) =>
             setSetting({
               ...setting,
-              name: e.target.value,
+              name: e.target.value
             })
           }
         />
@@ -27,7 +30,7 @@ export function Setting() {
           onChange={(e) =>
             setSetting({
               ...setting,
-              email: e.target.value,
+              email: e.target.value
             })
           }
         />
@@ -40,7 +43,7 @@ export function Setting() {
           onChange={(e) =>
             setSetting({
               ...setting,
-              os: e.target.value,
+              os: e.target.value
             })
           }
         />
@@ -53,7 +56,7 @@ export function Setting() {
           onChange={(e) =>
             setSetting({
               ...setting,
-              browser: e.target.value,
+              browser: e.target.value
             })
           }
         />
@@ -66,7 +69,7 @@ export function Setting() {
           onChange={(e) =>
             setSetting({
               ...setting,
-              at: e.target.value,
+              at: e.target.value
             })
           }
         />
@@ -79,11 +82,11 @@ export function Setting() {
           onChange={(e) =>
             setSetting({
               ...setting,
-              atSetting: e.target.value,
+              atSetting: e.target.value
             })
           }
         />
       </label>
     </div>
-  );
+  )
 }

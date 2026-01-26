@@ -25,7 +25,7 @@ export const testResultsAtomFamily = atomFamily((key: string) => {
   })
 })
 
-export const isJudgedAtom = atom((get) => {
+export const isCompletedAtom = atom((get) => {
   return (key: string) => {
     const testResult = get(testResultsAtomFamily(key))
     return testResult.isSatisfied !== undefined

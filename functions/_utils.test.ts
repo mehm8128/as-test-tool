@@ -3,7 +3,8 @@ import {
   extractTestTitle,
   extractTestProcedure,
   extractTestExpectedResult,
-  extractTestNotes
+  extractTestNotes,
+  extractTestCodeLink
 } from './_utils'
 
 describe('extractor', () => {
@@ -11,6 +12,10 @@ describe('extractor', () => {
     const content = `# テストのタイトル
 
 サンプルテスト
+
+# テストコード (テストファイルへのリンク)
+
+[WAIC-CODE-0001-01](https://waic.github.io/as_test/WAIC-CODE/WAIC-CODE-0001-01.html)
 
 # テスト手順 (視覚閲覧環境)
 
@@ -47,6 +52,7 @@ describe('extractor', () => {
     const procedureSound = extractTestProcedure(content, 'sound')
     const expectedResultSound = extractTestExpectedResult(content, 'sound')
     const notesSound = extractTestNotes(content, 'sound')
+    const testCodeLink = extractTestCodeLink(content)
 
     expect(title).toBe('サンプルテスト')
     expect(procedureSight).toBe('1. 手順1\n2. 手順2')
@@ -55,5 +61,6 @@ describe('extractor', () => {
     expect(procedureSound).toBe('1. 音声手順1\n2. 音声手順2')
     expect(expectedResultSound).toBe('音声期待される結果の内容')
     expect(notesSound).toBe('音声注意点の内容')
+    expect(testCodeLink).toBe('https://waic.github.io/as_test/WAIC-CODE/WAIC-CODE-0001-01.html')
   })
 })

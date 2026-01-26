@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import {
   type EnvType,
+  extractTestCodeLink,
   extractTestExpectedResult,
   extractTestNotes,
   extractTestProcedure,
@@ -86,7 +87,7 @@ app.get('/', async (c) => {
 
     const files = contents
       .filter((item) => item.type === 'file' && item.name.match(/^WAIC-TEST-[0-9-]+.md/))
-      .map((item) => item.name)
+      .map((item) => item.name.match(/^WAIC-TEST-([0-9-]+)/)?.[1])
 
     return c.json({ tests: files })
   } catch (error) {
@@ -95,9 +96,9 @@ app.get('/', async (c) => {
   }
 })
 
-app.get('/:filename', async (c) => {
+app.get('/:testId', async (c) => {
   try {
-    const filename = c.req.param('filename')
+    const testId = c.req.param('testId')
     const env = (c.req.query('env') as EnvType) || 'sight' // デフォルト値を'sight'に設定
 
     const githubToken = c.env.APP_GITHUB_TOKEN
@@ -105,14 +106,15 @@ app.get('/:filename', async (c) => {
       return c.json({ error: 'GitHub token not configured' }, 500)
     }
 
-    const mdFileName = `${filename}.md`
+    const mdFileName = `WAIC-TEST-${testId}.md`
     const content = await getFileContent(mdFileName, githubToken)
 
     const title = extractTestTitle(content)
     const procedure = extractTestProcedure(content, env)
     const expectedResult = extractTestExpectedResult(content, env)
     const notes = extractTestNotes(content, env)
-    const link = generateTestLink(filename)
+    const link = generateTestLink(mdFileName)
+    const testCodeLink = extractTestCodeLink(content)
 
     return c.json({
       filename: mdFileName,
@@ -121,6 +123,7 @@ app.get('/:filename', async (c) => {
       expectedResult,
       notes,
       link,
+      testCodeLink,
       env
     })
   } catch (error) {
