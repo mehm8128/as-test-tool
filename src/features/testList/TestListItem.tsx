@@ -1,8 +1,8 @@
-import { Link } from '@tanstack/react-router'
 import { useAtomValue } from 'jotai'
 import { isCompletedAtom } from '../../states/results'
 import { Check } from 'lucide-react'
 import { getTestKeyFromId } from '../../functions/testKey'
+import { AnchorLink } from '../../components/Link/Link'
 
 export function TestListItem({ testId }: { testId: string }) {
   const isCompleted = useAtomValue(isCompletedAtom)
@@ -15,14 +15,14 @@ export function TestListItem({ testId }: { testId: string }) {
       <div>{testId}</div>
       {/**TODO: タイトルを取りたい */}
       <div>
-        <Link to="/$testId" params={{ testId }} search={{ env: 'sight' }}>
+        <AnchorLink to="/$testId" params={{ testId }} search={{ env: 'sight' }}>
           {sightCompleted && <Check />}
           視覚閲覧環境
-        </Link>
-        <Link to="/$testId" params={{ testId }} search={{ env: 'sound' }}>
+        </AnchorLink>
+        <AnchorLink to="/$testId" params={{ testId }} search={{ env: 'sound' }}>
           {soundCompleted && <Check />}
           音声閲覧環境
-        </Link>
+        </AnchorLink>
       </div>
     </li>
   )

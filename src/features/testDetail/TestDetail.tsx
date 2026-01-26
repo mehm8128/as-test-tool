@@ -1,10 +1,14 @@
-import { Link } from '@tanstack/react-router'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { resetTestResultAtom, testResultsAtomFamily } from '../../states/results'
 import { Circle, X } from 'lucide-react'
 import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
 import { testsAtom } from '../../states/testList'
 import { getTestKeyFromId } from '../../functions/testKey'
+import { Button } from '../../components/Button/Button'
+import { AnchorLink, ExternalAnchorLink } from '../../components/Link/Link'
+import { Textarea } from '../../components/Textarea/Textarea'
+import { Label } from '../../components/Label/Label'
+import { Heading } from '../../components/Heading/Heading'
 
 export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   const testKey = getTestKeyFromId(testId, env)
@@ -70,117 +74,109 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
 
   return (
     <div>
-      <Link to="/">一覧へ</Link>
-      <h1>
+      <AnchorLink to="/">一覧へ</AnchorLink>
+      <Heading level={1}>
         {testId}
         {testData.title}
-      </h1>
+      </Heading>
       <div>
         <ul>
           <li>
-            <a href={testData.link} target="_blank" rel="noopener noreferrer">
-              テストの詳細へ
-            </a>
+            <ExternalAnchorLink href={testData.link}>テストの詳細へ</ExternalAnchorLink>
           </li>
           <li>
-            <a href={testData.testCodeLink} target="_blank" rel="noopener noreferrer">
-              テストコードへ
-            </a>
+            <ExternalAnchorLink href={testData.testCodeLink}>テストコードへ</ExternalAnchorLink>
           </li>
         </ul>
-        <button onClick={handleResetTestResult} type="button">
-          このテストの結果をリセット
-        </button>
+        <Button onClick={handleResetTestResult}>このテストの結果をリセット</Button>
       </div>
       <div>
         <section>
-          <h2>テスト方法</h2>
+          <Heading level={2}>テスト方法</Heading>
           <section>
-            <h3>手順</h3>
+            <Heading level={3}>手順</Heading>
             <p>{testData.procedure}</p>
           </section>
           <section>
-            <h3>注意事項</h3>
+            <Heading level={3}>注意事項</Heading>
             <p>{testData.notes}</p>
-            <label>
+            <Label>
               <span>行った操作</span>
-              <textarea
+              <Textarea
                 value={testResult.operation}
-                onChange={(e) =>
+                onChange={(value) =>
                   handleEditTestResult({
                     ...testResult,
-                    operation: e.target.value
+                    operation: value
                   })
                 }
               />
-            </label>
+            </Label>
           </section>
         </section>
         <section>
-          <h2>期待される結果</h2>
+          <Heading level={2}>期待される結果</Heading>
           <p>{testData.expectedResult}</p>
-          <label>
+          <Label>
             <span>操作の結果</span>
-            <textarea
+            <Textarea
               value={testResult.result}
-              onChange={(e) =>
+              onChange={(value) =>
                 handleEditTestResult({
                   ...testResult,
-                  result: e.target.value
+                  result: value
                 })
               }
             />
-          </label>
+          </Label>
           <section>
-            <h3>期待される結果を満たしているかどうか</h3>
+            <Heading level={3}>期待される結果を満たしているかどうか</Heading>
             <div>
-              <button
-                type="button"
+              <Button
                 onClick={() =>
                   handleEditTestResult({
                     ...testResult,
                     isSatisfied: true
                   })
                 }
+                icon={<Circle />}
               >
-                <Circle />
                 満たしている
-              </button>
-              <button
-                type="button"
+              </Button>
+              <Button
                 onClick={() =>
                   handleEditTestResult({
                     ...testResult,
                     isSatisfied: false
                   })
                 }
+                icon={<X />}
               >
-                <X />
                 満たしていない
-              </button>
+              </Button>
             </div>
           </section>
         </section>
       </div>
       <nav>
         {!isFirstTestId && (
-          <Link
+          <AnchorLink
             to="/$testId"
             params={{ testId: prevTestId() }}
             search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
           >
             前のテストへ
-          </Link>
+          </AnchorLink>
         )}
-        <Link to="/">一覧へ</Link>
+        <AnchorLink to="/">一覧へ</AnchorLink>
         {!isLastTestId && (
-          <Link
+          <AnchorLink
             to="/$testId"
             params={{ testId: nextTestId() }}
             search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
           >
             次のテストへ
-          </Link>
+          </AnchorLink>
         )}
       </nav>
     </div>

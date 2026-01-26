@@ -12,7 +12,7 @@ export interface TestDetail {
   expectedResult: string
   notes: string
   link: string
-  testCodeLink: string | undefined
+  testCodeLink: string
   env: TestEnv
 }
 

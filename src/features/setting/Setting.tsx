@@ -1,92 +1,91 @@
 import { useAtom } from 'jotai'
 import { settingAtom } from '../../states/setting'
-import { Link } from '@tanstack/react-router'
+import { AnchorLink } from '../../components/Link/Link'
+import { InputText } from '../../components/InputText/InputText'
+import { Textarea } from '../../components/Textarea/Textarea'
+import { Label } from '../../components/Label/Label'
+import { Heading } from '../../components/Heading/Heading'
 
 export function Setting() {
   const [setting, setSetting] = useAtom(settingAtom)
 
   return (
     <div>
-      <Link to="/">一覧へ</Link>
-      <h1>各種設定</h1>
-      <label>
+      <AnchorLink to="/">一覧へ</AnchorLink>
+      <Heading level={1}>各種設定</Heading>
+      <Label>
         <span>氏名</span>
-        <input
-          type="text"
+        <InputText
           value={setting.name}
-          onChange={(e) =>
+          onChange={(value) =>
             setSetting({
               ...setting,
-              name: e.target.value
+              name: value
             })
           }
         />
-      </label>
-      <label>
+      </Label>
+      <Label>
         <span>メールアドレス</span>
-        <input
+        <InputText
           type="email"
           value={setting.email}
-          onChange={(e) =>
+          onChange={(value) =>
             setSetting({
               ...setting,
-              email: e.target.value
+              email: value
             })
           }
         />
-      </label>
-      <label>
+      </Label>
+      <Label>
         <span>OS</span>
-        <input
-          type="text"
+        <InputText
           value={setting.os}
-          onChange={(e) =>
+          onChange={(value) =>
             setSetting({
               ...setting,
-              os: e.target.value
+              os: value
             })
           }
         />
-      </label>
-      <label>
+      </Label>
+      <Label>
         <span>ブラウザ</span>
-        <input
-          type="text"
+        <InputText
           value={setting.browser}
-          onChange={(e) =>
+          onChange={(value) =>
             setSetting({
               ...setting,
-              browser: e.target.value
+              browser: value
             })
           }
         />
-      </label>
-      <label>
+      </Label>
+      <Label>
         <span>支援技術</span>
-        <input
-          type="text"
+        <InputText
           value={setting.at}
-          onChange={(e) =>
+          onChange={(value) =>
             setSetting({
               ...setting,
-              at: e.target.value
+              at: value
             })
           }
         />
-      </label>
-      <label>
+      </Label>
+      <Label>
         <span>支援技術に対する追加の設定</span>
-        <input
-          type="text"
+        <Textarea
           value={setting.atSetting}
-          onChange={(e) =>
+          onChange={(value) =>
             setSetting({
               ...setting,
-              atSetting: e.target.value
+              atSetting: value
             })
           }
         />
-      </label>
+      </Label>
     </div>
   )
 }

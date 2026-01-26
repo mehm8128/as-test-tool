@@ -4,6 +4,7 @@ import { resetTestResultsAtom, testResultsAtom } from '../../states/results'
 import { TestListItem } from './TestListItem'
 import { settingAtom } from '../../states/setting'
 import { testsAtom } from '../../states/testList'
+import { Button } from '../../components/Button/Button'
 
 export function TestList() {
   const tests = useAtomValue(testsAtom)
@@ -28,12 +29,8 @@ export function TestList() {
         ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明ちょっとした説明
       </p>
       <div>
-        <button onClick={handleExportToCsv} type="button">
-          CSVにエクスポート
-        </button>
-        <button onClick={handleResetResults} type="button">
-          結果をリセット
-        </button>
+        <Button onClick={handleExportToCsv}>CSVにエクスポート</Button>
+        <Button onClick={handleResetResults}>結果をリセット</Button>
       </div>
       <div>
         <ul>
