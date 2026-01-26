@@ -1,12 +1,11 @@
-import type { Setting, TestResult } from '../schema'
+import type { TestResult } from '../../../states/results'
+import type { Setting } from '../../../states/setting'
 
-export const toCsv = (results: TestResult[], setting: Setting) => {
+export const exportToCsv = (results: TestResult[], setting: Setting) => {
   const csvContent =
     'data:text/csv;charset=utf-8,' +
     getHeader() +
-    results // TODO: localstorageから取るようにする
-      .map((result) => resultToCsvRow(result, setting))
-      .join('\n')
+    results.map((result) => resultToCsvRow(result, setting)).join('\n')
   const encodedUri = encodeURI(csvContent)
   const link = document.createElement('a')
   const currentDate = new Date().toLocaleString()
@@ -43,7 +42,7 @@ const resultToCsvRow = (test: TestResult, setting: Setting): string => {
     setting.browser,
     setting.at,
     setting.atSetting,
-    test.testNum,
+    test.testId,
     test.env === 'sight' ? '視覚閲覧環境' : '音声閲覧環境',
     `"${test.operation.replace(/"/g, '""')}"`,
     `"${test.result.replace(/"/g, '""')}"`,

@@ -1,28 +1,23 @@
-import { atom, useAtomValue } from 'jotai'
-import { getApiBaseUrl } from '../../utils/api'
-import { toCsv } from '../csv/functions/toCSV'
-import { settingAtom, testResultsAtom } from '../csv/state'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { exportToCsv } from './functions/exportToCSV'
+import { resetTestResultsAtom, testResultsAtom } from '../../states/results'
 import { TestListItem } from './TestListItem'
-
-export const testsAtom = atom(async () => {
-  const baseUrl = getApiBaseUrl()
-  const response = await fetch(`${baseUrl}/api`)
-  const data = await response.json()
-  return data.tests as string[]
-})
+import { settingAtom } from '../../states/setting'
+import { testsAtom } from '../../states/testList'
 
 export function TestList() {
   const tests = useAtomValue(testsAtom)
   const testResults = useAtomValue(testResultsAtom)
   const setting = useAtomValue(settingAtom)
+  const resetTestResults = useSetAtom(resetTestResultsAtom)
 
   const handleExportToCsv = () => {
-    toCsv(testResults, setting)
+    exportToCsv(testResults, setting)
   }
 
   const handleResetResults = () => {
-    if (confirm('本当に結果をリセットしますか？')) {
-      //TODO: リセット
+    if (confirm('本当に全てのテスト結果をリセットしますか？')) {
+      resetTestResults()
     }
   }
 
@@ -42,8 +37,8 @@ export function TestList() {
       </div>
       <div>
         <ul>
-          {tests.map((test: string) => {
-            return <TestListItem key={test} test={test} />
+          {tests.map((testId: string) => {
+            return <TestListItem key={testId} testId={testId} />
           })}
         </ul>
       </div>

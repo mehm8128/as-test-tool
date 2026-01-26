@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import { settingAtom } from '../csv/state'
+import { settingAtom } from '../../states/setting'
 import { Link } from '@tanstack/react-router'
 
 export function Setting() {

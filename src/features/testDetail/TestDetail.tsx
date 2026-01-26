@@ -1,41 +1,18 @@
 import { Link } from '@tanstack/react-router'
-import { atom, useAtom, useAtomValue } from 'jotai'
-import { atomFamily } from 'jotai-family'
-import { getApiBaseUrl } from '../../utils/api'
-import { testResultsAtomFamily } from '../csv/state'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { resetTestResultAtom, testResultsAtomFamily } from '../../states/results'
 import { Circle, X } from 'lucide-react'
-import { testsAtom } from '../testList/TestList'
+import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
+import { testsAtom } from '../../states/testList'
+import { getTestKeyFromId } from '../../functions/testKey'
 
-export interface TestDetail {
-  filename: string
-  title: string
-  procedure: string
-  expectedResult: string
-  notes: string
-  link: string
-  testCodeLink: string | undefined
-  env?: string
-}
-
-const testTitleAtomFamily = atomFamily((key: string) =>
-  atom(async () => {
-    const [filename, env] = key.split('|')
-    const baseUrl = getApiBaseUrl()
-    let url = `${baseUrl}/api/${filename}`
-    if (env) {
-      url += `?env=${env}`
-    }
-    const response = await fetch(url)
-    return (await response.json()) as TestDetail
-  })
-)
-
-export function TestDetail({ testId, env = 'sight' }: { testId: string; env?: string }) {
-  const atomKey = `${testId}|${env}`
-  const testData = useAtomValue(testTitleAtomFamily(atomKey))
+export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
+  const testKey = getTestKeyFromId(testId, env)
+  const testData = useAtomValue(testDetailAtomFamily(testKey))
   const tests = useAtomValue(testsAtom)
+  const resetTestResult = useSetAtom(resetTestResultAtom)
 
-  const [testResult, setTestResult] = useAtom(testResultsAtomFamily(atomKey))
+  const [testResult, setTestResult] = useAtom(testResultsAtomFamily(testKey))
 
   const isFirstTestId = tests.indexOf(testId) === 0
   const isLastTestId = tests.indexOf(testId) === tests.length - 1
@@ -87,7 +64,7 @@ export function TestDetail({ testId, env = 'sight' }: { testId: string; env?: st
 
   const handleResetTestResult = () => {
     if (confirm('本当にこのテストの結果をリセットしますか？')) {
-      //TODO: リセット
+      resetTestResult(testKey)
     }
   }
 
