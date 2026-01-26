@@ -22,7 +22,7 @@ export function ExternalAnchorLink({ href, children }: { href: string; children:
   return (
     <a href={href} target="_blank" rel="noreferrer" className={styles.module}>
       {children}
-      <ExternalLinkIcon />
+      <ExternalLinkIcon aria-label="別タブで開く" />
     </a>
   )
 }

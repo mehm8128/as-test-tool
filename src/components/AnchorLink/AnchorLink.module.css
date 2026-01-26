@@ -2,6 +2,7 @@
   color: #0033cc;
   display: inline-flex;
   align-items: center;
+  gap: 0.25rem;
   width: fit-content;
 
   text-decoration: underline;
