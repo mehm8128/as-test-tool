@@ -134,7 +134,11 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
           </Label>
           <section className={styles.innerSection}>
             <Heading level={3}>期待される結果を満たしているかどうか</Heading>
-            <div>
+            <div
+              role="group"
+              aria-label="期待される結果を満たしているかどうか"
+              className={styles.isSatisfiedGroup}
+            >
               <Button
                 onClick={() =>
                   handleEditTestResult({
@@ -143,6 +147,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
                   })
                 }
                 icon={<Circle />}
+                ariaPressed={testResult.isSatisfied === true}
               >
                 満たしている
               </Button>
@@ -154,6 +159,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
                   })
                 }
                 icon={<X />}
+                ariaPressed={testResult.isSatisfied === false}
               >
                 満たしていない
               </Button>
