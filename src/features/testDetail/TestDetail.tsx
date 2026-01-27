@@ -11,6 +11,7 @@ import { Heading } from '../../components/Heading/Heading'
 import styles from './TestDetail.module.css'
 import { useId } from 'react'
 import { SatisfiedRadio } from './components/SatisifedRadio'
+import { useTitle } from '../../hooks/useTitle'
 
 export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   const testKey = getTestKeyFromId(testId, env)
@@ -75,9 +76,10 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
     }
   }
 
+  useTitle(`${testData.title} - AS Test Tool`)
+
   return (
     <>
-      <title>{`${testData.title} - AS Test Tool`}</title>
       <div className={styles.module}>
         <div className={styles.header}>
           <AnchorLink to="/">一覧へ</AnchorLink>
