@@ -22,6 +22,12 @@
   justify-content: space-between;
 }
 
+.headerUl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -40,15 +46,13 @@
   gap: 0.5rem;
 }
 
-.ul {
+.nav {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.isSatisfiedGroup {
+.footerUl {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   gap: 0.5rem;
 }

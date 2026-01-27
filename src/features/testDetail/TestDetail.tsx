@@ -1,6 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { resetTestResultAtom, testResultsAtomFamily } from '../../states/results'
-import { Check } from 'lucide-react'
 import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
 import { testIdsAtom } from '../../states/testList'
 import { getTestKeyFromId } from '../../functions/testKey'
@@ -10,12 +9,15 @@ import { Textarea } from '../../components/Textarea/Textarea'
 import { Label } from '../../components/Label/Label'
 import { Heading } from '../../components/Heading/Heading'
 import styles from './TestDetail.module.css'
+import { useId } from 'react'
+import { SatisfiedRadio } from './components/SatisifedRadio'
 
 export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   const testKey = getTestKeyFromId(testId, env)
   const testData = useAtomValue(testDetailAtomFamily(testKey))
   const testIds = useAtomValue(testIdsAtom)
   const resetTestResult = useSetAtom(resetTestResultAtom)
+  const satisfiedRadioFieldId = useId()
 
   const [testResult, setTestResult] = useAtom(testResultsAtomFamily(testKey))
 
@@ -86,7 +88,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
             </span>
           </Heading>
           <div className={styles.buttons}>
-            <ul className={styles.ul}>
+            <ul className={styles.headerUl}>
               <li>
                 <ExternalAnchorLink href={testData.link}>テストの詳細へ</ExternalAnchorLink>
               </li>
@@ -97,7 +99,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
             <Button onClick={handleResetTestResult}>このテストの結果をリセット</Button>
           </div>
         </div>
-        <div className={styles.form}>
+        <form className={styles.form}>
           <section className={styles.section}>
             <Heading level={2}>テスト方法</Heading>
             <section className={styles.innerSection}>
@@ -135,68 +137,44 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
               />
             </Label>
             <section className={styles.innerSection}>
-              <Heading level={3}>期待される結果を満たしているかどうか</Heading>
-              <div
-                role="group"
-                aria-label="期待される結果を満たしているかどうか"
-                className={styles.isSatisfiedGroup}
-              >
-                <Button
-                  onClick={() =>
-                    handleEditTestResult({
-                      ...testResult,
-                      isSatisfied: true
-                    })
-                  }
-                  icon={testResult.isSatisfied && <Check />}
-                  ariaPressed={testResult.isSatisfied === true}
-                >
-                  満たしている
-                </Button>
-                <Button
-                  onClick={() =>
-                    handleEditTestResult({
-                      ...testResult,
-                      isSatisfied: false
-                    })
-                  }
-                  icon={testResult.isSatisfied === false && <Check />}
-                  ariaPressed={testResult.isSatisfied === false}
-                >
-                  満たしていない
-                </Button>
-              </div>
+              <Heading level={3} id={satisfiedRadioFieldId}>
+                期待される結果を満たしているかどうか
+              </Heading>
+              <SatisfiedRadio
+                id={satisfiedRadioFieldId}
+                isSatisfied={testResult.isSatisfied}
+                onEditIsSatisfied={(isSatisfied) =>
+                  handleEditTestResult({
+                    ...testResult,
+                    isSatisfied
+                  })
+                }
+              />
             </section>
           </section>
-        </div>
-        <nav>
-          <ul className={styles.ul}>
+        </form>
+        <nav className={styles.nav}>
+          <div className={styles.footerUl}>
             {!isFirstTestId && (
-              <li>
-                <AnchorLink
-                  to="/$testId"
-                  params={{ testId: prevTestId() }}
-                  search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
-                >
-                  前のテストへ
-                </AnchorLink>
-              </li>
+              <AnchorLink
+                to="/$testId"
+                params={{ testId: prevTestId() }}
+                search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
+              >
+                前のテストへ
+              </AnchorLink>
             )}
             {!isLastTestId && (
-              <li>
-                <AnchorLink
-                  to="/$testId"
-                  params={{ testId: nextTestId() }}
-                  search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
-                >
-                  次のテストへ
-                </AnchorLink>
-              </li>
+              <AnchorLink
+                to="/$testId"
+                params={{ testId: nextTestId() }}
+                search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
+              >
+                次のテストへ
+              </AnchorLink>
             )}
-            <li>
-              <AnchorLink to="/">一覧へ</AnchorLink>
-            </li>
-          </ul>
+          </div>
+          <AnchorLink to="/">一覧へ</AnchorLink>
         </nav>
       </div>
     </>
