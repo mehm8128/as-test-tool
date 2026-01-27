@@ -33,8 +33,8 @@ export const resetTestResultAtom = atom(null, (_get, set, key: string) => {
   set(testResultsAtomFamily(key), initialTestResult(testId, env))
 })
 
-export const testResultsAtom = atom(async (get) => {
-  const allTests = await get(testIdsAtom)
+export const testResultsAtom = atom((get) => {
+  const allTests = get(testIdsAtom)
 
   const results = allTests
     .flatMap((testId) => {

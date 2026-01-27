@@ -1,4 +1,5 @@
 import { atom } from 'jotai'
+import { unwrap } from 'jotai/utils'
 import { getApiBaseUrl } from '../utils/api'
 
 export interface TestListItem {
@@ -9,14 +10,16 @@ interface TestList {
   tests: TestListItem[]
 }
 
-export const testsAtom = atom(async () => {
+const testsAsyncAtom = atom(async () => {
   const baseUrl = getApiBaseUrl()
   const response = await fetch(`${baseUrl}/api`)
   const data: TestList = await response.json()
   return data.tests
 })
 
-export const testIdsAtom = atom(async (get) => {
-  const tests = await get(testsAtom)
+export const testsAtom = unwrap(testsAsyncAtom, (prev) => prev ?? [])
+
+export const testIdsAtom = atom((get) => {
+  const tests = get(testsAtom)
   return tests.map((test) => test.testId)
 })
