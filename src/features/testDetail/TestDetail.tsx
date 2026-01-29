@@ -8,6 +8,7 @@ import { AnchorLink, ExternalAnchorLink } from '../../components/AnchorLink/Anch
 import { Textarea } from '../../components/Textarea/Textarea'
 import { Label } from '../../components/Label/Label'
 import { Heading } from '../../components/Heading/Heading'
+import { MarkdownContent } from '../../components/MarkdownContent/MarkdownContent'
 import styles from './TestDetail.module.css'
 import { useId } from 'react'
 import { SatisfiedRadio } from './components/SatisifedRadio'
@@ -106,11 +107,11 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
             <Heading level={2}>テスト方法</Heading>
             <section className={styles.innerSection}>
               <Heading level={3}>手順</Heading>
-              <p>{testData.procedure}</p>
+              <MarkdownContent html={testData.procedure} />
             </section>
             <section className={styles.innerSection}>
               <Heading level={3}>注意事項</Heading>
-              <p>{testData.notes}</p>
+              <MarkdownContent html={testData.notes} />
               <Label labelText="行った操作">
                 <Textarea
                   value={testResult.operation}
@@ -126,7 +127,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
           </section>
           <section className={styles.section}>
             <Heading level={2}>期待される結果</Heading>
-            <p>{testData.expectedResult}</p>
+            <MarkdownContent html={testData.expectedResult} />
             <Label labelText="操作の結果">
               <Textarea
                 value={testResult.result}

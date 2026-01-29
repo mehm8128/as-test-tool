@@ -9,7 +9,8 @@ import {
   extractTestProcedure,
   extractTests,
   extractTestTitle,
-  generateTestLink
+  generateTestLink,
+  markdownToHtml
 } from '../_utils'
 import { handle } from 'hono/cloudflare-pages'
 
@@ -122,11 +123,16 @@ app.get('/:testId', async (c) => {
     const content = await getFileContent(`${mdFileName}.md`, githubToken)
 
     const title = extractTestTitle(content)
-    const procedure = extractTestProcedure(content, env)
-    const expectedResult = extractTestExpectedResult(content, env)
-    const notes = extractTestNotes(content, env)
+    const procedureMd = extractTestProcedure(content, env)
+    const expectedResultMd = extractTestExpectedResult(content, env)
+    const notesMd = extractTestNotes(content, env)
     const link = generateTestLink(mdFileName)
     const testCodeLink = extractTestCodeLink(content)
+
+    // MarkdownをHTMLに変換
+    const procedure = await markdownToHtml(procedureMd)
+    const expectedResult = await markdownToHtml(expectedResultMd)
+    const notes = await markdownToHtml(notesMd)
 
     return c.json({
       filename: mdFileName,

@@ -1,3 +1,9 @@
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import rehypeSanitize from 'rehype-sanitize'
+import rehypeStringify from 'rehype-stringify'
+
 export type EnvType = 'sight' | 'sound'
 
 const envNameMap: Record<EnvType, string> = {
@@ -76,4 +82,15 @@ export const extractTests = (content: string): { testId: string; title: string }
     )
 
   return filteredTestLinks
+}
+
+export const markdownToHtml = async (markdown: string): Promise<string> => {
+  const file = await unified()
+    .use(remarkParse) // Markdownをパース
+    .use(remarkRehype) // MarkdownのASTをHTMLのASTに変換
+    .use(rehypeSanitize) // XSS対策のためHTMLをサニタイズ
+    .use(rehypeStringify) // HTMLのASTを文字列に変換
+    .process(markdown)
+
+  return file.toString()
 }
