@@ -109,6 +109,17 @@ app.get('/', async (c) => {
   }
 })
 
+interface TestDetailResponse {
+  filename: string
+  title: string
+  procedure: string
+  expectedResult: string
+  notes: string
+  link: string
+  testCodeLink: string
+  env: EnvType
+}
+
 app.get('/:testId', async (c) => {
   try {
     const testId = c.req.param('testId')
@@ -143,7 +154,7 @@ app.get('/:testId', async (c) => {
       link,
       testCodeLink,
       env
-    })
+    } satisfies TestDetailResponse)
   } catch (error) {
     console.error('Error fetching WAIC-TEST file from GitHub:', error)
     return c.json({ error: 'File not found or failed to fetch from GitHub' }, 404)
