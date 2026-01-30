@@ -21,11 +21,11 @@ export function TestListItem({ testId, testTitle }: { testId: string; testTitle:
       </div>
       <div className={styles.links}>
         <LinkButton to="/$testId" params={{ testId }} search={{ env: 'sight' }}>
-          {sightCompleted && <Check aria-label="完了済み" />}
+          {sightCompleted ? <Check aria-label="完了済み" /> : <div className={styles.dummy} />}
           視覚閲覧環境
         </LinkButton>
         <LinkButton to="/$testId" params={{ testId }} search={{ env: 'sound' }}>
-          {soundCompleted && <Check aria-label="完了済み" />}
+          {soundCompleted ? <Check aria-label="完了済み" /> : <div className={styles.dummy} />}
           音声閲覧環境
         </LinkButton>
       </div>
