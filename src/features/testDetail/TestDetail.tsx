@@ -66,6 +66,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
             <span>
               <span className={styles.testId}>{testId}</span>
               <span>{testData.title}</span>
+              <span>（{env === 'sight' ? '視覚閲覧環境' : '音声閲覧環境'}）</span>
             </span>
           </Heading>
           <div className={styles.buttons}>
@@ -80,7 +81,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
             <Button onClick={handleResetTestResult}>このテストの結果をリセット</Button>
           </div>
         </div>
-        <form className={styles.form}>
+        <div className={styles.form}>
           <section className={styles.howToTest}>
             <Heading level={2}>テスト方法</Heading>
             <section className={styles.innerSection}>
@@ -147,7 +148,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
               </div>
             ))}
           </section>
-        </form>
+        </div>
         <nav className={styles.nav}>
           <div className={styles.footerUl}>
             {!isFirstTestId && (

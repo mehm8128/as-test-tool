@@ -15,5 +15,6 @@ function TestDetailRoute() {
   const { testId } = Route.useParams()
   const { env } = Route.useSearch()
 
-  return <TestDetail testId={testId} env={env} />
+  // testIdやenvが変わったときに状態が初期化されないことがあるため、keyを明示的に指定して再レンダリングしている
+  return <TestDetail testId={testId} env={env} key={[testId, env].join()} />
 }
