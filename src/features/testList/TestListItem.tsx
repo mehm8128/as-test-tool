@@ -6,10 +6,8 @@ import { LinkButton } from '../../components/LinkButton/LinkButton'
 import styles from './TestListItem.module.css'
 
 export function TestListItem({ testId, testTitle }: { testId: string; testTitle: string }) {
-  const isCompleted = useAtomValue(isCompletedAtom)
-
-  const sightCompleted = isCompleted(getTestKeyFromId(testId, 'sight'))
-  const soundCompleted = isCompleted(getTestKeyFromId(testId, 'sound'))
+  const sightCompleted = useAtomValue(isCompletedAtom(getTestKeyFromId(testId, 'sight')))
+  const soundCompleted = useAtomValue(isCompletedAtom(getTestKeyFromId(testId, 'sound')))
 
   return (
     <li className={styles.module}>

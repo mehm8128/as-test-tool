@@ -3,15 +3,15 @@ import { cors } from 'hono/cors'
 import { cache } from 'hono/cache'
 import {
   type EnvType,
+  extractMultipleProcedures,
   extractTestCodeLink,
   extractTestExpectedResult,
   extractTestNotes,
   extractTestProcedure,
-  extractTestProcedureAndExpectedResults,
   extractTests,
   extractTestTitle,
   generateTestLink,
-  getIncludesProcedureAndExpectedResult,
+  getIsMultipleProcedures,
   markdownToHtml
 } from '../_utils'
 import { handle } from 'hono/cloudflare-pages'
@@ -144,10 +144,10 @@ app.get('/:testId', async (c) => {
     const link = generateTestLink(mdFileName)
     const testCodeLink = extractTestCodeLink(content)
 
-    const includesProcedureAndExpectedResult = getIncludesProcedureAndExpectedResult(content, env)
+    const includesProcedureAndExpectedResult = getIsMultipleProcedures(content, env)
     const procedureAndExpectedResults: ProcedureAndExpectedResult[] = []
     if (includesProcedureAndExpectedResult) {
-      procedureAndExpectedResults.push(...extractTestProcedureAndExpectedResults(content, env))
+      procedureAndExpectedResults.push(...extractMultipleProcedures(content))
     } else {
       const procedureMd = extractTestProcedure(content, env)
       const expectedResultMd = extractTestExpectedResult(content, env)

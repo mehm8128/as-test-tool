@@ -7,14 +7,13 @@ import type { ProcedureAndExpectedResult } from './api/[[route]]'
 
 export type EnvType = 'sight' | 'sound'
 
-const envNameMap: Record<EnvType, string> = {
+const envNameMap = {
   sight: '視覚閲覧環境',
   sound: '音声閲覧環境'
-}
+} as const satisfies Record<EnvType, string>
 
 const extractSection = (content: string, sectionTitle: string, env: EnvType) => {
   const envName = envNameMap[env]
-  // 次のセクションが#で始まることを確認するパターン
   const pattern = new RegExp(
     `^# ${sectionTitle} \\(${envName}\\)\\s*\\n\\n([\\s\\S]*?)\\n\\n#`,
     'm'
@@ -26,6 +25,19 @@ const extractSection = (content: string, sectionTitle: string, env: EnvType) => 
 
   // 最後のセクションの場合、文字列の終端まで取得
   const endPattern = new RegExp(`^# ${sectionTitle} \\(${envName}\\)\\s*\\n\\n([\\s\\S]*)$`, 'm')
+  const endMatch = content.match(endPattern)
+  return endMatch ? endMatch[1].trim() : undefined
+}
+
+const extractMultipleProceduresSection = (content: string, sectionTitle: string) => {
+  const pattern = new RegExp(`^## ${sectionTitle}\\s*\\n\\n([\\s\\S]*?)\\n\\n#`, 'm')
+  const match = content.match(pattern)
+  if (match) {
+    return match[1].trim()
+  }
+
+  // 最後のセクションの場合、文字列の終端まで取得
+  const endPattern = new RegExp(`^## ${sectionTitle}\\s*\\n\\n([\\s\\S]*)$`, 'm')
   const endMatch = content.match(endPattern)
   return endMatch ? endMatch[1].trim() : undefined
 }
@@ -55,21 +67,18 @@ export const extractTestExpectedResult = (content: string, env: EnvType): string
   return result ?? 'No expected result found'
 }
 
-export const getIncludesProcedureAndExpectedResult = (content: string, env: EnvType): boolean => {
+export const getIsMultipleProcedures = (content: string, env: EnvType): boolean => {
   const envName = envNameMap[env]
   const pattern = new RegExp(`^# テスト手順と期待される結果 \\(${envName}\\)\\s*\\n\\n`, 'm')
   return pattern.test(content)
 }
 
-export const extractTestProcedureAndExpectedResults = (
-  content: string,
-  env: EnvType
-): ProcedureAndExpectedResult[] => {
+export const extractMultipleProcedures = (content: string): ProcedureAndExpectedResult[] => {
   const result: ProcedureAndExpectedResult[] = []
   let index = 1
   while (true) {
-    const procedure = extractSection(content, `テスト手順 ${index}`, env)
-    const expectedResult = extractSection(content, `期待される結果 ${index}`, env)
+    const procedure = extractMultipleProceduresSection(content, `テスト手順 ${index}`)
+    const expectedResult = extractMultipleProceduresSection(content, `期待される結果 ${index}`)
     if (!procedure || !expectedResult) {
       break
     }

@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { resetTestResultAtom, testResultsAtomFamily } from '../../states/results'
+import { resetTestResultAtom, testResultsAtomFamily, type TestResult } from '../../states/results'
 import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
 import { testIdsAtom } from '../../states/testList'
 import { getTestKeyFromId } from '../../functions/testKey'
@@ -10,7 +10,7 @@ import { Label } from '../../components/Label/Label'
 import { Heading } from '../../components/Heading/Heading'
 import { MarkdownContent } from '../../components/MarkdownContent/MarkdownContent'
 import styles from './TestDetail.module.css'
-import { useId } from 'react'
+import { Fragment, useId, useState } from 'react'
 import { SatisfiedRadio } from './components/SatisifedRadio'
 import { useTitle } from '../../hooks/useTitle'
 
@@ -21,7 +21,26 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   const resetTestResult = useSetAtom(resetTestResultAtom)
   const satisfiedRadioFieldId = useId()
 
-  const [testResult, setTestResult] = useAtom(testResultsAtomFamily(testKey))
+  const [savedTestResult, setSavedTestResult] = useAtom(testResultsAtomFamily(testKey))
+
+  // operationAndResultsの数をatomWithStorageの初期値で調整できないので、ここで初期化している
+  const [formState, setFormState] = useState<TestResult>(() => {
+    const opAndResultNum = testData.procedureAndExpectedResults.length
+    return (
+      savedTestResult ?? {
+        date: '',
+        testId,
+        env,
+        operationAndResults: Array(opAndResultNum)
+          .fill(null)
+          .map(() => ({
+            operation: '',
+            result: '',
+            isSatisfied: undefined
+          }))
+      }
+    )
+  })
 
   const isFirstTestId = testIds.indexOf(testId) === 0
   const isLastTestId = testIds.indexOf(testId) === testIds.length - 1
@@ -52,7 +71,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
     return ''
   }
 
-  const handleEditTestResult = (updatedResult: Partial<typeof testResult>) => {
+  const handleEditTestResult = (updatedResult: Partial<TestResult>) => {
     const dateParts = new Intl.DateTimeFormat('ja-JP', {
       timeZone: 'Asia/Tokyo',
       year: 'numeric',
@@ -64,16 +83,34 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
       .map(({ value }) => value)
       .join('-')
 
-    setTestResult((prev) => ({
-      ...prev,
+    setFormState({
+      ...formState,
       ...updatedResult,
-      date: dateString // TODO: testResultsAtomFamilyのset時にできるとベスト
-    }))
+      date: dateString
+    })
+    setSavedTestResult({
+      ...formState,
+      ...updatedResult,
+      date: dateString
+    })
   }
 
   const handleResetTestResult = () => {
     if (confirm('本当にこのテストの結果をリセットしますか？')) {
       resetTestResult(testKey)
+      const opAndResultNum = testData.procedureAndExpectedResults.length
+      setFormState({
+        date: '',
+        testId,
+        env,
+        operationAndResults: Array(opAndResultNum)
+          .fill(null)
+          .map(() => ({
+            operation: '',
+            result: '',
+            isSatisfied: undefined
+          }))
+      })
     }
   }
 
@@ -103,68 +140,70 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
           </div>
         </div>
         <form className={styles.form}>
-          <Heading level={3}>注意事項</Heading>
-          <MarkdownContent html={testData.notes} />
-          {testData.procedureAndExpectedResults.map((testData, index) => (
-            <>
-              <section className={styles.section}>
-                <Heading level={2}>テスト方法</Heading>
-                <section className={styles.innerSection}>
-                  <Heading level={3}>手順</Heading>
-                  <MarkdownContent html={testData.procedure} />
+          <section className={styles.section}>
+            <Heading level={2}>テスト方法</Heading>
+            <section className={styles.innerSection}>
+              <Heading level={3}>テスト実施時の注意点</Heading>
+              <MarkdownContent html={testData.notes} />
+            </section>
+            {testData.procedureAndExpectedResults.map((procedureAndExpectedResult, index) => (
+              <Fragment key={index}>
+                <section>
+                  <Heading level={3}>手順 {index + 1}</Heading>
+                  <MarkdownContent html={procedureAndExpectedResult.procedure} />
+                  <section className={styles.innerSection}>
+                    <Label labelText={`行った操作 ${index + 1}`}>
+                      <Textarea
+                        value={formState.operationAndResults[index].operation}
+                        onChange={(value) =>
+                          handleEditTestResult({
+                            ...formState,
+                            operationAndResults: formState.operationAndResults.map((o, i) =>
+                              i === index ? { ...o, operation: value } : o
+                            )
+                          })
+                        }
+                      />
+                    </Label>
+                  </section>
                 </section>
                 <section className={styles.innerSection}>
-                  <Label labelText="行った操作">
+                  <Heading level={3}>期待される結果 {index + 1}</Heading>
+                  <MarkdownContent html={procedureAndExpectedResult.expectedResult} />
+                  <Label labelText={`操作の結果 ${index + 1}`}>
                     <Textarea
-                      value={testResult.operationAndResults[index].operation}
+                      value={formState.operationAndResults[index].result}
                       onChange={(value) =>
                         handleEditTestResult({
-                          ...testResult,
-                          operationAndResults: testResult.operationAndResults.map((o, i) =>
-                            i === index ? { ...o, operation: value } : o
+                          ...formState,
+                          operationAndResults: formState.operationAndResults.map((o, i) =>
+                            i === index ? { ...o, result: value } : o
                           )
                         })
                       }
                     />
                   </Label>
                 </section>
-              </section>
-              <section className={styles.section}>
-                <Heading level={2}>期待される結果</Heading>
-                <MarkdownContent html={testData.expectedResult} />
-                <Label labelText="操作の結果">
-                  <Textarea
-                    value={testResult.operationAndResults[index].result}
-                    onChange={(value) =>
-                      handleEditTestResult({
-                        ...testResult,
-                        operationAndResults: testResult.operationAndResults.map((o, i) =>
-                          i === index ? { ...o, result: value } : o
-                        )
-                      })
-                    }
-                  />
-                </Label>
                 <section className={styles.innerSection}>
                   <Heading level={3} id={satisfiedRadioFieldId}>
                     期待される結果を満たしているかどうか
                   </Heading>
                   <SatisfiedRadio
                     id={satisfiedRadioFieldId}
-                    isSatisfied={testResult.operationAndResults[index].isSatisfied}
+                    isSatisfied={formState.operationAndResults[index].isSatisfied}
                     onEditIsSatisfied={(isSatisfied) =>
                       handleEditTestResult({
-                        ...testResult,
-                        operationAndResults: testResult.operationAndResults.map((o, i) =>
+                        ...formState,
+                        operationAndResults: formState.operationAndResults.map((o, i) =>
                           i === index ? { ...o, isSatisfied } : o
                         )
                       })
                     }
                   />
                 </section>
-              </section>
-            </>
-          ))}
+              </Fragment>
+            ))}
+          </section>
         </form>
         <nav className={styles.nav}>
           <div className={styles.footerUl}>

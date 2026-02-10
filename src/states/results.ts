@@ -2,7 +2,7 @@ import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { atomFamily } from 'jotai-family'
 import { testIdsAtom } from './testList'
-import { getTestIdAndEnvFromKey, getTestKeyFromId } from '../functions/testKey'
+import { getTestKeyFromId } from '../functions/testKey'
 import type { TestEnv } from './testDetail'
 
 interface OperationAndResult {
@@ -17,25 +17,13 @@ export interface TestResult {
   operationAndResults: OperationAndResult[]
 }
 
-const initialTestResult = (testId: string, env: TestEnv, opAndResultNum: number): TestResult => ({
-  date: '',
-  testId,
-  env,
-  operationAndResults: Array(opAndResultNum).fill({
-    operation: '',
-    result: '',
-    isSatisfied: undefined
-  })
-})
-
 export const testResultsAtomFamily = atomFamily((key: string) => {
-  const { testId, env } = getTestIdAndEnvFromKey(key)
-  return atomWithStorage<TestResult>(`waic-test-result-${key}`, initialTestResult(testId, env))
+  // operationAndResultsの数をatomWithStorageの初期値で調整できないので、ここではnullに初期化し、入力フォーム側で初期化する
+  return atomWithStorage<TestResult | null>(`waic-test-result-${key}`, null)
 })
 
 export const resetTestResultAtom = atom(null, (_get, set, key: string) => {
-  const { testId, env } = getTestIdAndEnvFromKey(key)
-  set(testResultsAtomFamily(key), initialTestResult(testId, env, opAndResultNum))
+  set(testResultsAtomFamily(key), null)
 })
 
 export const testResultsAtom = atom((get) => {
@@ -47,7 +35,10 @@ export const testResultsAtom = atom((get) => {
       const soundTest = get(testResultsAtomFamily(getTestKeyFromId(testId, 'sound')))
       return [sightTest, soundTest]
     })
-    .filter((test) => test.operationAndResults.every((o) => o.isSatisfied !== undefined))
+    .filter(
+      (test): test is TestResult =>
+        test !== null && test.operationAndResults.every((o) => o.isSatisfied !== undefined)
+    )
   return results
 })
 
@@ -60,9 +51,12 @@ export const resetTestResultsAtom = atom(null, (get, set) => {
   }
 })
 
-export const isCompletedAtom = atom((get) => {
-  return (key: string) => {
+export const isCompletedAtom = atomFamily((key: string) =>
+  atom((get) => {
     const testResult = get(testResultsAtomFamily(key))
-    return testResult.operationAndResults.every((o) => o.isSatisfied !== undefined)
-  }
-})
+    return (
+      testResult !== null &&
+      testResult.operationAndResults.every((o) => o.isSatisfied !== undefined)
+    )
+  })
+)

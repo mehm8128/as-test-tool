@@ -17,6 +17,14 @@ export const exportToCsv = (results: TestResult[], setting: Setting) => {
 }
 
 const getHeader = (): string => {
+  const procedureAndExpectedResults = Array(10)
+    .fill(null)
+    .map((_, index) => [
+      `期待される結果 ${index + 1}. に対する操作内容`,
+      `得られた結果 ${index + 1}.`,
+      `期待される結果 ${index + 1}. を満たしているか`
+    ])
+
   return `${[
     'テスト実施日',
     '氏名',
@@ -27,13 +35,31 @@ const getHeader = (): string => {
     '支援技術に対する追加の設定',
     'テストケース番号',
     '視覚閲覧環境、音声閲覧環境の種別',
-    '期待される結果 1. に対する操作内容',
-    '得られた結果 1.',
-    '期待される結果 1. を満たしているか'
+    ...procedureAndExpectedResults.flat(),
+    '備考'
   ].join(',')}\n`
 }
 
 export const resultToCsvRow = (test: TestResult, setting: Setting): string => {
+  const procedureAndExpectedResults = Array(10)
+    .fill(null)
+    .map((_, index) => {
+      const operationAndResult = test.operationAndResults[index]
+      if (!operationAndResult) {
+        return ['', '', '']
+      }
+      return [
+        operationAndResult.operation,
+        operationAndResult.result,
+        operationAndResult.isSatisfied === undefined
+          ? ''
+          : operationAndResult.isSatisfied
+            ? '満たしている'
+            : '満たしていない'
+      ]
+    })
+    .flat()
+
   return [
     test.date,
     setting.name,
@@ -44,9 +70,7 @@ export const resultToCsvRow = (test: TestResult, setting: Setting): string => {
     setting.atSetting,
     `'${test.testId}`,
     test.env === 'sight' ? '視覚閲覧環境' : '音声閲覧環境',
-    test.operation,
-    test.result,
-    test.isSatisfied ? '満たしている' : '満たしていない'
+    ...procedureAndExpectedResults
   ]
     .map((value) => `"${String(value).replace(/"/g, '""')}"`)
     .join(',')

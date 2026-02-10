@@ -10,25 +10,37 @@ describe('exportToCsv', () => {
         date: '2026-1-26',
         testId: '0001-01',
         env: 'sight',
-        operation: 'operation1',
-        result: 'result1',
-        isSatisfied: false
+        operationAndResults: [
+          {
+            operation: 'operation1',
+            result: 'result1',
+            isSatisfied: false
+          }
+        ]
       },
       {
         date: '2026-1-26',
         testId: '0001-01',
         env: 'sound',
-        operation: 'operation2',
-        result: 'result2',
-        isSatisfied: true
+        operationAndResults: [
+          {
+            operation: 'operation2',
+            result: 'result2',
+            isSatisfied: true
+          }
+        ]
       },
       {
         date: '2026-1-26',
         testId: '0001-02',
         env: 'sight',
-        operation: 'operation3',
-        result: 'result3',
-        isSatisfied: true
+        operationAndResults: [
+          {
+            operation: 'operation3',
+            result: 'result3',
+            isSatisfied: true
+          }
+        ]
       }
     ]
 
@@ -42,14 +54,15 @@ describe('exportToCsv', () => {
     }
 
     const resultLines = results.map((result) => resultToCsvRow(result, setting))
+    const emptyFields = Array(9).fill(',"","",""').join('')
     expect(resultLines[0]).toBe(
-      `"2026-1-26","nameeee","emaillll@example.com","ossssss","browserrrrrr","atttttt","atSettingggggg","'0001-01","視覚閲覧環境","operation1","result1","満たしていない"`
+      `"2026-1-26","nameeee","emaillll@example.com","ossssss","browserrrrrr","atttttt","atSettingggggg","'0001-01","視覚閲覧環境","operation1","result1","満たしていない"${emptyFields}`
     )
     expect(resultLines[1]).toBe(
-      `"2026-1-26","nameeee","emaillll@example.com","ossssss","browserrrrrr","atttttt","atSettingggggg","'0001-01","音声閲覧環境","operation2","result2","満たしている"`
+      `"2026-1-26","nameeee","emaillll@example.com","ossssss","browserrrrrr","atttttt","atSettingggggg","'0001-01","音声閲覧環境","operation2","result2","満たしている"${emptyFields}`
     )
     expect(resultLines[2]).toBe(
-      `"2026-1-26","nameeee","emaillll@example.com","ossssss","browserrrrrr","atttttt","atSettingggggg","'0001-02","視覚閲覧環境","operation3","result3","満たしている"`
+      `"2026-1-26","nameeee","emaillll@example.com","ossssss","browserrrrrr","atttttt","atSettingggggg","'0001-02","視覚閲覧環境","operation3","result3","満たしている"${emptyFields}`
     )
   })
 })
