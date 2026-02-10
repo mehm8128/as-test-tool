@@ -10,7 +10,7 @@ import { Label } from '../../components/Label/Label'
 import { Heading } from '../../components/Heading/Heading'
 import { MarkdownContent } from '../../components/MarkdownContent/MarkdownContent'
 import styles from './TestDetail.module.css'
-import { Fragment, useId, useState } from 'react'
+import { useId, useState } from 'react'
 import { SatisfiedRadio } from './components/SatisifedRadio'
 import { useTitle } from '../../hooks/useTitle'
 
@@ -140,36 +140,38 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
           </div>
         </div>
         <form className={styles.form}>
-          <section className={styles.section}>
+          <section className={styles.howToTest}>
             <Heading level={2}>テスト方法</Heading>
             <section className={styles.innerSection}>
               <Heading level={3}>テスト実施時の注意点</Heading>
               <MarkdownContent html={testData.notes} />
             </section>
             {testData.procedureAndExpectedResults.map((procedureAndExpectedResult, index) => (
-              <Fragment key={index}>
-                <section>
-                  <Heading level={3}>手順 {index + 1}</Heading>
-                  <MarkdownContent html={procedureAndExpectedResult.procedure} />
-                  <section className={styles.innerSection}>
-                    <Label labelText={`行った操作 ${index + 1}`}>
-                      <Textarea
-                        value={formState.operationAndResults[index].operation}
-                        onChange={(value) =>
-                          handleEditTestResult({
-                            ...formState,
-                            operationAndResults: formState.operationAndResults.map((o, i) =>
-                              i === index ? { ...o, operation: value } : o
-                            )
-                          })
-                        }
-                      />
-                    </Label>
-                  </section>
+              <div key={index} className={styles.testProcedure}>
+                <section className={styles.section}>
+                  <div className={styles.innerSection}>
+                    <Heading level={3}>手順 {index + 1}</Heading>
+                    <MarkdownContent html={procedureAndExpectedResult.procedure} />
+                  </div>
+                  <Label labelText={`行った操作 ${index + 1}`}>
+                    <Textarea
+                      value={formState.operationAndResults[index].operation}
+                      onChange={(value) =>
+                        handleEditTestResult({
+                          ...formState,
+                          operationAndResults: formState.operationAndResults.map((o, i) =>
+                            i === index ? { ...o, operation: value } : o
+                          )
+                        })
+                      }
+                    />
+                  </Label>
                 </section>
-                <section className={styles.innerSection}>
-                  <Heading level={3}>期待される結果 {index + 1}</Heading>
-                  <MarkdownContent html={procedureAndExpectedResult.expectedResult} />
+                <section className={styles.section}>
+                  <div className={styles.innerSection}>
+                    <Heading level={3}>期待される結果 {index + 1}</Heading>
+                    <MarkdownContent html={procedureAndExpectedResult.expectedResult} />
+                  </div>
                   <Label labelText={`操作の結果 ${index + 1}`}>
                     <Textarea
                       value={formState.operationAndResults[index].result}
@@ -186,7 +188,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
                 </section>
                 <section className={styles.innerSection}>
                   <Heading level={3} id={satisfiedRadioFieldId}>
-                    期待される結果を満たしているかどうか
+                    期待される結果 {index + 1}を満たしているかどうか
                   </Heading>
                   <SatisfiedRadio
                     id={satisfiedRadioFieldId}
@@ -201,7 +203,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
                     }
                   />
                 </section>
-              </Fragment>
+              </div>
             ))}
           </section>
         </form>

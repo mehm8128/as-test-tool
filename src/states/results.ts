@@ -18,8 +18,12 @@ export interface TestResult {
 }
 
 export const testResultsAtomFamily = atomFamily((key: string) => {
-  // operationAndResultsの数をatomWithStorageの初期値で調整できないので、ここではnullに初期化し、入力フォーム側で初期化する
-  return atomWithStorage<TestResult | null>(`waic-test-result-${key}`, null)
+  // NOTE: operationAndResultsの数をatomWithStorageの初期値で調整できないので、ここではnullに初期化し、入力フォーム側で初期化する
+  // NOTE: atomWithStorageはデフォルトの挙動として最初に1回初期値でレンダリングし、その後localStorageの値に書き換える。
+  // それを防ぐために、getOnInit: trueにしている
+  return atomWithStorage<TestResult | null>(`waic-test-result-${key}`, null, undefined, {
+    getOnInit: true
+  })
 })
 
 export const resetTestResultAtom = atom(null, (_get, set, key: string) => {

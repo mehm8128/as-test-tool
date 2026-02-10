@@ -34,6 +34,18 @@
   gap: 2rem;
 }
 
+.howToTest {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.testProcedure {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .section {
   display: flex;
   flex-direction: column;

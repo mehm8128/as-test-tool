@@ -19,6 +19,9 @@
 .label:hover {
   background-color: #c8c8c8;
 }
+.label:has(:checked) {
+  background-color: #bebebe;
+}
 
 .input {
   appearance: none;

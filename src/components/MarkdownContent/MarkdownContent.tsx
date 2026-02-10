@@ -1,6 +1,6 @@
 import styles from './MarkdownContent.module.css'
 
-interface MarkdownContentProps {
+interface Props {
   html: string
 }
 
@@ -8,6 +8,6 @@ interface MarkdownContentProps {
  * HTML文字列をレンダリングする
  * バックエンドでサニタイズ済みのHTMLを受け取る
  */
-export const MarkdownContent = ({ html }: MarkdownContentProps) => {
-  return <div dangerouslySetInnerHTML={{ __html: html }} className={styles.module} />
+export const MarkdownContent = ({ html }: Props) => {
+  return <p dangerouslySetInnerHTML={{ __html: html }} className={styles.module} />
 }
