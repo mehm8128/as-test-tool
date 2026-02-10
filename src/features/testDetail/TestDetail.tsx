@@ -1,5 +1,4 @@
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { resetTestResultAtom, testResultsAtomFamily, type TestResult } from '../../states/results'
+import { useAtomValue } from 'jotai'
 import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
 import { testIdsAtom } from '../../states/testList'
 import { getTestKeyFromId } from '../../functions/testKey'
@@ -10,37 +9,22 @@ import { Label } from '../../components/Label/Label'
 import { Heading } from '../../components/Heading/Heading'
 import { MarkdownContent } from '../../components/MarkdownContent/MarkdownContent'
 import styles from './TestDetail.module.css'
-import { useId, useState } from 'react'
+import { useId } from 'react'
 import { SatisfiedRadio } from './components/SatisifedRadio'
 import { useTitle } from '../../hooks/useTitle'
+import { useForm } from './hooks/useForm'
 
 export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   const testKey = getTestKeyFromId(testId, env)
   const testData = useAtomValue(testDetailAtomFamily(testKey))
   const testIds = useAtomValue(testIdsAtom)
-  const resetTestResult = useSetAtom(resetTestResultAtom)
   const satisfiedRadioFieldId = useId()
-
-  const [savedTestResult, setSavedTestResult] = useAtom(testResultsAtomFamily(testKey))
-
-  // operationAndResultsの数をatomWithStorageの初期値で調整できないので、ここで初期化している
-  const [formState, setFormState] = useState<TestResult>(() => {
-    const opAndResultNum = testData.procedureAndExpectedResults.length
-    return (
-      savedTestResult ?? {
-        date: '',
-        testId,
-        env,
-        operationAndResults: Array(opAndResultNum)
-          .fill(null)
-          .map(() => ({
-            operation: '',
-            result: '',
-            isSatisfied: undefined
-          }))
-      }
-    )
-  })
+  const { formState, handleEditTestResult, handleResetTestResult } = useForm(
+    testKey,
+    testId,
+    env,
+    testData
+  )
 
   const isFirstTestId = testIds.indexOf(testId) === 0
   const isLastTestId = testIds.indexOf(testId) === testIds.length - 1
@@ -69,49 +53,6 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
       return testIds[currentIndex + 1]
     }
     return ''
-  }
-
-  const handleEditTestResult = (updatedResult: Partial<TestResult>) => {
-    const dateParts = new Intl.DateTimeFormat('ja-JP', {
-      timeZone: 'Asia/Tokyo',
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric'
-    }).formatToParts(new Date())
-    const dateString = dateParts
-      .filter(({ type }) => type !== 'literal')
-      .map(({ value }) => value)
-      .join('-')
-
-    setFormState({
-      ...formState,
-      ...updatedResult,
-      date: dateString
-    })
-    setSavedTestResult({
-      ...formState,
-      ...updatedResult,
-      date: dateString
-    })
-  }
-
-  const handleResetTestResult = () => {
-    if (confirm('本当にこのテストの結果をリセットしますか？')) {
-      resetTestResult(testKey)
-      const opAndResultNum = testData.procedureAndExpectedResults.length
-      setFormState({
-        date: '',
-        testId,
-        env,
-        operationAndResults: Array(opAndResultNum)
-          .fill(null)
-          .map(() => ({
-            operation: '',
-            result: '',
-            isSatisfied: undefined
-          }))
-      })
-    }
   }
 
   useTitle(`${testData.title} - AS Test Tool`)
