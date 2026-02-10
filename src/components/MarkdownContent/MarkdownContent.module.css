@@ -1,5 +1,4 @@
 .module {
-  white-space: pre-wrap;
   ul,
   ol {
     list-style-type: revert;

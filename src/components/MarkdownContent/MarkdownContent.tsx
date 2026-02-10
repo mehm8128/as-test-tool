@@ -9,5 +9,5 @@ interface Props {
  * バックエンドでサニタイズ済みのHTMLを受け取る
  */
 export const MarkdownContent = ({ html }: Props) => {
-  return <p dangerouslySetInnerHTML={{ __html: html }} className={styles.module} />
+  return <div dangerouslySetInnerHTML={{ __html: html }} className={styles.module} />
 }
