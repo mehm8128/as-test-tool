@@ -5,11 +5,14 @@ import { getTestIdAndEnvFromKey } from '../functions/testKey'
 
 export type TestEnv = 'sight' | 'sound'
 
+interface ProcedureAndExpectedResult {
+  procedure: string
+  expectedResult: string
+}
 export interface TestDetail {
   filename: string
   title: string
-  procedure: string
-  expectedResult: string
+  procedureAndExpectedResults: ProcedureAndExpectedResult[]
   notes: string
   link: string
   testCodeLink: string

@@ -103,58 +103,68 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
           </div>
         </div>
         <form className={styles.form}>
-          <section className={styles.section}>
-            <Heading level={2}>テスト方法</Heading>
-            <section className={styles.innerSection}>
-              <Heading level={3}>手順</Heading>
-              <MarkdownContent html={testData.procedure} />
-            </section>
-            <section className={styles.innerSection}>
-              <Heading level={3}>注意事項</Heading>
-              <MarkdownContent html={testData.notes} />
-              <Label labelText="行った操作">
-                <Textarea
-                  value={testResult.operation}
-                  onChange={(value) =>
-                    handleEditTestResult({
-                      ...testResult,
-                      operation: value
-                    })
-                  }
-                />
-              </Label>
-            </section>
-          </section>
-          <section className={styles.section}>
-            <Heading level={2}>期待される結果</Heading>
-            <MarkdownContent html={testData.expectedResult} />
-            <Label labelText="操作の結果">
-              <Textarea
-                value={testResult.result}
-                onChange={(value) =>
-                  handleEditTestResult({
-                    ...testResult,
-                    result: value
-                  })
-                }
-              />
-            </Label>
-            <section className={styles.innerSection}>
-              <Heading level={3} id={satisfiedRadioFieldId}>
-                期待される結果を満たしているかどうか
-              </Heading>
-              <SatisfiedRadio
-                id={satisfiedRadioFieldId}
-                isSatisfied={testResult.isSatisfied}
-                onEditIsSatisfied={(isSatisfied) =>
-                  handleEditTestResult({
-                    ...testResult,
-                    isSatisfied
-                  })
-                }
-              />
-            </section>
-          </section>
+          <Heading level={3}>注意事項</Heading>
+          <MarkdownContent html={testData.notes} />
+          {testData.procedureAndExpectedResults.map((testData, index) => (
+            <>
+              <section className={styles.section}>
+                <Heading level={2}>テスト方法</Heading>
+                <section className={styles.innerSection}>
+                  <Heading level={3}>手順</Heading>
+                  <MarkdownContent html={testData.procedure} />
+                </section>
+                <section className={styles.innerSection}>
+                  <Label labelText="行った操作">
+                    <Textarea
+                      value={testResult.operationAndResults[index].operation}
+                      onChange={(value) =>
+                        handleEditTestResult({
+                          ...testResult,
+                          operationAndResults: testResult.operationAndResults.map((o, i) =>
+                            i === index ? { ...o, operation: value } : o
+                          )
+                        })
+                      }
+                    />
+                  </Label>
+                </section>
+              </section>
+              <section className={styles.section}>
+                <Heading level={2}>期待される結果</Heading>
+                <MarkdownContent html={testData.expectedResult} />
+                <Label labelText="操作の結果">
+                  <Textarea
+                    value={testResult.operationAndResults[index].result}
+                    onChange={(value) =>
+                      handleEditTestResult({
+                        ...testResult,
+                        operationAndResults: testResult.operationAndResults.map((o, i) =>
+                          i === index ? { ...o, result: value } : o
+                        )
+                      })
+                    }
+                  />
+                </Label>
+                <section className={styles.innerSection}>
+                  <Heading level={3} id={satisfiedRadioFieldId}>
+                    期待される結果を満たしているかどうか
+                  </Heading>
+                  <SatisfiedRadio
+                    id={satisfiedRadioFieldId}
+                    isSatisfied={testResult.operationAndResults[index].isSatisfied}
+                    onEditIsSatisfied={(isSatisfied) =>
+                      handleEditTestResult({
+                        ...testResult,
+                        operationAndResults: testResult.operationAndResults.map((o, i) =>
+                          i === index ? { ...o, isSatisfied } : o
+                        )
+                      })
+                    }
+                  />
+                </section>
+              </section>
+            </>
+          ))}
         </form>
         <nav className={styles.nav}>
           <div className={styles.footerUl}>

@@ -3,6 +3,7 @@ import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import rehypeSanitize from 'rehype-sanitize'
 import rehypeStringify from 'rehype-stringify'
+import type { ProcedureAndExpectedResult } from './api/[[route]]'
 
 export type EnvType = 'sight' | 'sound'
 
@@ -52,6 +53,33 @@ export const extractTestProcedure = (content: string, env: EnvType): string => {
 export const extractTestExpectedResult = (content: string, env: EnvType): string => {
   const result = extractSection(content, '期待される結果', env)
   return result ?? 'No expected result found'
+}
+
+export const getIncludesProcedureAndExpectedResult = (content: string, env: EnvType): boolean => {
+  const envName = envNameMap[env]
+  const pattern = new RegExp(`^# テスト手順と期待される結果 \\(${envName}\\)\\s*\\n\\n`, 'm')
+  return pattern.test(content)
+}
+
+export const extractTestProcedureAndExpectedResults = (
+  content: string,
+  env: EnvType
+): ProcedureAndExpectedResult[] => {
+  const result: ProcedureAndExpectedResult[] = []
+  let index = 1
+  while (true) {
+    const procedure = extractSection(content, `テスト手順 ${index}`, env)
+    const expectedResult = extractSection(content, `期待される結果 ${index}`, env)
+    if (!procedure || !expectedResult) {
+      break
+    }
+    result.push({
+      procedure: procedure,
+      expectedResult: expectedResult
+    })
+    index++
+  }
+  return result
 }
 
 export const extractTestNotes = (content: string, env: EnvType): string => {

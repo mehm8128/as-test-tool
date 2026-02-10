@@ -7,9 +7,11 @@ import {
   extractTestExpectedResult,
   extractTestNotes,
   extractTestProcedure,
+  extractTestProcedureAndExpectedResults,
   extractTests,
   extractTestTitle,
   generateTestLink,
+  getIncludesProcedureAndExpectedResult,
   markdownToHtml
 } from '../_utils'
 import { handle } from 'hono/cloudflare-pages'
@@ -109,11 +111,15 @@ app.get('/', async (c) => {
   }
 })
 
+export interface ProcedureAndExpectedResult {
+  procedure: string
+  expectedResult: string
+}
+
 interface TestDetailResponse {
   filename: string
   title: string
-  procedure: string
-  expectedResult: string
+  procedureAndExpectedResults: ProcedureAndExpectedResult[]
   notes: string
   link: string
   testCodeLink: string
@@ -134,22 +140,28 @@ app.get('/:testId', async (c) => {
     const content = await getFileContent(`${mdFileName}.md`, githubToken)
 
     const title = extractTestTitle(content)
-    const procedureMd = extractTestProcedure(content, env)
-    const expectedResultMd = extractTestExpectedResult(content, env)
     const notesMd = extractTestNotes(content, env)
     const link = generateTestLink(mdFileName)
     const testCodeLink = extractTestCodeLink(content)
 
-    // MarkdownをHTMLに変換
-    const procedure = await markdownToHtml(procedureMd)
-    const expectedResult = await markdownToHtml(expectedResultMd)
+    const includesProcedureAndExpectedResult = getIncludesProcedureAndExpectedResult(content, env)
+    const procedureAndExpectedResults: ProcedureAndExpectedResult[] = []
+    if (includesProcedureAndExpectedResult) {
+      procedureAndExpectedResults.push(...extractTestProcedureAndExpectedResults(content, env))
+    } else {
+      const procedureMd = extractTestProcedure(content, env)
+      const expectedResultMd = extractTestExpectedResult(content, env)
+      const procedure = await markdownToHtml(procedureMd)
+      const expectedResult = await markdownToHtml(expectedResultMd)
+      procedureAndExpectedResults.push({ procedure, expectedResult })
+    }
+
     const notes = await markdownToHtml(notesMd)
 
     return c.json({
       filename: mdFileName,
       title,
-      procedure,
-      expectedResult,
+      procedureAndExpectedResults,
       notes,
       link,
       testCodeLink,

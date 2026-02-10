@@ -5,22 +5,27 @@ import { testIdsAtom } from './testList'
 import { getTestIdAndEnvFromKey, getTestKeyFromId } from '../functions/testKey'
 import type { TestEnv } from './testDetail'
 
+interface OperationAndResult {
+  operation: string
+  result: string
+  isSatisfied: boolean | undefined
+}
 export interface TestResult {
   date: string
   testId: string
   env: TestEnv
-  operation: string // ここから下3つは将来的に複数になりそう
-  result: string
-  isSatisfied: boolean | undefined
+  operationAndResults: OperationAndResult[]
 }
 
-const initialTestResult = (testId: string, env: TestEnv): TestResult => ({
+const initialTestResult = (testId: string, env: TestEnv, opAndResultNum: number): TestResult => ({
   date: '',
   testId,
   env,
-  operation: '',
-  result: '',
-  isSatisfied: undefined
+  operationAndResults: Array(opAndResultNum).fill({
+    operation: '',
+    result: '',
+    isSatisfied: undefined
+  })
 })
 
 export const testResultsAtomFamily = atomFamily((key: string) => {
@@ -30,7 +35,7 @@ export const testResultsAtomFamily = atomFamily((key: string) => {
 
 export const resetTestResultAtom = atom(null, (_get, set, key: string) => {
   const { testId, env } = getTestIdAndEnvFromKey(key)
-  set(testResultsAtomFamily(key), initialTestResult(testId, env))
+  set(testResultsAtomFamily(key), initialTestResult(testId, env, opAndResultNum))
 })
 
 export const testResultsAtom = atom((get) => {
@@ -42,12 +47,12 @@ export const testResultsAtom = atom((get) => {
       const soundTest = get(testResultsAtomFamily(getTestKeyFromId(testId, 'sound')))
       return [sightTest, soundTest]
     })
-    .filter((test) => test.isSatisfied !== undefined)
+    .filter((test) => test.operationAndResults.every((o) => o.isSatisfied !== undefined))
   return results
 })
 
-export const resetTestResultsAtom = atom(null, async (get, set) => {
-  const allTestResults = await get(testResultsAtom)
+export const resetTestResultsAtom = atom(null, (get, set) => {
+  const allTestResults = get(testResultsAtom)
 
   for (const testResult of allTestResults) {
     const key = getTestKeyFromId(testResult.testId, testResult.env)
@@ -58,6 +63,6 @@ export const resetTestResultsAtom = atom(null, async (get, set) => {
 export const isCompletedAtom = atom((get) => {
   return (key: string) => {
     const testResult = get(testResultsAtomFamily(key))
-    return testResult.isSatisfied !== undefined
+    return testResult.operationAndResults.every((o) => o.isSatisfied !== undefined)
   }
 })
