@@ -26,6 +26,8 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
     testData
   )
 
+  const testTitle = `${testData.title}（${env === 'sight' ? '視覚閲覧環境' : '音声閲覧環境'}）`
+
   const isFirstTestId = testIds.indexOf(testId) === 0
   const isLastTestId = testIds.indexOf(testId) === testIds.length - 1
 
@@ -55,7 +57,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
     return ''
   }
 
-  useTitle(`${testData.title} - AS Test Tool`)
+  useTitle(`${testTitle} - AS Test Tool`)
 
   return (
     <>
@@ -65,8 +67,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
           <Heading level={1}>
             <span>
               <span className={styles.testId}>{testId}</span>
-              <span>{testData.title}</span>
-              <span>（{env === 'sight' ? '視覚閲覧環境' : '音声閲覧環境'}）</span>
+              <span>{testTitle}</span>
             </span>
           </Heading>
           <div className={styles.buttons}>
