@@ -9,6 +9,10 @@ export interface Setting {
   atSetting: string
 }
 
+/**
+ * ユーザーの設定情報を保持するatom。
+ * localStorageと同期している。
+ */
 export const settingAtom = atomWithStorage<Setting>('waic-test-setting', {
   name: '',
   email: '',

@@ -19,6 +19,9 @@ export interface TestDetail {
   env: TestEnv
 }
 
+/**
+ * 指定したkeyのASテストの情報を取得するatom。
+ */
 export const testDetailAtomFamily = atomFamily((key: string) =>
   atom(async () => {
     const { testId, env } = getTestIdAndEnvFromKey(key)

@@ -144,6 +144,7 @@ app.get('/:testId', async (c) => {
     const link = generateTestLink(mdFileName)
     const testCodeLink = extractTestCodeLink(content)
 
+    // 複数手順があるときとそうでないときで条件分岐
     const includesProcedureAndExpectedResult = getIsMultipleProcedures(content, env)
     const procedureAndExpectedResults: ProcedureAndExpectedResult[] = []
     if (includesProcedureAndExpectedResult) {

@@ -2,7 +2,7 @@ import { createLink } from '@tanstack/react-router'
 import type { ComponentProps, Ref } from 'react'
 import styles from './LinkButton.module.css'
 
-export function LinkButtonInner({
+function LinkButtonInner({
   ref,
   ...props
 }: {

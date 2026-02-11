@@ -40,6 +40,7 @@ const getHeader = (): string => {
   ].join(',')}\n`
 }
 
+// テストのためにexportしている。
 export const resultToCsvRow = (test: TestResult, setting: Setting): string => {
   const procedureAndExpectedResults = Array(10)
     .fill(null)

@@ -3,7 +3,7 @@ import { ExternalLink as ExternalLinkIcon } from 'lucide-react'
 import type { ComponentProps, ReactNode, Ref } from 'react'
 import styles from './AnchorLink.module.css'
 
-export function AnchorLinkInner({
+function AnchorLinkInner({
   ref,
   ...props
 }: {

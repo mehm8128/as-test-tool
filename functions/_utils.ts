@@ -100,6 +100,9 @@ export const generateTestLink = (filename: string): string => {
   return `https://waic.github.io/as_test/WAIC-TEST/HTML/${filename}.html`
 }
 
+/**
+ * テスト一覧から全てのテストを取得する。
+ */
 export const extractTests = (content: string): { testId: string; title: string }[] => {
   const testLinks = content.matchAll(/\[(.*?)\]\(.*\)/g)
 
