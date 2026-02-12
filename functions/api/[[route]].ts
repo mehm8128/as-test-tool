@@ -139,8 +139,6 @@ app.get('/:testId', async (c) => {
     const sectionsObj = {
       title: extractTitleContent(sections),
       notes: await extractNotesContent(sections, env),
-      procedures: await extractProceduresContent(sections, env),
-      expectedResults: await extractResultsContent(sections, env),
       proceduresAndExpectedResults: normalizeProcedureAndExpectedResults(
         await extractProceduresContent(sections, env),
         await extractResultsContent(sections, env),
