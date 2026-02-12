@@ -16,5 +16,6 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "oxc.oxc-vscode",
     "editor.formatOnSave": true
-  }
+  },
+  "typescript.experimental.useTsgo": true
 }
