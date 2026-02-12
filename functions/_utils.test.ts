@@ -151,8 +151,8 @@ describe('_utils', () => {
         children: []
       }
     ]
-    const result = await extractTitleContent(sections)
-    expect(result).toBe('<p>サンプルテスト</p>')
+    const result = extractTitleContent(sections)
+    expect(result).toBe('サンプルテスト')
   })
 
   it('extractNotesContent', async () => {
