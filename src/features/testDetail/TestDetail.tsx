@@ -28,8 +28,8 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
 
   const testTitle = `${testData.title}（${env === 'sight' ? '視覚閲覧環境' : '音声閲覧環境'}）`
 
-  const isFirstTestId = testIds.indexOf(testId) === 0
-  const isLastTestId = testIds.indexOf(testId) === testIds.length - 1
+  const isFirstTestId = testIds.indexOf(testId) === 0 && env === 'sight'
+  const isLastTestId = testIds.indexOf(testId) === testIds.length - 1 && env === 'sound'
 
   const prevTestId = () => {
     // 今の画面が音声閲覧環境だったら、前は同じテストIDの視覚閲覧環境
