@@ -13,7 +13,7 @@ export const useForm = (testKey: string, testId: string, env: TestEnv, testData:
 
   // operationAndResultsの数をatomWithStorageの初期値で調整できないので、ここで初期化している
   const [formState, setFormState] = useState<TestResult>(() => {
-    const opAndResultNum = testData.procedureAndExpectedResults.length
+    const opAndResultNum = testData.proceduresAndExpectedResults.length
     return (
       savedTestResult ?? {
         date: '',
@@ -57,7 +57,7 @@ export const useForm = (testKey: string, testId: string, env: TestEnv, testData:
   const handleResetTestResult = () => {
     if (confirm('本当にこのテストの結果をリセットしますか？')) {
       resetTestResult(testKey)
-      const opAndResultNum = testData.procedureAndExpectedResults.length
+      const opAndResultNum = testData.proceduresAndExpectedResults.length
       setFormState({
         date: '',
         testId,

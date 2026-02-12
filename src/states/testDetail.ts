@@ -9,14 +9,15 @@ interface ProcedureAndExpectedResult {
   procedure: string
   expectedResult: string
 }
+
 export interface TestDetail {
   filename: string
+  env: TestEnv
   title: string
-  procedureAndExpectedResults: ProcedureAndExpectedResult[]
   notes: string
+  proceduresAndExpectedResults: ProcedureAndExpectedResult[]
   link: string
   testCodeLink: string
-  env: TestEnv
 }
 
 /**

@@ -89,7 +89,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
               <Heading level={3}>テスト実施時の注意点</Heading>
               <MarkdownContent html={testData.notes} />
             </section>
-            {testData.procedureAndExpectedResults.map((procedureAndExpectedResult, index) => (
+            {testData.proceduresAndExpectedResults.map((procedureAndExpectedResult, index) => (
               <div key={index} className={styles.testProcedure}>
                 <section className={styles.section}>
                   <div className={styles.innerSection}>

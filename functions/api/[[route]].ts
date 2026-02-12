@@ -3,16 +3,17 @@ import { cors } from 'hono/cors'
 import { cache } from 'hono/cache'
 import {
   type EnvType,
-  extractMultipleProcedures,
+  extractNotesContent,
+  extractProcedureAndExpectedResultsContent,
+  extractProceduresContent,
+  extractResultsContent,
+  extractSections,
   extractTestCodeLink,
-  extractTestExpectedResult,
-  extractTestNotes,
-  extractTestProcedure,
   extractTests,
-  extractTestTitle,
+  extractTitleContent,
   generateTestLink,
-  getIsMultipleProcedures,
-  markdownToHtml
+  normalizeProcedureAndExpectedResults,
+  type ProcedureAndExpectedResult
 } from '../_utils'
 import { handle } from 'hono/cloudflare-pages'
 
@@ -111,19 +112,14 @@ app.get('/', async (c) => {
   }
 })
 
-export interface ProcedureAndExpectedResult {
-  procedure: string
-  expectedResult: string
-}
-
 interface TestDetailResponse {
   filename: string
+  env: EnvType
   title: string
-  procedureAndExpectedResults: ProcedureAndExpectedResult[]
   notes: string
+  proceduresAndExpectedResults: ProcedureAndExpectedResult[]
   link: string
   testCodeLink: string
-  env: EnvType
 }
 
 app.get('/:testId', async (c) => {
@@ -139,34 +135,25 @@ app.get('/:testId', async (c) => {
     const mdFileName = `WAIC-TEST-${testId}`
     const content = await getFileContent(`${mdFileName}.md`, githubToken)
 
-    const title = extractTestTitle(content)
-    const notesMd = extractTestNotes(content, env)
-    const link = generateTestLink(mdFileName)
-    const testCodeLink = extractTestCodeLink(content)
-
-    // 複数手順があるときとそうでないときで条件分岐
-    const includesProcedureAndExpectedResult = getIsMultipleProcedures(content, env)
-    const procedureAndExpectedResults: ProcedureAndExpectedResult[] = []
-    if (includesProcedureAndExpectedResult) {
-      procedureAndExpectedResults.push(...extractMultipleProcedures(content))
-    } else {
-      const procedureMd = extractTestProcedure(content, env)
-      const expectedResultMd = extractTestExpectedResult(content, env)
-      const procedure = await markdownToHtml(procedureMd)
-      const expectedResult = await markdownToHtml(expectedResultMd)
-      procedureAndExpectedResults.push({ procedure, expectedResult })
+    const sections = extractSections(content)
+    const sectionsObj = {
+      title: extractTitleContent(sections),
+      notes: await extractNotesContent(sections, env),
+      procedures: await extractProceduresContent(sections, env),
+      expectedResults: await extractResultsContent(sections, env),
+      proceduresAndExpectedResults: normalizeProcedureAndExpectedResults(
+        await extractProceduresContent(sections, env),
+        await extractResultsContent(sections, env),
+        await extractProcedureAndExpectedResultsContent(sections, env)
+      ),
+      link: generateTestLink(mdFileName),
+      testCodeLink: extractTestCodeLink(sections)
     }
-
-    const notes = await markdownToHtml(notesMd)
 
     return c.json({
       filename: mdFileName,
-      title,
-      procedureAndExpectedResults,
-      notes,
-      link,
-      testCodeLink,
-      env
+      env,
+      ...sectionsObj
     } satisfies TestDetailResponse)
   } catch (error) {
     console.error('Error fetching WAIC-TEST file from GitHub:', error)
