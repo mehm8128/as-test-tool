@@ -23,8 +23,6 @@ dist-ssr
 
 generated
 
-src/routeTree.gen.ts
-
 # Environment variables
 .dev.vars
 
