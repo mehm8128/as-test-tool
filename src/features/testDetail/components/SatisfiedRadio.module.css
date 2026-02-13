@@ -19,6 +19,9 @@
 .label:hover {
   background-color: #c8c8c8;
 }
+.label:focus-within {
+  outline: 1px solid #000;
+}
 .label:has(:checked) {
   background-color: #bebebe;
 }

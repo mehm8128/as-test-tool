@@ -47,6 +47,13 @@ export function TestList() {
         <div className={styles.title}>
           <h1>AS Test Tool</h1>
         </div>
+        <p>
+          ASテストを実行するためのツールです。
+          <br />
+          各種設定含め、入力したデータはローカルストレージのみに保存され、サーバーには保存されません。
+          <br />
+          各テストケースの全ての期待される結果に対して、満たしているかどうかの判定が完了している場合のみ、CSVエクスポートされます。
+        </p>
         <div className={styles.buttons}>
           <div className={styles.innerButtons}>
             <LinkButton to="/setting">各種設定</LinkButton>
@@ -59,12 +66,12 @@ export function TestList() {
         <label className={styles.searchContainer}>
           <span>テストID・タイトルで検索</span>
           <span className={styles.search}>
-            <Search />
-            <InputText
+            <Search className={styles.searchIcon} />
+            <input
               type="search"
-              full
               value={searchValue}
-              onChange={(value) => setSearchValue(value)}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className={styles.searchInput}
             />
           </span>
         </label>

@@ -1,1 +1,1 @@
-# WAIC AS Test Tool
+# AS Test Tool

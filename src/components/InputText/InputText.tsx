@@ -3,12 +3,10 @@ import styles from './InputText.module.css'
 export function InputText({
   type = 'text',
   value,
-  full,
   onChange
 }: {
-  type?: 'text' | 'email' | 'search'
+  type?: 'text' | 'email'
   value: string
-  full?: boolean
   onChange: (value: string) => void
 }) {
   return (
@@ -16,7 +14,7 @@ export function InputText({
       type={type}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className={`${styles.module} ${full ? styles.full : ''}`}
+      className={styles.module}
     />
   )
 }
