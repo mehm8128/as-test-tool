@@ -94,7 +94,7 @@ const getFileContent = async (filename: string, githubToken: string) => {
   throw new Error('File content not found')
 }
 
-app.get('/', async (c) => {
+app.get('/tests/html', async (c) => {
   try {
     const githubToken = c.env.APP_GITHUB_TOKEN
     if (!githubToken) {
@@ -122,7 +122,7 @@ interface TestDetailResponse {
   testCodeLink: string
 }
 
-app.get('/:testId', async (c) => {
+app.get('/tests/html/:testId', async (c) => {
   try {
     const testId = c.req.param('testId')
     const env = (c.req.query('env') as EnvType) || 'sight' // デフォルト値を'sight'に設定

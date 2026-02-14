@@ -1,6 +1,5 @@
 import { atom } from 'jotai'
 import { unwrap } from 'jotai/utils'
-import { getApiBaseUrl } from '../utils/api'
 
 export interface TestListItem {
   testId: string
@@ -11,8 +10,7 @@ interface TestList {
 }
 
 const testsAsyncAtom = atom(async () => {
-  const baseUrl = getApiBaseUrl()
-  const response = await fetch(`${baseUrl}/api`)
+  const response = await fetch(`/api/tests/html`)
   const data: TestList = await response.json()
   return data.tests
 })

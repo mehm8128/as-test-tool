@@ -1,6 +1,5 @@
 import { atom } from 'jotai'
 import { atomFamily } from 'jotai-family'
-import { getApiBaseUrl } from '../utils/api'
 import { getTestIdAndEnvFromKey } from '../functions/testKey'
 
 export type TestEnv = 'sight' | 'sound'
@@ -26,8 +25,7 @@ export interface TestDetail {
 export const testDetailAtomFamily = atomFamily((key: string) =>
   atom(async () => {
     const { testId, env } = getTestIdAndEnvFromKey(key)
-    const baseUrl = getApiBaseUrl()
-    let url = `${baseUrl}/api/${testId}`
+    let url = `/api/tests/html/${testId}`
     if (env) {
       url += `?env=${env}`
     }
