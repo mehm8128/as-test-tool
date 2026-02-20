@@ -5,7 +5,7 @@ import { useAtom } from 'jotai'
 import { settingAtom } from '../../states/setting'
 import { BrowserRouter } from 'react-router-dom'
 
-test('各フィールドに入力しlocalStorageに保存される', async () => {
+test('各フィールドに入力した情報がatomに保存される', async () => {
   // Arrange
   const screen = await render(
     <BrowserRouter>
