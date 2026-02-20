@@ -9,6 +9,8 @@
     "preview": "vite preview",
     "typecheck": "cmk && tsgo -b",
     "test": "vitest",
+    "test:unit": "vitest --project unit",
+    "test:browser": "vitest --project browser",
     "lint": "oxlint src --fix",
     "format": "oxfmt src",
     "lint:markup": "markuplint \"**/*.[jt]sx\"",
@@ -45,11 +47,13 @@
     "@types/react-dom": "^19.2.3",
     "@typescript/native-preview": "7.0.0-dev.20260211.1",
     "@vitejs/plugin-react": "^5.1.2",
+    "@vitest/browser-webdriverio": "^4.0.18",
     "markuplint": "^4.14.0",
     "oxfmt": "^0.26.0",
     "oxlint": "^1.41.0",
     "vite": "^7.3.1",
     "vitest": "^4.0.17",
+    "vitest-browser-react": "^2.0.5",
     "wrangler": "^4.60.0"
   }
 }
