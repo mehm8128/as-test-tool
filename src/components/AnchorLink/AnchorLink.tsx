@@ -1,22 +1,15 @@
-import { createLink } from '@tanstack/react-router'
 import { ExternalLink as ExternalLinkIcon } from 'lucide-react'
-import type { ComponentProps, ReactNode, Ref } from 'react'
+import type { ReactNode } from 'react'
+import { Link, type LinkProps } from 'react-router-dom'
 import styles from './AnchorLink.module.css'
 
-function AnchorLinkInner({
-  ref,
-  ...props
-}: {
-  ref: Ref<HTMLAnchorElement>
-} & ComponentProps<'a'>) {
+export function AnchorLink({ children, className, ...props }: LinkProps) {
   return (
-    <a ref={ref} {...props} className={styles.module}>
-      {props.children}
-    </a>
+    <Link {...props} className={className ? `${styles.module} ${className}` : styles.module}>
+      {children}
+    </Link>
   )
 }
-
-export const AnchorLink = createLink(AnchorLinkInner)
 
 export function ExternalAnchorLink({ href, children }: { href: string; children: ReactNode }) {
   return (

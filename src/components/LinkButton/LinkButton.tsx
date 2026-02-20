@@ -1,18 +1,11 @@
-import { createLink } from '@tanstack/react-router'
-import type { ComponentProps, Ref } from 'react'
+import type { LinkProps } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styles from './LinkButton.module.css'
 
-function LinkButtonInner({
-  ref,
-  ...props
-}: {
-  ref: Ref<HTMLAnchorElement>
-} & ComponentProps<'a'>) {
+export function LinkButton({ children, className, ...props }: LinkProps) {
   return (
-    <a ref={ref} {...props} className={styles.module}>
-      {props.children}
-    </a>
+    <Link {...props} className={className ? `${styles.module} ${className}` : styles.module}>
+      {children}
+    </Link>
   )
 }
-
-export const LinkButton = createLink(LinkButtonInner)

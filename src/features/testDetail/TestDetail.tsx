@@ -154,18 +154,20 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
           <div className={styles.footerUl}>
             {!isFirstTestId && (
               <AnchorLink
-                to="/$testId"
-                params={{ testId: prevTestId() }}
-                search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
+                to={{
+                  pathname: `/${prevTestId()}`,
+                  search: `?env=${env === 'sound' ? 'sight' : 'sound'}`
+                }}
               >
                 前のテストへ
               </AnchorLink>
             )}
             {!isLastTestId && (
               <AnchorLink
-                to="/$testId"
-                params={{ testId: nextTestId() }}
-                search={env === 'sound' ? { env: 'sight' } : { env: 'sound' }}
+                to={{
+                  pathname: `/${nextTestId()}`,
+                  search: `?env=${env === 'sound' ? 'sight' : 'sound'}`
+                }}
               >
                 次のテストへ
               </AnchorLink>
