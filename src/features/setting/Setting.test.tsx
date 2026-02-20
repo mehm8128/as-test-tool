@@ -4,6 +4,7 @@ import { Setting } from './Setting'
 import { useAtom } from 'jotai'
 import { settingAtom } from '../../states/setting'
 import { BrowserRouter } from 'react-router-dom'
+import { userEvent } from 'vitest/browser'
 
 test('各フィールドに入力した情報がatomに保存される', async () => {
   // Arrange
@@ -22,12 +23,12 @@ test('各フィールドに入力した情報がatomに保存される', async (
   const atSettingTextarea = screen.getByLabelText('支援技術に対する追加の設定')
 
   // Act
-  await nameInput.fill('taro yamada')
-  await emailInput.fill('taro@example.com')
-  await osInput.fill('Windows')
-  await browserInput.fill('Chrome')
-  await atInput.fill('NVDA')
-  await atSettingTextarea.fill('no setting')
+  await userEvent.fill(nameInput, 'taro yamada')
+  await userEvent.fill(emailInput, 'taro@example.com')
+  await userEvent.fill(osInput, 'Windows')
+  await userEvent.fill(browserInput, 'Chrome')
+  await userEvent.fill(atInput, 'NVDA')
+  await userEvent.fill(atSettingTextarea, 'no setting')
 
   // Assert
   expect(result.current[0]).toEqual({
