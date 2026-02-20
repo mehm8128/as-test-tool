@@ -3,10 +3,15 @@ import { render, renderHook } from 'vitest-browser-react'
 import { Setting } from './Setting'
 import { useAtom } from 'jotai'
 import { settingAtom } from '../../states/setting'
+import { BrowserRouter } from 'react-router-dom'
 
 test('各フィールドに入力しlocalStorageに保存される', async () => {
   // Arrange
-  const screen = await render(<Setting />)
+  const screen = await render(
+    <BrowserRouter>
+      <Setting />
+    </BrowserRouter>
+  )
   const { result } = await renderHook(() => useAtom(settingAtom))
 
   const nameInput = screen.getByLabelText('氏名')

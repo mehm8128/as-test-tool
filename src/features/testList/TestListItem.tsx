@@ -18,11 +18,11 @@ export function TestListItem({ testId, testTitle }: { testId: string; testTitle:
         </span>
       </div>
       <div className={styles.links}>
-        <LinkButton to="/$testId" params={{ testId }} search={{ env: 'sight' }}>
+        <LinkButton to={{ pathname: `/${testId}`, search: '?env=sight' }}>
           {sightCompleted && <Check aria-label="完了済み" />}
           視覚閲覧環境
         </LinkButton>
-        <LinkButton to="/$testId" params={{ testId }} search={{ env: 'sound' }}>
+        <LinkButton to={{ pathname: `/${testId}`, search: '?env=sound' }}>
           {soundCompleted && <Check aria-label="完了済み" />}
           音声閲覧環境
         </LinkButton>
