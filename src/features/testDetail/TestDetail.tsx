@@ -1,24 +1,20 @@
 import { useAtomValue } from 'jotai'
-import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
-import { testIdsAtom } from '../../states/testList'
-import { getTestKeyFromId } from '../../functions/testKey'
-import { Button } from '../../components/Button/Button'
 import { AnchorLink, ExternalAnchorLink } from '../../components/AnchorLink/AnchorLink'
-import { Textarea } from '../../components/Textarea/Textarea'
-import { Label } from '../../components/Label/Label'
+import { Button } from '../../components/Button/Button'
 import { Heading } from '../../components/Heading/Heading'
 import { MarkdownContent } from '../../components/MarkdownContent/MarkdownContent'
-import styles from './TestDetail.module.css'
-import { useId } from 'react'
-import { SatisfiedRadio } from './components/SatisifedRadio'
+import { getTestKeyFromId } from '../../functions/testKey'
 import { useTitle } from '../../hooks/useTitle'
+import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
+import { testIdsAtom } from '../../states/testList'
+import { TestForm } from './components/TestForm'
 import { useForm } from './hooks/useForm'
+import styles from './TestDetail.module.css'
 
 export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   const testKey = getTestKeyFromId(testId, env)
   const testData = useAtomValue(testDetailAtomFamily(testKey))
   const testIds = useAtomValue(testIdsAtom)
-  const satisfiedRadioFieldId = useId()
   const { formState, handleEditTestResult, handleResetTestResult } = useForm(
     testKey,
     testId,
@@ -89,65 +85,11 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
               <Heading level={3}>テスト実施時の注意点</Heading>
               <MarkdownContent html={testData.notes} />
             </section>
-            {testData.proceduresAndExpectedResults.map((procedureAndExpectedResult, index) => (
-              <div key={index} className={styles.testProcedure}>
-                <section className={styles.section}>
-                  <div className={styles.innerSection}>
-                    <Heading level={3}>手順 {index + 1}</Heading>
-                    <MarkdownContent html={procedureAndExpectedResult.procedure} />
-                  </div>
-                  <Label labelText={`行った操作 ${index + 1}`}>
-                    <Textarea
-                      value={formState.operationAndResults[index].operation}
-                      onChange={(value) =>
-                        handleEditTestResult({
-                          ...formState,
-                          operationAndResults: formState.operationAndResults.map((o, i) =>
-                            i === index ? { ...o, operation: value } : o
-                          )
-                        })
-                      }
-                    />
-                  </Label>
-                </section>
-                <section className={styles.section}>
-                  <div className={styles.innerSection}>
-                    <Heading level={3}>期待される結果 {index + 1}</Heading>
-                    <MarkdownContent html={procedureAndExpectedResult.expectedResult} />
-                  </div>
-                  <Label labelText={`操作の結果 ${index + 1}`}>
-                    <Textarea
-                      value={formState.operationAndResults[index].result}
-                      onChange={(value) =>
-                        handleEditTestResult({
-                          ...formState,
-                          operationAndResults: formState.operationAndResults.map((o, i) =>
-                            i === index ? { ...o, result: value } : o
-                          )
-                        })
-                      }
-                    />
-                  </Label>
-                </section>
-                <section className={styles.innerSection}>
-                  <Heading level={3} id={satisfiedRadioFieldId}>
-                    期待される結果 {index + 1}を満たしているかどうか
-                  </Heading>
-                  <SatisfiedRadio
-                    id={satisfiedRadioFieldId}
-                    isSatisfied={formState.operationAndResults[index].isSatisfied}
-                    onEditIsSatisfied={(isSatisfied) =>
-                      handleEditTestResult({
-                        ...formState,
-                        operationAndResults: formState.operationAndResults.map((o, i) =>
-                          i === index ? { ...o, isSatisfied } : o
-                        )
-                      })
-                    }
-                  />
-                </section>
-              </div>
-            ))}
+            <TestForm
+              testData={testData}
+              formState={formState}
+              handleEditTestResult={handleEditTestResult}
+            />
           </section>
         </div>
         <nav className={styles.nav}>

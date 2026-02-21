@@ -1,11 +1,11 @@
-import { useSetAtom, useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { useState } from 'react'
 import {
   resetTestResultAtom,
   testResultsAtomFamily,
   type TestResult
 } from '../../../states/results'
-import type { TestEnv, TestDetail } from '../../../states/testDetail'
+import type { TestDetail, TestEnv } from '../../../states/testDetail'
 
 export const useForm = (testKey: string, testId: string, env: TestEnv, testData: TestDetail) => {
   const resetTestResult = useSetAtom(resetTestResultAtom)
