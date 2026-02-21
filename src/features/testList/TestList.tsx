@@ -10,6 +10,7 @@ import { testResultsAtom, resetTestResultsAtom } from '../../states/results'
 import { settingAtom } from '../../states/setting'
 import { exportToCsv } from './functions/exportToCSV'
 import type { TestListItem as TestListItemType } from '../../states/testList'
+import { ExternalAnchorLink } from '../../components/AnchorLink/AnchorLink'
 
 export function TestList() {
   const tests = useAtomValue(testsAtom)
@@ -52,6 +53,12 @@ export function TestList() {
           各種設定含め、入力したデータはローカルストレージのみに保存され、サーバーには保存されません。
           <br />
           各テストケースの全ての期待される結果に対して、満たしているかどうかの判定が完了している場合のみ、CSVエクスポートされます。
+          <br />
+          テストケースは全て、
+          <ExternalAnchorLink href="https://github.com/waic/as_test">
+            WAICで管理されているもの
+          </ExternalAnchorLink>
+          です。
         </p>
         <div className={styles.buttons}>
           <div className={styles.innerButtons}>
