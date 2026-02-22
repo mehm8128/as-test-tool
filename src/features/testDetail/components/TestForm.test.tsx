@@ -1,14 +1,21 @@
-import { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { expect, test, vi } from 'vitest'
+import { afterEach, expect, test, vi } from 'vitest'
 import { render } from 'vitest-browser-react'
 import { userEvent } from 'vitest/browser'
-import type { TestResult } from '../../../states/results'
 import type { TestDetail } from '../../../states/testDetail'
+import { useForm } from '../hooks/useForm'
 import { TestForm } from './TestForm'
+
+afterEach(() => {
+  vi.useRealTimers()
+})
 
 test('各フィールドに入力した情報でstateがアップデートされる', async () => {
   // Arrange
+  vi.useFakeTimers()
+  vi.setSystemTime(new Date(2026, 0, 1, 12, 0, 0))
+
+  const testKey = 'WAIC-TEST-0001-01|sight'
   const testData: TestDetail = {
     filename: 'WAIC-TEST-0001-01',
     env: 'sight',
@@ -23,35 +30,19 @@ test('各フィールドに入力した情報でstateがアップデートされ
     link: 'https://example.com',
     testCodeLink: 'https://example.com/test-code'
   }
-  const onChange = vi.fn()
-  const Wrapper = ({ onChange }: { onChange: (value: Partial<TestResult>) => void }) => {
-    const [formState, setFormState] = useState<TestResult>({
-      date: '2026-01-01',
-      testId: 'WAIC-TEST-0001-01',
-      env: 'sight',
-      operationAndResults: [
-        {
-          operation: '',
-          result: '',
-          isSatisfied: undefined
-        }
-      ]
-    })
-
-    const handleChange = (value: Partial<TestResult>) => {
-      setFormState((prev) => ({ ...prev, ...value }))
-      onChange(value)
-    }
-
+  const Wrapper = () => {
+    const { formState, handleEditTestResult } = useForm(testKey, testData)
     return (
-      <TestForm testData={testData} formState={formState} handleEditTestResult={handleChange} />
+      <BrowserRouter>
+        <TestForm
+          testData={testData}
+          formState={formState}
+          onEditTestResult={handleEditTestResult}
+        />
+      </BrowserRouter>
     )
   }
-  const screen = await render(
-    <BrowserRouter>
-      <Wrapper onChange={onChange} />
-    </BrowserRouter>
-  )
+  const screen = await render(<Wrapper />)
 
   const operationTextarea = screen.getByRole('textbox', { name: '行った操作 1' })
   const resultTextarea = screen.getByRole('textbox', { name: '操作の結果 1' })
@@ -65,17 +56,21 @@ test('各フィールドに入力した情報でstateがアップデートされ
   await userEvent.fill(operationTextarea, '操作1')
   await userEvent.fill(resultTextarea, '結果1')
   await userEvent.click(isSatisfiedRadio)
+
   // Assert
-  expect(onChange).toHaveBeenCalledWith({
-    date: '2026-01-01',
-    testId: 'WAIC-TEST-0001-01',
-    env: 'sight',
-    operationAndResults: [
-      {
-        operation: '操作1',
-        result: '結果1',
-        isSatisfied: true
-      }
-    ]
-  })
+  const localStorageValue = localStorage.getItem(`waic-test-result-${testKey}`)
+  expect(localStorageValue).toBe(
+    JSON.stringify({
+      date: '2026-1-1',
+      testId: 'WAIC-TEST-0001-01',
+      env: 'sight',
+      operationAndResults: [
+        {
+          operation: '操作1',
+          result: '結果1',
+          isSatisfied: true
+        }
+      ]
+    })
+  )
 })

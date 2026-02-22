@@ -11,11 +11,11 @@ import styles from './TestForm.module.css'
 export function TestForm({
   testData,
   formState,
-  handleEditTestResult
+  onEditTestResult
 }: {
   testData: TestDetail
   formState: TestResult
-  handleEditTestResult: (updatedResult: Partial<TestResult>) => void
+  onEditTestResult: (formState: TestResult) => void
 }) {
   const satisfiedRadioFieldId = useId()
 
@@ -30,7 +30,7 @@ export function TestForm({
           <Textarea
             value={formState.operationAndResults[index].operation}
             onChange={(value) =>
-              handleEditTestResult({
+              onEditTestResult({
                 ...formState,
                 operationAndResults: formState.operationAndResults.map((o, i) =>
                   i === index ? { ...o, operation: value } : o
@@ -49,7 +49,7 @@ export function TestForm({
           <Textarea
             value={formState.operationAndResults[index].result}
             onChange={(value) =>
-              handleEditTestResult({
+              onEditTestResult({
                 ...formState,
                 operationAndResults: formState.operationAndResults.map((o, i) =>
                   i === index ? { ...o, result: value } : o
@@ -67,7 +67,7 @@ export function TestForm({
           id={satisfiedRadioFieldId}
           isSatisfied={formState.operationAndResults[index].isSatisfied}
           onEditIsSatisfied={(isSatisfied) =>
-            handleEditTestResult({
+            onEditTestResult({
               ...formState,
               operationAndResults: formState.operationAndResults.map((o, i) =>
                 i === index ? { ...o, isSatisfied } : o

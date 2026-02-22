@@ -1,14 +1,11 @@
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom } from 'jotai'
 import { useState } from 'react'
-import {
-  resetTestResultAtom,
-  testResultsAtomFamily,
-  type TestResult
-} from '../../../states/results'
-import type { TestDetail, TestEnv } from '../../../states/testDetail'
+import { getTestIdAndEnvFromKey } from '../../../functions/testKey'
+import { testResultsAtomFamily, type TestResult } from '../../../states/results'
+import type { TestDetail } from '../../../states/testDetail'
 
-export const useForm = (testKey: string, testId: string, env: TestEnv, testData: TestDetail) => {
-  const resetTestResult = useSetAtom(resetTestResultAtom)
+export const useForm = (testKey: string, testData: TestDetail) => {
+  const { testId, env } = getTestIdAndEnvFromKey(testKey)
   const [savedTestResult, setSavedTestResult] = useAtom(testResultsAtomFamily(testKey))
 
   // operationAndResultsの数をatomWithStorageの初期値で調整できないので、ここで初期化している
@@ -54,28 +51,8 @@ export const useForm = (testKey: string, testId: string, env: TestEnv, testData:
     })
   }
 
-  const handleResetTestResult = () => {
-    if (confirm('本当にこのテストの結果をリセットしますか？')) {
-      resetTestResult(testKey)
-      const opAndResultNum = testData.proceduresAndExpectedResults.length
-      setFormState({
-        date: '',
-        testId,
-        env,
-        operationAndResults: Array(opAndResultNum)
-          .fill(null)
-          .map(() => ({
-            operation: '',
-            result: '',
-            isSatisfied: undefined
-          }))
-      })
-    }
-  }
-
   return {
     formState,
-    handleEditTestResult,
-    handleResetTestResult
+    handleEditTestResult
   }
 }

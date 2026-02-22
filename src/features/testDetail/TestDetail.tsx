@@ -1,10 +1,11 @@
-import { useAtomValue } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { AnchorLink, ExternalAnchorLink } from '../../components/AnchorLink/AnchorLink'
 import { Button } from '../../components/Button/Button'
 import { Heading } from '../../components/Heading/Heading'
 import { MarkdownContent } from '../../components/MarkdownContent/MarkdownContent'
 import { getTestKeyFromId } from '../../functions/testKey'
 import { useTitle } from '../../hooks/useTitle'
+import { resetTestResultAtom } from '../../states/results'
 import { testDetailAtomFamily, type TestEnv } from '../../states/testDetail'
 import { testIdsAtom } from '../../states/testList'
 import { TestForm } from './components/TestForm'
@@ -15,17 +16,21 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
   const testKey = getTestKeyFromId(testId, env)
   const testData = useAtomValue(testDetailAtomFamily(testKey))
   const testIds = useAtomValue(testIdsAtom)
-  const { formState, handleEditTestResult, handleResetTestResult } = useForm(
-    testKey,
-    testId,
-    env,
-    testData
-  )
+  const resetTestResult = useSetAtom(resetTestResultAtom)
+  const { formState, handleEditTestResult } = useForm(testKey, testData)
 
   const testTitle = `${testData.title}（${env === 'sight' ? '視覚閲覧環境' : '音声閲覧環境'}）`
 
   const isFirstTestId = testIds.indexOf(testId) === 0 && env === 'sight'
   const isLastTestId = testIds.indexOf(testId) === testIds.length - 1 && env === 'sound'
+
+  const handleResetTestResult = () => {
+    if (!confirm('本当にこのテストの結果をリセットしますか？')) {
+      return
+    }
+    resetTestResult(testKey)
+    location.reload()
+  }
 
   const prevTestId = () => {
     // 今の画面が音声閲覧環境だったら、前は同じテストIDの視覚閲覧環境
@@ -88,7 +93,7 @@ export function TestDetail({ testId, env }: { testId: string; env: TestEnv }) {
             <TestForm
               testData={testData}
               formState={formState}
-              handleEditTestResult={handleEditTestResult}
+              onEditTestResult={handleEditTestResult}
             />
           </section>
         </div>
