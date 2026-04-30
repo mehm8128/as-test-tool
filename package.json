@@ -37,7 +37,7 @@
     "unified": "^11.0.5"
   },
   "devDependencies": {
-    "@css-modules-kit/codegen": "^0.6.0",
+    "@css-modules-kit/codegen": "^0.10.0",
     "@markuplint/jsx-parser": "^4.7.22",
     "@markuplint/react-spec": "^4.5.22",
     "@types/mdast": "^4.0.4",
