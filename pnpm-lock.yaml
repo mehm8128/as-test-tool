@@ -68,7 +68,7 @@ importers:
         version: 4.18.0(typescript@5.8.3)
       '@markuplint/react-spec':
         specifier: ^4.5.22
-        version: 4.5.22
+        version: 4.18.0
       '@types/mdast':
         specifier: ^4.0.4
         version: 4.0.4
@@ -774,17 +774,11 @@ packages:
   '@markuplint/ml-ast@4.18.0':
     resolution: {integrity: sha512-K8V1hcTFGVEWkdGZF2EZNix3RiV+iMTekEvXm0BxwBwJ09XBs207v/rb2Aehd+VHGy78+/a+kU/BTNrqApzZmA==}
 
-  '@markuplint/ml-ast@4.4.10':
-    resolution: {integrity: sha512-cBujnRj/kMP5wtMml7eTzDEJRk/NQx8Fum4TPdRG97VNWVPBZi/FXDrgt7mIUAaLMiNQhaSKU7tTL4HB1qUChQ==}
-
   '@markuplint/ml-config@4.18.1':
     resolution: {integrity: sha512-2ZzXxJC+3OVX9dHRbVRikIFyKXLIlWQeoxCqe5vBEpTfvZh9sH8MyvaaM+Or1mrTGQpchbTsH/xujpPAtJ0sDA==}
 
   '@markuplint/ml-core@4.18.1':
     resolution: {integrity: sha512-4nRbSsD1Xa1OyFKEmzr0Olgr+2gQPu44eCA9gwZ4MteyLOqervE+Yv5DFOKcZ/1Y5biyGh5LmTVCSSUMcMsrlA==}
-
-  '@markuplint/ml-spec@4.10.1':
-    resolution: {integrity: sha512-HYxN2Rh8UqWnDBAVSZtFwHvG5laTN0dOOROMhId/O4SBcOilvJffvi/gJvIOGM5y92DWjxqPF4zVRuDOFiHdPQ==}
 
   '@markuplint/ml-spec@4.18.0':
     resolution: {integrity: sha512-rVz9RsYeBGgCggYYxU0H4EUrodm2wBTw3vmrtaFps3/SNnKcvSZNlFnYd2VaV2oNGrEvvCE+tXDXUH353sG6SQ==}
@@ -792,8 +786,8 @@ packages:
   '@markuplint/parser-utils@4.18.0':
     resolution: {integrity: sha512-wp0PocLzZdLUhWbGKVK528WxknT/FCk1/PEqQnBjUlqOR2SD1rXHShoxz+gbYJVe6hMXUfKfqSA3KBUXLOelqg==}
 
-  '@markuplint/react-spec@4.5.22':
-    resolution: {integrity: sha512-W5ZZO0PSZJS73SOJ3vPNwwJxr0SA4HSDiRXfCTux2Go9axgVUYy5rDL9Yz6SNDf8dO0O/9D+NPziG2aZQm7icA==}
+  '@markuplint/react-spec@4.18.0':
+    resolution: {integrity: sha512-ecQGaLEzXnZ+Es7TPkHFdwWv0PMxE0K9Sz+Xvt0LZyZFLkIm4o/UJAUGA/rvXNFPCnfgErPjvAClXpoIo7W40Q==}
 
   '@markuplint/rules@4.18.1':
     resolution: {integrity: sha512-dAIv1nrU5Upra3dVLJbtMVt6Nb5b2HCmzcdAtoJsD1686rMHUUd1tpPxYOs7mN0TdzlntYoITx3Dme83nEGTwg==}
@@ -804,14 +798,8 @@ packages:
   '@markuplint/shared@4.18.0':
     resolution: {integrity: sha512-srF15il/HObuqx43hEXehutktOk62X0oHLIVtCuqwSXl8B0L6eu9kQ7ltxvhtN5wIEZu1IySBRBgFXavR7mojg==}
 
-  '@markuplint/shared@4.4.12':
-    resolution: {integrity: sha512-mDB3tfJyekI5PhCuBHYCHxnZlZYu3Rzb0n9iZJee0lVAqTirKXX6igwj2QC6KcXE+PAG2lPmfIdJZvlGw6yUKw==}
-
   '@markuplint/types@4.18.0':
     resolution: {integrity: sha512-ew3PEm0rmwS0dMn4WbUQTP11drb39OfXBbklbYMoq1XpZhtx/9WBZ8yUr/j5unl8SO6s+PXQzto0ZW4TiXUicA==}
-
-  '@markuplint/types@4.8.1':
-    resolution: {integrity: sha512-jAG4b8k9W7O7bNgOPkuHhgROah1rqb79NAJvhFRz2jbjhhtchKg+8Qyn39ey9gwX6rdjajuRDjc/KsD7UI/eqg==}
 
   '@napi-rs/wasm-runtime@1.1.4':
     resolution: {integrity: sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==}
@@ -1276,9 +1264,6 @@ packages:
   '@types/css-tree@2.3.11':
     resolution: {integrity: sha512-aEokibJOI77uIlqoBOkVbaQGC9zII0A+JH1kcTNKW2CwyYWD8KM6qdo+4c77wD3wZOQfJuNWAr9M4hdk+YhDIg==}
 
-  '@types/debug@4.1.12':
-    resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
-
   '@types/debug@4.1.13':
     resolution: {integrity: sha512-KSVgmQmzMwPlmtljOomayoR89W4FynCAi3E8PPs7vmDVPe84hT+vGPKkJfThkmXs0x0jAaa9U8uW8bbfyS2fWw==}
 
@@ -1323,9 +1308,6 @@ packages:
   '@types/uuid@11.0.0':
     resolution: {integrity: sha512-HVyk8nj2m+jcFRNazzqyVKiZezyhDKrGUA3jlEcg/nZ6Ms+qHwocba1Y/AaVaznJTAM9xpdFSh+ptbNrhOGvZA==}
     deprecated: This is a stub types definition. uuid provides its own type definitions, so you do not need this installed.
-
-  '@types/whatwg-mimetype@3.0.2':
-    resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
 
   '@types/whatwg-mimetype@5.0.0':
     resolution: {integrity: sha512-YYiBDCoqBgDIF2ByYn4qDb4RaXZ46cOQ6j2We1Ni3bikFNI7YFeL8jxSiYowWsriZrb1mw09CLZ+b+ZkIhsLVw==}
@@ -1775,10 +1757,6 @@ packages:
   css-shorthand-properties@1.1.2:
     resolution: {integrity: sha512-C2AugXIpRGQTxaCW0N7n5jD/p5irUmCrwl03TrnMFBHDbdq44CFWR2zO7rK9xPN4Eo3pUxC4vQzQgbIpzrD1PQ==}
 
-  css-tree@3.1.0:
-    resolution: {integrity: sha512-0eW44TGN5SQXU1mWSkKwFstI/22X2bG1nYzZTYMAWjylYURhse752YgbE4Cx46AC+bAvI+/dYTPRk1LqSUnu6w==}
-    engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
-
   css-tree@3.2.1:
     resolution: {integrity: sha512-X7sjQzceUhu1u7Y/ylrRZFU2FS6LRiFVp6rKLPg23y3x3c3DOKAwuXGDp+PAGjh6CSnCjYeAul8pcT8bAl+lSA==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
@@ -1844,9 +1822,6 @@ packages:
 
   devlop@1.1.0:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
-
-  dom-accessibility-api@0.7.0:
-    resolution: {integrity: sha512-LjjdFmd9AITAet3Hy6Y6rwB7Sq1+x5NiwbOpnkLHC1bCXJqJKiV9DyppSSWobuSKvjKXt9G2u3hW402MPt6m+g==}
 
   dom-accessibility-api@0.7.1:
     resolution: {integrity: sha512-vdnCeZD+3wZ+8h8xXL/ZtBlvvoobOFyPzSiIfO6sGOZDqjFx4aLMAjZhl4rawj5xYz3UwP6Tgvyh0iH4IOCVnQ==}
@@ -2440,9 +2415,6 @@ packages:
 
   mdast-util-to-string@4.0.0:
     resolution: {integrity: sha512-0H44vDimn51F0YwvxSJSm0eCDOJTRlmN0R1yBh4HLj9wiV1Dn0QoXGbvFAWj2hSItVTlCmBF1hqKlIyUBVFLPg==}
-
-  mdn-data@2.12.2:
-    resolution: {integrity: sha512-IEn+pegP1aManZuckezWCO+XZQDplx1366JoVhTpMpBB1sPey/SbveZQUosKiKiGYjg1wH4pMlNgXbCiYgihQA==}
 
   mdn-data@2.27.1:
     resolution: {integrity: sha512-9Yubnt3e8A0OKwxYSXyhLymGW4sCufcLG6VdiDdUGVkPhpqLxlvP5vl1983gQjJl3tqbrM731mjaZaP68AgosQ==}
@@ -3942,8 +3914,6 @@ snapshots:
 
   '@markuplint/ml-ast@4.18.0': {}
 
-  '@markuplint/ml-ast@4.4.10': {}
-
   '@markuplint/ml-config@4.18.1':
     dependencies:
       '@markuplint/ml-ast': 4.18.0
@@ -3977,16 +3947,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@markuplint/ml-spec@4.10.1':
-    dependencies:
-      '@markuplint/ml-ast': 4.4.10
-      '@markuplint/types': 4.8.1
-      dom-accessibility-api: 0.7.0
-      is-plain-object: 5.0.0
-      type-fest: 4.41.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@markuplint/ml-spec@4.18.0':
     dependencies:
       '@markuplint/ml-ast': 4.18.0
@@ -4010,9 +3970,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@markuplint/react-spec@4.5.22':
+  '@markuplint/react-spec@4.18.0':
     dependencies:
-      '@markuplint/ml-spec': 4.10.1
+      '@markuplint/ml-spec': 4.18.0
     transitivePeerDependencies:
       - supports-color
 
@@ -4047,10 +4007,6 @@ snapshots:
     dependencies:
       html-entities: 2.6.0
 
-  '@markuplint/shared@4.4.12':
-    dependencies:
-      html-entities: 2.6.0
-
   '@markuplint/types@4.18.0':
     dependencies:
       '@markuplint/shared': 4.18.0
@@ -4063,21 +4019,6 @@ snapshots:
       leven: 4.1.0
       type-fest: 5.6.0
       whatwg-mimetype: 5.0.0
-    transitivePeerDependencies:
-      - supports-color
-
-  '@markuplint/types@4.8.1':
-    dependencies:
-      '@markuplint/shared': 4.4.12
-      '@types/css-tree': 2.3.11
-      '@types/debug': 4.1.12
-      '@types/whatwg-mimetype': 3.0.2
-      bcp-47: 2.1.0
-      css-tree: 3.1.0
-      debug: 4.4.3
-      leven: 4.1.0
-      type-fest: 4.41.0
-      whatwg-mimetype: 4.0.0
     transitivePeerDependencies:
       - supports-color
 
@@ -4357,10 +4298,6 @@ snapshots:
 
   '@types/css-tree@2.3.11': {}
 
-  '@types/debug@4.1.12':
-    dependencies:
-      '@types/ms': 2.1.0
-
   '@types/debug@4.1.13':
     dependencies:
       '@types/ms': 2.1.0
@@ -4404,8 +4341,6 @@ snapshots:
   '@types/uuid@11.0.0':
     dependencies:
       uuid: 13.0.0
-
-  '@types/whatwg-mimetype@3.0.2': {}
 
   '@types/whatwg-mimetype@5.0.0': {}
 
@@ -4888,11 +4823,6 @@ snapshots:
 
   css-shorthand-properties@1.1.2: {}
 
-  css-tree@3.1.0:
-    dependencies:
-      mdn-data: 2.12.2
-      source-map-js: 1.2.1
-
   css-tree@3.2.1:
     dependencies:
       mdn-data: 2.27.1
@@ -4939,8 +4869,6 @@ snapshots:
   devlop@1.1.0:
     dependencies:
       dequal: 2.0.3
-
-  dom-accessibility-api@0.7.0: {}
 
   dom-accessibility-api@0.7.1: {}
 
@@ -5596,8 +5524,6 @@ snapshots:
   mdast-util-to-string@4.0.0:
     dependencies:
       '@types/mdast': 4.0.4
-
-  mdn-data@2.12.2: {}
 
   mdn-data@2.27.1: {}
 
