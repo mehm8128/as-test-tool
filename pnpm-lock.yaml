@@ -61,8 +61,8 @@ importers:
         version: 11.0.5
     devDependencies:
       '@css-modules-kit/codegen':
-        specifier: ^0.10.0
-        version: 0.10.0(typescript@5.8.3)
+        specifier: ^1.0.0
+        version: 1.1.0(typescript@5.8.3)
       '@markuplint/jsx-parser':
         specifier: ^4.7.22
         version: 4.18.0(typescript@5.8.3)
@@ -235,18 +235,18 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@css-modules-kit/codegen@0.10.0':
-    resolution: {integrity: sha512-46uKcCy3ynrdIFUQWxG1JVBHDyMLZxGxzxnx44bEq8xO0VrnQUj8XE94e0w+NV54/+FHE1wSv8WAYJAwWDpbNQ==}
-    engines: {node: '>=20.19.0'}
+  '@css-modules-kit/codegen@1.1.0':
+    resolution: {integrity: sha512-qJsPHCHp22hsNOvopRNxWSBSIp7uTr7c7orgRJ/QmhV/zbeRfk/DFZrt41CS9vOZfPA9sJHA3I0P6s6sgCcGtw==}
+    engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
-      typescript: ^5.7.3
+      typescript: '>=5.7.3'
 
-  '@css-modules-kit/core@0.10.0':
-    resolution: {integrity: sha512-zbBW07LHR0Nn88I9h0krsQ9EoSFRbd6UvzLUIP5dzXnbRg/34BtVx3l8gDiu2xsqMHm0iYHAbtvfUuu018cCgQ==}
-    engines: {node: '>=20.19.0'}
+  '@css-modules-kit/core@1.1.0':
+    resolution: {integrity: sha512-pSMCJxE33sUNGfsJIXZTgLo9giyrqgSuC076Zjd6JRzbLB2td2ssUTLmqTYVJByYAKNl0d0H9Zz4SSl3H35wRg==}
+    engines: {node: '>=22.12.0'}
     peerDependencies:
-      typescript: ^5.7.3
+      typescript: '>=5.7.3'
 
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
@@ -3616,16 +3616,16 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@css-modules-kit/codegen@0.10.0(typescript@5.8.3)':
+  '@css-modules-kit/codegen@1.1.0(typescript@5.8.3)':
     dependencies:
-      '@css-modules-kit/core': 0.10.0(typescript@5.8.3)
+      '@css-modules-kit/core': 1.1.0(typescript@5.8.3)
       chokidar: 4.0.3
       typescript: 5.8.3
 
-  '@css-modules-kit/core@0.10.0(typescript@5.8.3)':
+  '@css-modules-kit/core@1.1.0(typescript@5.8.3)':
     dependencies:
-      postcss: 8.5.6
-      postcss-safe-parser: 7.0.1(postcss@8.5.6)
+      postcss: 8.5.13
+      postcss-safe-parser: 7.0.1(postcss@8.5.13)
       postcss-selector-parser: 7.1.1
       postcss-value-parser: 4.2.0
       typescript: 5.8.3
@@ -6050,9 +6050,9 @@ snapshots:
 
   pngjs@7.0.0: {}
 
-  postcss-safe-parser@7.0.1(postcss@8.5.6):
+  postcss-safe-parser@7.0.1(postcss@8.5.13):
     dependencies:
-      postcss: 8.5.6
+      postcss: 8.5.13
 
   postcss-selector-parser@7.1.0:
     dependencies:
