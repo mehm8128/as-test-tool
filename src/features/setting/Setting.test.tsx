@@ -19,7 +19,7 @@ test('各フィールドに入力した情報がatomに保存される', async (
   const emailInput = screen.getByRole('textbox', { name: 'メールアドレス' })
   const osInput = screen.getByRole('textbox', { name: 'OS' })
   const browserInput = screen.getByRole('textbox', { name: 'ブラウザ' })
-  const atInput = screen.getByRole('textbox', { name: '支援技術' })
+  const atInput = screen.getByRole('textbox', { name: '支援技術', exact: true })
   const atSettingTextarea = screen.getByRole('textbox', { name: '支援技術に対する追加の設定' })
 
   // Act
