@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: ^2.0.0
-        version: 2.0.2(hono@4.12.16)
+        version: 2.0.2(hono@4.12.19)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -19,7 +19,7 @@ importers:
         version: 17.4.2
       hono:
         specifier: ^4.11.4
-        version: 4.12.16
+        version: 4.12.19
       jotai:
         specifier: ^2.16.2
         version: 2.19.1(@types/react@19.2.14)(react@19.2.5)
@@ -1787,8 +1787,8 @@ packages:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
     engines: {node: '>=0.10.0'}
 
-  hono@4.12.16:
-    resolution: {integrity: sha512-jN0ZewiNAWSe5khM3EyCmBb250+b40wWbwNILNfEvq84VREWwOIkuUsFONk/3i3nqkz7Oe1PcpM2mwQEK2L9Kg==}
+  hono@4.12.19:
+    resolution: {integrity: sha512-xa3eYXYXx68XTT4hZ7dRzsXBhaq85ToSrlUJNoR0gwz/1Ap/CNwX47wfvV7pc/xWhjKVVkLT7zBJy8chhNguqQ==}
     engines: {node: '>=16.9.0'}
 
   html-entities@2.6.0:
@@ -3134,9 +3134,9 @@ snapshots:
   '@esbuild/win32-x64@0.27.3':
     optional: true
 
-  '@hono/node-server@2.0.2(hono@4.12.16)':
+  '@hono/node-server@2.0.2(hono@4.12.19)':
     dependencies:
-      hono: 4.12.16
+      hono: 4.12.19
 
   '@img/colour@1.1.0': {}
 
@@ -4532,7 +4532,7 @@ snapshots:
     dependencies:
       parse-passwd: 1.0.0
 
-  hono@4.12.16: {}
+  hono@4.12.19: {}
 
   html-entities@2.6.0: {}
 
