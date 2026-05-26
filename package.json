@@ -48,7 +48,7 @@
     "@vitejs/plugin-react": "^6.0.0",
     "@vitest/browser-webdriverio": "^4.0.18",
     "markuplint": "^4.14.0",
-    "oxfmt": "^0.47.0",
+    "oxfmt": "^0.52.0",
     "oxlint": "^1.41.0",
     "vite": "^8.0.0",
     "vitest": "^4.0.18",
