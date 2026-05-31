@@ -44,7 +44,7 @@
     "@types/node": "^25.0.9",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "@typescript/native-preview": "7.0.0-dev.20260525.1",
+    "@typescript/native-preview": "7.0.0-dev.20260527.2",
     "@vitejs/plugin-react": "^6.0.0",
     "@vitest/browser-webdriverio": "^4.0.18",
     "markuplint": "^4.14.0",
