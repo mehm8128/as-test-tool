@@ -89,7 +89,7 @@ importers:
         version: 6.0.5(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
       '@vitest/browser-webdriverio':
         specifier: ^4.0.18
-        version: 4.1.10(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)(webdriverio@9.29.1(supports-color@10.2.2))
+        version: 4.1.11(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)(webdriverio@9.29.1(supports-color@10.2.2))
       markuplint:
         specifier: ^4.14.0
         version: 4.18.3(supports-color@10.2.2)(typescript@6.0.3)
@@ -104,7 +104,7 @@ importers:
         version: 8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0)
       vitest:
         specifier: ^4.0.18
-        version: 4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.10)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
+        version: 4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.11)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
       vitest-browser-react:
         specifier: ^2.0.5
         version: 2.2.0(@types/react-dom@19.2.5(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@4.1.10)
@@ -1127,16 +1127,16 @@ packages:
       babel-plugin-react-compiler:
         optional: true
 
-  '@vitest/browser-webdriverio@4.1.10':
-    resolution: {integrity: sha512-CnZZFYFV7kIda1QhnV8ZxTbO/EoGb1S48RSMf3/iB4JjXlDl2sRWJ0VtbSq6Aav3YpqDc/X5oq3p91nUIU1psA==}
+  '@vitest/browser-webdriverio@4.1.11':
+    resolution: {integrity: sha512-utftie0XLjhATDCCRAaCZFVlosjQX6mF8UK+mo0q2yTn+XASUdz21tqvAA6fYRgLDiHAIVI06cBaKAklRp4UVA==}
     peerDependencies:
-      vitest: 4.1.10
+      vitest: 4.1.11
       webdriverio: '*'
 
-  '@vitest/browser@4.1.10':
-    resolution: {integrity: sha512-UDwuWGwXj646CBx/bQHOaJSX7np0I8JL/UKQYa1e4QrVHH8VdWtx8eaOuf8sy0ShwDgR6NjJAsp5eF6vjF6qng==}
+  '@vitest/browser@4.1.11':
+    resolution: {integrity: sha512-bwMovvAeuTFOK5kIFevw4VEf+1gVEICv4SYK4k3knJOxl6b1zEWud8mYKD73e1B0odAn174h1MofURy2TPWf3w==}
     peerDependencies:
-      vitest: 4.1.10
+      vitest: 4.1.11
 
   '@vitest/expect@4.1.10':
     resolution: {integrity: sha512-YsCn+qAk1GWjQOWFEsEcL2gNQ0zmVmQu3T03qP6UyjhtmdtwtbuI+DASn/7iQB3HGTXkdBwGddzxPlmiql5vlA==}
@@ -1152,8 +1152,22 @@ packages:
       vite:
         optional: true
 
+  '@vitest/mocker@4.1.11':
+    resolution: {integrity: sha512-2XJVD55d1o5AZous5CCGKS74g/riOj9odEt2bQpCVZeblHyHdnMeFl4jl0XjU21stf4mbjUkew2eXQZt65g5CQ==}
+    peerDependencies:
+      msw: ^2.4.9
+      vite: ^6.0.0 || ^7.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      msw:
+        optional: true
+      vite:
+        optional: true
+
   '@vitest/pretty-format@4.1.10':
     resolution: {integrity: sha512-W1HsjSH4MXQ9YfmmhLAoIYf1HRfekQCGngeIgcei6MP5QQGWUe0gkopdZQaVCFO+JDJMrAJGwa5pRpNpvy4P8Q==}
+
+  '@vitest/pretty-format@4.1.11':
+    resolution: {integrity: sha512-yiZzPbGTS9Sr/JpFl8zHrcIkAofNbFV6k21vIgQN/cY/oxZeXhJv5sc/MBJ5jFKWmWs+oJHw0UXLZjmf931+Vw==}
 
   '@vitest/runner@4.1.10':
     resolution: {integrity: sha512-IKI6kpIH+LmpROplyLwBBaCfMgOZOMsygVa6BARD6ahA04VRuJSa6OaVG7kRvSEMD870Vd91rSSw0eegtWyLGg==}
@@ -1164,8 +1178,14 @@ packages:
   '@vitest/spy@4.1.10':
     resolution: {integrity: sha512-PLf/Ugvoq5wO/b4rwYCR1h2PSIdXz7wnkQFMiUpLdtM7l6pqVFcQIBEHyT1+l+cj7mNwAfZHzqXqDyjvOuwbDw==}
 
+  '@vitest/spy@4.1.11':
+    resolution: {integrity: sha512-apNa/prQy2qCeywhnixOHPRCgGNhvg7T4Dapfl1GahLp/R+uhBm5cPyFoNVyqsNd2h1nJxL6BqqdIjiABL60YA==}
+
   '@vitest/utils@4.1.10':
     resolution: {integrity: sha512-fy9am/HWxbaGt/Sawrp90vt6Y6jQwf1RX77cz3uwoJwJVMli/e1IEwRPnMNJ7vKfPTwo0diXifkpPvwH9v7nGA==}
+
+  '@vitest/utils@4.1.11':
+    resolution: {integrity: sha512-zTCVGpyFsGWBhllOyKlTw/vnr6D9qxsfSDyfbyZmTyjHw5N/VuvzHpHoQjm2ZJzn4RJgx5w4r7V0er69CmLgPQ==}
 
   '@wdio/config@9.29.1':
     resolution: {integrity: sha512-8IXDiRG9wUUnpU6M/uzsVqIHJD/7o4y9RaOU2Jh/OdRJP/7rxwfGsa24Bv486rnMGdghztkwLCBJWG0jbeEtfw==}
@@ -3792,10 +3812,10 @@ snapshots:
       '@rolldown/pluginutils': 1.0.1
       vite: 8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0)
 
-  '@vitest/browser-webdriverio@4.1.10(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)(webdriverio@9.29.1(supports-color@10.2.2))':
+  '@vitest/browser-webdriverio@4.1.11(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)(webdriverio@9.29.1(supports-color@10.2.2))':
     dependencies:
-      '@vitest/browser': 4.1.10(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)
-      vitest: 4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.10)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
+      '@vitest/browser': 4.1.11(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)
+      vitest: 4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.11)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
       webdriverio: 9.29.1(supports-color@10.2.2)
     transitivePeerDependencies:
       - bufferutil
@@ -3803,16 +3823,16 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@vitest/browser@4.1.10(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)':
+  '@vitest/browser@4.1.11(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)':
     dependencies:
       '@blazediff/core': 1.9.1
-      '@vitest/mocker': 4.1.10(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
-      '@vitest/utils': 4.1.10
+      '@vitest/mocker': 4.1.11(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
+      '@vitest/utils': 4.1.11
       magic-string: 0.30.21
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.1.1
-      vitest: 4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.10)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
+      vitest: 4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.11)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
       ws: 8.21.2
     transitivePeerDependencies:
       - bufferutil
@@ -3837,7 +3857,19 @@ snapshots:
     optionalDependencies:
       vite: 8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0)
 
+  '@vitest/mocker@4.1.11(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))':
+    dependencies:
+      '@vitest/spy': 4.1.11
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+    optionalDependencies:
+      vite: 8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0)
+
   '@vitest/pretty-format@4.1.10':
+    dependencies:
+      tinyrainbow: 3.1.1
+
+  '@vitest/pretty-format@4.1.11':
     dependencies:
       tinyrainbow: 3.1.1
 
@@ -3855,9 +3887,17 @@ snapshots:
 
   '@vitest/spy@4.1.10': {}
 
+  '@vitest/spy@4.1.11': {}
+
   '@vitest/utils@4.1.10':
     dependencies:
       '@vitest/pretty-format': 4.1.10
+      convert-source-map: 2.0.0
+      tinyrainbow: 3.1.1
+
+  '@vitest/utils@4.1.11':
+    dependencies:
+      '@vitest/pretty-format': 4.1.11
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.1
 
@@ -5639,12 +5679,12 @@ snapshots:
     dependencies:
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
-      vitest: 4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.10)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
+      vitest: 4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.11)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
     optionalDependencies:
       '@types/react': 19.2.18
       '@types/react-dom': 19.2.5(@types/react@19.2.18)
 
-  vitest@4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.10)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0)):
+  vitest@4.1.10(@types/node@25.9.7)(@vitest/browser-webdriverio@4.1.11)(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0)):
     dependencies:
       '@vitest/expect': 4.1.10
       '@vitest/mocker': 4.1.10(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))
@@ -5668,7 +5708,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 25.9.7
-      '@vitest/browser-webdriverio': 4.1.10(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)(webdriverio@9.29.1(supports-color@10.2.2))
+      '@vitest/browser-webdriverio': 4.1.11(vite@8.1.5(@types/node@25.9.7)(esbuild@0.28.1)(jiti@2.7.0))(vitest@4.1.10)(webdriverio@9.29.1(supports-color@10.2.2))
     transitivePeerDependencies:
       - msw
 
