@@ -68,7 +68,7 @@ importers:
         version: 4.18.4(supports-color@10.2.2)(typescript@6.0.3)
       '@markuplint/react-spec':
         specifier: ^4.5.22
-        version: 4.18.0(supports-color@10.2.2)
+        version: 4.18.4(supports-color@10.2.2)
       '@types/mdast':
         specifier: ^4.0.4
         version: 4.0.4
@@ -574,8 +574,8 @@ packages:
   '@markuplint/parser-utils@4.18.4':
     resolution: {integrity: sha512-ax6utA3rtFkOWpg7+6LJ/yxN4Oaal7LfbCU2HXwWBO8XV5UiaMHUn31ld6WocesnIa1vFysflVq3cvfbebxkjg==}
 
-  '@markuplint/react-spec@4.18.0':
-    resolution: {integrity: sha512-ecQGaLEzXnZ+Es7TPkHFdwWv0PMxE0K9Sz+Xvt0LZyZFLkIm4o/UJAUGA/rvXNFPCnfgErPjvAClXpoIo7W40Q==}
+  '@markuplint/react-spec@4.18.4':
+    resolution: {integrity: sha512-3sSzra66bOwg09qrcua9n7lHncT9b1dl/wGZrTAKPBqgjVhnYqQxqXfsQo1hsvvd4YL3OUBTCMpNH/Qf570lYw==}
 
   '@markuplint/rules@4.18.3':
     resolution: {integrity: sha512-4s0sfMPy3qOszTBV5qeNcUvxbfa6BR6mPYtJnU6Upi3dWMYNASkpKyRmrgIhj33OUKJtSZVQrw9Qv16RHXwA1Q==}
@@ -3463,9 +3463,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@markuplint/react-spec@4.18.0(supports-color@10.2.2)':
+  '@markuplint/react-spec@4.18.4(supports-color@10.2.2)':
     dependencies:
-      '@markuplint/ml-spec': 4.18.0(supports-color@10.2.2)
+      '@markuplint/ml-spec': 4.18.4(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
 
