@@ -38,6 +38,8 @@ app.use(
   })
 )
 
+class GitHubTokenExpiredError extends Error {}
+
 // GitHub APIリクエスト用のヘルパー関数
 const makeGitHubRequest = async <T>(url: string, githubToken: string) => {
   const response = await fetch(url, {
@@ -46,6 +48,10 @@ const makeGitHubRequest = async <T>(url: string, githubToken: string) => {
       'User-Agent': 'WAIC-AS-Test-Tool/1.0'
     }
   })
+
+  if (response.status === 401) {
+    throw new GitHubTokenExpiredError()
+  }
 
   if (!response.ok) {
     throw new Error(`GitHub API request failed: ${response.status} ${response.statusText}`)
@@ -107,6 +113,9 @@ app.get('/tests/html', async (c) => {
 
     return c.json({ tests })
   } catch (error) {
+    if (error instanceof GitHubTokenExpiredError) {
+      return c.json({ error: 'GitHub token expired', code: 'TOKEN_EXPIRED' }, 401)
+    }
     console.error('Error fetching WAIC-TEST directory from GitHub:', error)
     return c.json({ error: 'Failed to fetch WAIC-TEST files from GitHub' }, 500)
   }
@@ -154,6 +163,9 @@ app.get('/tests/html/:testId', async (c) => {
       ...sectionsObj
     } satisfies TestDetailResponse)
   } catch (error) {
+    if (error instanceof GitHubTokenExpiredError) {
+      return c.json({ error: 'GitHub token expired', code: 'TOKEN_EXPIRED' }, 401)
+    }
     console.error('Error fetching WAIC-TEST file from GitHub:', error)
     return c.json({ error: 'File not found or failed to fetch from GitHub' }, 404)
   }

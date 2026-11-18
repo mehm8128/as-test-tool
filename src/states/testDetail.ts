@@ -1,6 +1,7 @@
 import { atom } from 'jotai'
 import { atomFamily } from 'jotai-family'
 import { getTestIdAndEnvFromKey } from '../functions/testKey'
+import { fetchJson } from '../utils/api'
 
 export type TestEnv = 'sight' | 'sound'
 
@@ -29,7 +30,6 @@ export const testDetailAtomFamily = atomFamily((key: string) =>
     if (env) {
       url += `?env=${env}`
     }
-    const response = await fetch(url)
-    return (await response.json()) as TestDetail
+    return fetchJson<TestDetail>(url)
   })
 )
