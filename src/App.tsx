@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import styles from './App.module.css'
+import { ApiErrorMessage } from './components/ApiErrorMessage/ApiErrorMessage'
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary'
 import { IndexRoute } from './routes/IndexRoute'
 import { NotFoundRoute } from './routes/NotFoundRoute'
@@ -10,7 +11,7 @@ import { TestDetailRoute } from './routes/TestDetailRoute'
 function App() {
   return (
     <main className={styles.module}>
-      <ErrorBoundary>
+      <ErrorBoundary fallback={(error) => <ApiErrorMessage error={error} />}>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<IndexRoute />} />
