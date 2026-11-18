@@ -104,7 +104,7 @@ app.get('/tests/html', async (c) => {
   try {
     const githubToken = c.env.APP_GITHUB_TOKEN
     if (!githubToken) {
-      return c.json({ error: 'GitHub token not configured' }, 500)
+      return c.json({ error: 'GitHub token expired', code: 'TOKEN_EXPIRED' }, 401)
     }
 
     const contents = await getDirectoryContents(githubToken)
@@ -138,7 +138,7 @@ app.get('/tests/html/:testId', async (c) => {
 
     const githubToken = c.env.APP_GITHUB_TOKEN
     if (!githubToken) {
-      return c.json({ error: 'GitHub token not configured' }, 500)
+      return c.json({ error: 'GitHub token expired', code: 'TOKEN_EXPIRED' }, 401)
     }
 
     const mdFileName = `WAIC-TEST-${testId}`
